@@ -32,6 +32,7 @@ var GameView = (function (_super) {
         // bg设置和舞台一样宽高
         this.bg.width = this.stage.stageWidth;
         this.bg.height = this.stage.stageHeight;
+        this.bg.touchEnabled = true;
     };
     /**
      * 创建游戏场景
@@ -40,7 +41,7 @@ var GameView = (function (_super) {
     GameView.prototype.createGameScene = function () {
         var _this = this;
         var bg = this.bg;
-        this.preTime = egret.getTimer();
+        // this.preTime = egret.getTimer();
         // 生成物理世界
         var world = new p2.World({
             // 重力

@@ -37,7 +37,6 @@ class Player extends egret.Sprite {
     // 刚体
     this.body = body;
     this.bg = bg;
-    this.bg.touchEnabled = true;
     // 创建对象
     this.createObject();
     // 绑定事件

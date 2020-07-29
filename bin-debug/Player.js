@@ -31,7 +31,6 @@ var Player = (function (_super) {
         // 刚体
         _this.body = body;
         _this.bg = bg;
-        _this.bg.touchEnabled = true;
         // 创建对象
         _this.createObject();
         // 绑定事件

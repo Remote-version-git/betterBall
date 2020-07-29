@@ -1,225 +1,226 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,game_bg_png,batman_bg_png,logo_png,pig_bg_png,rules_button_png,start_button_png,txt_batman_png,txt_friend_png,blue_png,close_png,purple_png,yellow_png,trumpet_png,trumpet_check_png,add_mp3,bgm_mp3,lose_mp3,1st_png,2nd_png,3rd_png,blue2_png,cup_png,line_png,rectbk_png,rectwh_png,trophy_png,bg_png,state_png,activity_rules_png,arrow_png,batman_png,boom_png,circle_png,clock_png,disk_png,game_bg2_png,hole_png,logo2_png,mask_png,player_png,playerlight_png,wall_png,wall2_png",
+			"keys": "game_bg_png,batman_bg_png,logo_png,pig_bg_png,rules_button_png,start_button_png,txt_batman_png,txt_friend_png,blue_png,close_png,purple_png,yellow_png,trumpet_png,trumpet_check_png,add_mp3,bgm_mp3,lose_mp3,1st_png,2nd_png,3rd_png,blue2_png,cup_png,line_png,rectbk_png,rectwh_png,trophy_png,bg_png,state_png,activity_rules_png,arrow_png,batman_png,boom_png,circle_png,clock_png,disk_png,game_bg2_png,hole_png,logo2_png,mask_png,player_png,playerlight_png,wall_png,wall2_png",
 			"name": "preload"
 		}
 	],
 	"resources": [
 		{
-			"name": "game_bg_png",
+			"url": "assets/game_bg.png",
 			"type": "image",
-			"url": "assets/game_bg.png"
+			"name": "game_bg_png"
 		},
 		{
-			"name": "batman_bg_png",
+			"url": "assets/start/batman_bg.png",
 			"type": "image",
-			"url": "assets/start/batman_bg.png"
+			"name": "batman_bg_png"
 		},
 		{
-			"name": "logo_png",
+			"url": "assets/start/logo.png",
 			"type": "image",
-			"url": "assets/start/logo.png"
+			"name": "logo_png"
 		},
 		{
-			"name": "pig_bg_png",
+			"url": "assets/start/pig_bg.png",
 			"type": "image",
-			"url": "assets/start/pig_bg.png"
+			"name": "pig_bg_png"
 		},
 		{
-			"name": "rules_button_png",
+			"url": "assets/start/rules_button.png",
 			"type": "image",
-			"url": "assets/start/rules_button.png"
+			"name": "rules_button_png"
 		},
 		{
-			"name": "start_button_png",
+			"url": "assets/start/start_button.png",
 			"type": "image",
-			"url": "assets/start/start_button.png"
+			"name": "start_button_png"
 		},
 		{
-			"name": "txt_batman_png",
+			"url": "assets/start/txt_batman.png",
 			"type": "image",
-			"url": "assets/start/txt_batman.png"
+			"name": "txt_batman_png"
 		},
 		{
-			"name": "txt_friend_png",
+			"url": "assets/start/txt_friend.png",
 			"type": "image",
-			"url": "assets/start/txt_friend.png"
+			"name": "txt_friend_png"
 		},
 		{
-			"name": "blue_png",
+			"url": "assets/btn/blue.png",
 			"type": "image",
-			"url": "assets/btn/blue.png"
+			"name": "blue_png"
 		},
 		{
-			"name": "close_png",
+			"url": "assets/btn/close.png",
 			"type": "image",
-			"url": "assets/btn/close.png"
+			"name": "close_png"
 		},
 		{
-			"name": "purple_png",
+			"url": "assets/btn/purple.png",
 			"type": "image",
-			"url": "assets/btn/purple.png"
+			"name": "purple_png"
 		},
 		{
-			"name": "yellow_png",
+			"url": "assets/btn/yellow.png",
 			"type": "image",
-			"url": "assets/btn/yellow.png"
+			"name": "yellow_png"
 		},
 		{
-			"name": "trumpet_png",
+			"url": "assets/btn/trumpet.png",
 			"type": "image",
-			"url": "assets/btn/trumpet.png"
+			"name": "trumpet_png"
 		},
 		{
-			"name": "trumpet_check_png",
+			"url": "assets/btn/trumpet_check.png",
 			"type": "image",
-			"url": "assets/btn/trumpet_check.png"
+			"name": "trumpet_check_png"
 		},
 		{
-			"name": "add_mp3",
+			"url": "assets/sound/add.mp3",
 			"type": "sound",
-			"url": "assets/sound/add.mp3"
+			"name": "add_mp3"
 		},
 		{
-			"name": "bgm_mp3",
+			"url": "assets/sound/bgm.mp3",
 			"type": "sound",
-			"url": "assets/sound/bgm.mp3"
+			"name": "bgm_mp3"
 		},
 		{
-			"name": "lose_mp3",
+			"url": "assets/sound/lose.mp3",
 			"type": "sound",
-			"url": "assets/sound/lose.mp3"
+			"name": "lose_mp3"
 		},
 		{
-			"name": "1st_png",
+			"url": "assets/icon/1st.png",
 			"type": "image",
-			"url": "assets/icon/1st.png"
+			"name": "1st_png"
 		},
 		{
-			"name": "2nd_png",
+			"url": "assets/icon/2nd.png",
 			"type": "image",
-			"url": "assets/icon/2nd.png"
+			"name": "2nd_png"
 		},
 		{
-			"name": "3rd_png",
+			"url": "assets/icon/3rd.png",
 			"type": "image",
-			"url": "assets/icon/3rd.png"
+			"name": "3rd_png"
 		},
 		{
-			"name": "blue2_png",
+			"url": "assets/icon/blue.png",
 			"type": "image",
-			"url": "assets/icon/blue.png"
+			"name": "blue2_png"
 		},
 		{
-			"name": "cup_png",
+			"url": "assets/icon/cup.png",
 			"type": "image",
-			"url": "assets/icon/cup.png"
+			"name": "cup_png"
 		},
 		{
-			"name": "line_png",
+			"url": "assets/img/line.png",
 			"type": "image",
-			"url": "assets/img/line.png"
+			"name": "line_png"
 		},
 		{
-			"name": "rectbk_png",
+			"url": "assets/img/rectbk.png",
 			"type": "image",
-			"url": "assets/img/rectbk.png"
+			"name": "rectbk_png"
 		},
 		{
+			"url": "assets/img/rectwh.png",
+			"type": "image",
 			"name": "rectwh_png",
-			"type": "image",
-			"url": "assets/img/rectwh.png"
+			"scale9grid": "7,7,7,11"
 		},
 		{
-			"name": "trophy_png",
+			"url": "assets/img/trophy.png",
 			"type": "image",
-			"url": "assets/img/trophy.png"
+			"name": "trophy_png"
 		},
 		{
-			"name": "bg_png",
+			"url": "assets/image/bg.png",
 			"type": "image",
-			"url": "assets/image/bg.png"
+			"name": "bg_png"
 		},
 		{
-			"name": "state_png",
+			"url": "assets/image/state.png",
 			"type": "image",
-			"url": "assets/image/state.png"
+			"name": "state_png"
 		},
 		{
-			"name": "activity_rules_png",
+			"url": "assets/image/activity_rules.png",
 			"type": "image",
-			"url": "assets/image/activity_rules.png"
+			"name": "activity_rules_png"
 		},
 		{
-			"name": "arrow_png",
+			"url": "assets/game/arrow.png",
 			"type": "image",
-			"url": "assets/game/arrow.png"
+			"name": "arrow_png"
 		},
 		{
-			"name": "batman_png",
+			"url": "assets/game/batman.png",
 			"type": "image",
-			"url": "assets/game/batman.png"
+			"name": "batman_png"
 		},
 		{
-			"name": "boom_png",
+			"url": "assets/game/boom.png",
 			"type": "image",
-			"url": "assets/game/boom.png"
+			"name": "boom_png"
 		},
 		{
-			"name": "circle_png",
+			"url": "assets/game/circle.png",
 			"type": "image",
-			"url": "assets/game/circle.png"
+			"name": "circle_png"
 		},
 		{
-			"name": "clock_png",
+			"url": "assets/game/clock.png",
 			"type": "image",
-			"url": "assets/game/clock.png"
+			"name": "clock_png"
 		},
 		{
-			"name": "disk_png",
+			"url": "assets/game/disk.png",
 			"type": "image",
-			"url": "assets/game/disk.png"
+			"name": "disk_png"
 		},
 		{
-			"name": "game_bg2_png",
+			"url": "assets/game/game_bg.png",
 			"type": "image",
-			"url": "assets/game/game_bg.png"
+			"name": "game_bg2_png"
 		},
 		{
-			"name": "hole_png",
+			"url": "assets/game/hole.png",
 			"type": "image",
-			"url": "assets/game/hole.png"
+			"name": "hole_png"
 		},
 		{
-			"name": "logo2_png",
+			"url": "assets/game/logo.png",
 			"type": "image",
-			"url": "assets/game/logo.png"
+			"name": "logo2_png"
 		},
 		{
-			"name": "mask_png",
+			"url": "assets/game/mask.png",
 			"type": "image",
-			"url": "assets/game/mask.png"
+			"name": "mask_png"
 		},
 		{
-			"name": "player_png",
+			"url": "assets/game/player.png",
 			"type": "image",
-			"url": "assets/game/player.png"
+			"name": "player_png"
 		},
 		{
-			"name": "playerlight_png",
+			"url": "assets/game/playerlight.png",
 			"type": "image",
-			"url": "assets/game/playerlight.png"
+			"name": "playerlight_png"
 		},
 		{
-			"name": "wall_png",
+			"url": "assets/game/wall.png",
 			"type": "image",
-			"url": "assets/game/wall.png"
+			"name": "wall_png"
 		},
 		{
-			"name": "wall2_png",
+			"url": "assets/game/wall2.png",
 			"type": "image",
-			"url": "assets/game/wall2.png"
+			"name": "wall2_png"
 		}
 	]
 }

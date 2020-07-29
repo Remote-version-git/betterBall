@@ -3,12 +3,14 @@
 		"StartGameView": "resource/eui_skins/StartGameView.exml",
 		"ScoreGameView": "resource/eui_skins/ScoreGameView.exml",
 		"GameExplainPanel": "resource/eui_skins/GameExplainPanel.exml",
-		"GameView": "resource/eui_skins/GameView.exml"
+		"GameView": "resource/eui_skins/GameView.exml",
+		"RankingListView": "resource/eui_skins/RankingListView.exml"
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
 		"resource/eui_skins/GameExplainPanel.exml",
 		"resource/eui_skins/GameView.exml",
+		"resource/eui_skins/RankingListView.exml",
 		"resource/eui_skins/ScoreGameView.exml",
 		"resource/eui_skins/StartGameView.exml"
 	],

@@ -72,6 +72,11 @@ class Main extends eui.UILayer {
       this.showGameView,
       this
     );
+    startGameView.addEventListener(
+      PostEvent.Ranking_List,
+      this.showRankingList,
+      this
+    );
     // 开始场景
     this.addChild(startGameView);
   }
@@ -86,5 +91,11 @@ class Main extends eui.UILayer {
     const scoreGameView = new ScoreGameView();
     scoreGameView.addEventListener(PostEvent.RESTART_GAME, this.showGameView, this)
     this.addChild(scoreGameView);
+  }
+
+  // 排行榜
+  private showRankingList() {
+    let rankingListView = new RankingListView();
+    this.addChild(rankingListView)
   }
 }

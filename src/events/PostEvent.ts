@@ -13,6 +13,9 @@ class PostEvent extends egret.Event {
   // 点击游戏说明按钮后触发
   public static READ_EXPLAIN: string = "read explain";
 
+  // 排行榜
+  public static Ranking_List: string = 'Ranking List';
+
   constructor(
     type: string,
     bubbles: boolean = false,

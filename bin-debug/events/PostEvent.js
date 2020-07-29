@@ -24,6 +24,8 @@ var PostEvent = (function (_super) {
     PostEvent.RESTART_GAME = "restart game";
     // 点击游戏说明按钮后触发
     PostEvent.READ_EXPLAIN = "read explain";
+    // 排行榜
+    PostEvent.Ranking_List = 'Ranking List';
     return PostEvent;
 }(egret.Event));
 __reflect(PostEvent.prototype, "PostEvent");

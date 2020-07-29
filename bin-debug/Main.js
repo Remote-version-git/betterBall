@@ -130,6 +130,7 @@ var Main = (function (_super) {
     Main.prototype.createGameScene = function () {
         var startGameView = new StartGameView();
         startGameView.addEventListener(PostEvent.START_GAME, this.showGameView, this);
+        startGameView.addEventListener(PostEvent.Ranking_List, this.showRankingList, this);
         // 开始场景
         this.addChild(startGameView);
     };
@@ -143,6 +144,11 @@ var Main = (function (_super) {
         var scoreGameView = new ScoreGameView();
         scoreGameView.addEventListener(PostEvent.RESTART_GAME, this.showGameView, this);
         this.addChild(scoreGameView);
+    };
+    // 排行榜
+    Main.prototype.showRankingList = function () {
+        var rankingListView = new RankingListView();
+        this.addChild(rankingListView);
     };
     return Main;
 }(eui.UILayer));

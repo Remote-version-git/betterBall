@@ -29,6 +29,13 @@ class StartGameView extends eui.Component implements eui.UIComponent {
       this
     );
 
+    // 侦听排行榜按钮的触摸点击事件
+    this.ranking_button.addEventListener(
+      egret.TouchEvent.TOUCH_TAP,
+      this.rankingButton,
+      this
+    );
+
     // 侦听声音按钮的触摸点击事件
     this.trumpet_check.addEventListener(
       egret.TouchEvent.TOUCH_TAP,
@@ -46,6 +53,11 @@ class StartGameView extends eui.Component implements eui.UIComponent {
     this.dispatchEvent(p);
   }
 
+  // 排行榜
+  private rankingButton() {
+    this.dispatchEvent(new PostEvent(PostEvent.Ranking_List))
+  }
+
   private isShow: boolean = true;
   // 点击喇叭
   private trumpetCheck() {
@@ -54,7 +66,6 @@ class StartGameView extends eui.Component implements eui.UIComponent {
       this.is_trumpet.visible = false;
       this.isShow = false;
       console.log("关闭");
-
       LoadSound.startLoad("stop");
     } else if (this.isShow == false) {
       // 开启声音

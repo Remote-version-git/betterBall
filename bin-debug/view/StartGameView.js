@@ -21,6 +21,8 @@ var StartGameView = (function (_super) {
     StartGameView.prototype.onComplete = function () {
         // 侦听开始按钮的触摸点击事件
         this.start_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.startButton, this);
+        // 侦听排行榜按钮的触摸点击事件
+        this.ranking_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.rankingButton, this);
         // 侦听声音按钮的触摸点击事件
         this.trumpet_check.addEventListener(egret.TouchEvent.TOUCH_TAP, this.trumpetCheck, this);
     };
@@ -31,6 +33,10 @@ var StartGameView = (function (_super) {
         var p = new PostEvent(PostEvent.START_GAME);
         // 派发出去
         this.dispatchEvent(p);
+    };
+    // 排行榜
+    StartGameView.prototype.rankingButton = function () {
+        this.dispatchEvent(new PostEvent(PostEvent.Ranking_List));
     };
     // 点击喇叭
     StartGameView.prototype.trumpetCheck = function () {

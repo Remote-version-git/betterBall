@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="StateGameViewSkin" width="480" height="368" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="173957d372b" ></w:Config>
+	<e:Group id="explain_panel" width="480" height="368" left="0" top="0">
+		<e:Image height="311.2" source="state_png" top="0" horizontalCenter="-0.5" x="33" y="0" scaleX="1" scaleY="1" width="427.2"/>
+		<e:Button id="confirm_start" label="确定" width="144" height="48" bottom="0" horizontalCenter="-5" x="210" y="400" scaleX="1" scaleY="1">
+			<e:skinName>
+			<e:Skin states="up,down,disabled">
+				<e:Image width="100%" height="100%" source="blue_png"/>
+				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+			</e:Skin>
+			</e:skinName>
+		</e:Button>
+	</e:Group>
+</e:Skin>

@@ -1,140 +1,155 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json",
+			"keys": "description_json,game_bg_png,batman_bg_png,logo_png,pig_bg_png,rules_button_png,start_button_png,txt_batman_png,txt_friend_png,blue_png,close_png,purple_png,yellow_png,trumpet_png,trumpet_check_png,add_mp3,bgm_mp3,lose_mp3,1st_png,2nd_png,3rd_png,blue2_png,cup_png,line_png,rectbk_png,rectwh_png,trophy_png,bg_png,state_png,activity_rules_png",
 			"name": "preload"
 		}
 	],
 	"resources": [
 		{
-			"url": "assets/CheckBox/checkbox_select_disabled.png",
+			"name": "game_bg_png",
 			"type": "image",
-			"name": "checkbox_select_disabled_png"
+			"url": "assets/game_bg.png"
 		},
 		{
-			"url": "assets/CheckBox/checkbox_select_down.png",
+			"name": "batman_bg_png",
 			"type": "image",
-			"name": "checkbox_select_down_png"
+			"url": "assets/start/batman_bg.png"
 		},
 		{
-			"url": "assets/CheckBox/checkbox_select_up.png",
+			"name": "logo_png",
 			"type": "image",
-			"name": "checkbox_select_up_png"
+			"url": "assets/start/logo.png"
 		},
 		{
-			"url": "assets/CheckBox/checkbox_unselect.png",
+			"name": "pig_bg_png",
 			"type": "image",
-			"name": "checkbox_unselect_png"
+			"url": "assets/start/pig_bg.png"
 		},
 		{
-			"url": "assets/ItemRenderer/selected.png",
+			"name": "rules_button_png",
 			"type": "image",
-			"name": "selected_png"
+			"url": "assets/start/rules_button.png"
 		},
 		{
-			"url": "assets/Panel/border.png",
+			"name": "start_button_png",
 			"type": "image",
-			"name": "border_png"
+			"url": "assets/start/start_button.png"
 		},
 		{
-			"url": "assets/Panel/header.png",
+			"name": "txt_batman_png",
 			"type": "image",
-			"name": "header_png"
+			"url": "assets/start/txt_batman.png"
 		},
 		{
-			"url": "assets/RadioButton/radiobutton_select_disabled.png",
+			"name": "txt_friend_png",
 			"type": "image",
-			"name": "radiobutton_select_disabled_png"
+			"url": "assets/start/txt_friend.png"
 		},
 		{
-			"url": "assets/RadioButton/radiobutton_select_down.png",
+			"name": "blue_png",
 			"type": "image",
-			"name": "radiobutton_select_down_png"
+			"url": "assets/btn/blue.png"
 		},
 		{
-			"url": "assets/RadioButton/radiobutton_select_up.png",
+			"name": "close_png",
 			"type": "image",
-			"name": "radiobutton_select_up_png"
+			"url": "assets/btn/close.png"
 		},
 		{
-			"url": "assets/RadioButton/radiobutton_unselect.png",
+			"name": "purple_png",
 			"type": "image",
-			"name": "radiobutton_unselect_png"
+			"url": "assets/btn/purple.png"
 		},
 		{
-			"url": "assets/ScrollBar/roundthumb.png",
+			"name": "yellow_png",
 			"type": "image",
-			"name": "roundthumb_png"
+			"url": "assets/btn/yellow.png"
 		},
 		{
-			"url": "assets/Slider/thumb.png",
+			"name": "trumpet_png",
 			"type": "image",
-			"name": "thumb_png"
+			"url": "assets/btn/trumpet.png"
 		},
 		{
-			"url": "assets/Slider/track.png",
+			"name": "trumpet_check_png",
 			"type": "image",
-			"name": "track_png"
+			"url": "assets/btn/trumpet_check.png"
 		},
 		{
-			"url": "assets/Slider/tracklight.png",
-			"type": "image",
-			"name": "tracklight_png"
+			"name": "add_mp3",
+			"type": "sound",
+			"url": "assets/sound/add.mp3"
 		},
 		{
-			"url": "assets/ToggleSwitch/handle.png",
-			"type": "image",
-			"name": "handle_png"
+			"name": "bgm_mp3",
+			"type": "sound",
+			"url": "assets/sound/bgm.mp3"
 		},
 		{
-			"url": "assets/ToggleSwitch/off.png",
-			"type": "image",
-			"name": "off_png"
+			"name": "lose_mp3",
+			"type": "sound",
+			"url": "assets/sound/lose.mp3"
 		},
 		{
-			"url": "assets/ToggleSwitch/on.png",
+			"name": "1st_png",
 			"type": "image",
-			"name": "on_png"
+			"url": "assets/icon/1st.png"
 		},
 		{
-			"url": "assets/Button/button_down.png",
+			"name": "2nd_png",
 			"type": "image",
-			"name": "button_down_png"
+			"url": "assets/icon/2nd.png"
 		},
 		{
-			"url": "assets/Button/button_up.png",
+			"name": "3rd_png",
 			"type": "image",
-			"name": "button_up_png"
+			"url": "assets/icon/3rd.png"
 		},
 		{
-			"url": "assets/ProgressBar/thumb_pb.png",
+			"name": "blue2_png",
 			"type": "image",
-			"name": "thumb_pb_png"
+			"url": "assets/icon/blue.png"
 		},
 		{
-			"url": "assets/ProgressBar/track_pb.png",
+			"name": "cup_png",
 			"type": "image",
-			"name": "track_pb_png"
+			"url": "assets/icon/cup.png"
 		},
 		{
-			"url": "assets/ScrollBar/track_sb.png",
+			"name": "line_png",
 			"type": "image",
-			"name": "track_sb_png"
+			"url": "assets/img/line.png"
 		},
 		{
-			"url": "assets/bg.jpg",
+			"name": "rectbk_png",
 			"type": "image",
-			"name": "bg_jpg"
+			"url": "assets/img/rectbk.png"
 		},
 		{
-			"url": "assets/egret_icon.png",
+			"name": "rectwh_png",
 			"type": "image",
-			"name": "egret_icon_png"
+			"url": "assets/img/rectwh.png"
 		},
 		{
-			"name": "description_json",
-			"type": "json",
-			"url": "config/description.json"
+			"name": "trophy_png",
+			"type": "image",
+			"url": "assets/img/trophy.png"
+		},
+		{
+			"name": "bg_png",
+			"type": "image",
+			"url": "assets/image/bg.png"
+		},
+		{
+			"name": "state_png",
+			"type": "image",
+			"url": "assets/image/state.png"
+		},
+		{
+			"name": "activity_rules_png",
+			"type": "image",
+			"url": "assets/image/activity_rules.png"
 		}
 	]
 }

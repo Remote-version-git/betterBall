@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="GameViewSkin"
+	 width="640"
+	height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:ns1="*">
+	<ns1:GameExplainPanel visible="true" horizontalCenter="0" verticalCenter="0"/>
+</e:Skin>

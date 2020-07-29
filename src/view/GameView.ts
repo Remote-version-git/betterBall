@@ -23,7 +23,8 @@ class GameView extends eui.Component implements eui.UIComponent {
     // bg设置和舞台一样宽高
     this.bg.width = this.stage.stageWidth;
     this.bg.height = this.stage.stageHeight;
-    this.bg.touchEnabled = true;
+    this.game_scene.width = this.stage.stageWidth;
+    this.game_scene.height = this.stage.stageHeight;
   }
 
 
@@ -32,7 +33,6 @@ class GameView extends eui.Component implements eui.UIComponent {
    * Create a game scene
    */
   private createGameScene() {
-    let bg = this.bg;
     // this.preTime = egret.getTimer();
     // 生成物理世界
     let world: p2.World = new p2.World({
@@ -65,7 +65,7 @@ class GameView extends eui.Component implements eui.UIComponent {
     this.add4Wall();
 
     // 添加玩家
-    this.addPlayer(bg);
+    this.addPlayer(this.game_scene);
 
     // 添加障碍物
     this.addWall(300, 300);

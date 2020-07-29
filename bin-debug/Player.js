@@ -115,7 +115,7 @@ var Player = (function (_super) {
             }
         }, this);
     };
-    // 必须为公开，因为他是被main调用的.
+    // 必须为公开，因为他是被world的endContact事件调用的.
     // 在每次触摸结束时调用
     Player.prototype.checkHit = function () {
         var _this = this;

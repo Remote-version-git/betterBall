@@ -32,7 +32,8 @@ var GameView = (function (_super) {
         // bg设置和舞台一样宽高
         this.bg.width = this.stage.stageWidth;
         this.bg.height = this.stage.stageHeight;
-        this.bg.touchEnabled = true;
+        this.game_scene.width = this.stage.stageWidth;
+        this.game_scene.height = this.stage.stageHeight;
     };
     /**
      * 创建游戏场景
@@ -40,7 +41,6 @@ var GameView = (function (_super) {
      */
     GameView.prototype.createGameScene = function () {
         var _this = this;
-        var bg = this.bg;
         // this.preTime = egret.getTimer();
         // 生成物理世界
         var world = new p2.World({
@@ -66,7 +66,7 @@ var GameView = (function (_super) {
         // 添加四周四面墙壁
         this.add4Wall();
         // 添加玩家
-        this.addPlayer(bg);
+        this.addPlayer(this.game_scene);
         // 添加障碍物
         this.addWall(300, 300);
         this.addWall(300, 300 * 2);

@@ -49,7 +49,8 @@
 		{
 			"url": "assets/btn/blue.png",
 			"type": "image",
-			"name": "blue_png"
+			"name": "blue_png",
+			"scale9grid": "6,7,19,22"
 		},
 		{
 			"url": "assets/btn/close.png",
@@ -59,12 +60,14 @@
 		{
 			"url": "assets/btn/purple.png",
 			"type": "image",
-			"name": "purple_png"
+			"name": "purple_png",
+			"scale9grid": "6,6,18,23"
 		},
 		{
 			"url": "assets/btn/yellow.png",
 			"type": "image",
-			"name": "yellow_png"
+			"name": "yellow_png",
+			"scale9grid": "8,7,35,14"
 		},
 		{
 			"url": "assets/btn/trumpet.png",

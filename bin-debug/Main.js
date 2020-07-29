@@ -135,7 +135,6 @@ var Main = (function (_super) {
     };
     // 当开始游戏场景发出开始游戏时被执行
     Main.prototype.showGameView = function () {
-        console.log(111);
         var gameView = new GameView();
         gameView.addEventListener(PostEvent.GAME_OVER, this.showGameOver, this);
         this.addChild(gameView);
@@ -144,16 +143,6 @@ var Main = (function (_super) {
         var scoreGameView = new ScoreGameView();
         scoreGameView.addEventListener(PostEvent.RESTART_GAME, this.showGameView, this);
         this.addChild(scoreGameView);
-    };
-    /**
-     * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
-     * Create a Bitmap object according to name keyword.As for the property of name please refer to the configuration file of resources/resource.json.
-     */
-    Main.prototype.createBitmapByName = function (name) {
-        var result = new egret.Bitmap();
-        var texture = RES.getRes(name);
-        result.texture = texture;
-        return result;
     };
     return Main;
 }(eui.UILayer));

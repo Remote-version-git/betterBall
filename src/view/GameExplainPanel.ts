@@ -22,6 +22,8 @@ class GameExplainPanel extends eui.Component implements eui.UIComponent {
 	// 点击确定 开始游戏
 	private confirmBtn() {
 		this.explain_panel.visible = false;
+		// 通知可以进行初始化游戏了
+		this.dispatchEvent(new PostEvent(PostEvent.READ_EXPLAIN));
 	}
 
 	protected partAdded(partName: string, instance: any): void {

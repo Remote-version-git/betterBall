@@ -22,6 +22,8 @@ var PostEvent = (function (_super) {
     PostEvent.GAME_OVER = "Game Over";
     // 重新开始游戏
     PostEvent.RESTART_GAME = "restart game";
+    // 点击游戏说明按钮后触发
+    PostEvent.READ_EXPLAIN = "read explain";
     return PostEvent;
 }(egret.Event));
 __reflect(PostEvent.prototype, "PostEvent");

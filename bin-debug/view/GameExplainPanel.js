@@ -23,6 +23,8 @@ var GameExplainPanel = (function (_super) {
     // 点击确定 开始游戏
     GameExplainPanel.prototype.confirmBtn = function () {
         this.explain_panel.visible = false;
+        // 通知可以进行初始化游戏了
+        this.dispatchEvent(new PostEvent(PostEvent.READ_EXPLAIN));
     };
     GameExplainPanel.prototype.partAdded = function (partName, instance) {
         _super.prototype.partAdded.call(this, partName, instance);

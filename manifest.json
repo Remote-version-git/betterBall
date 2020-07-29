@@ -5,15 +5,18 @@
 		"libs/modules/eui/eui.js",
 		"libs/modules/assetsmanager/assetsmanager.js",
 		"libs/modules/tween/tween.js",
-		"libs/modules/promise/promise.js"
+		"libs/modules/promise/promise.js",
+		"libs/physics/physics.js"
 	],
 	"game": [
-		"bin-debug/components/LoadSound.js",
+		"bin-debug/ThemeAdapter.js",
 		"bin-debug/AssetAdapter.js",
 		"bin-debug/Main.js",
+		"bin-debug/p2DebugDraw.js",
 		"bin-debug/Platform.js",
-		"bin-debug/ThemeAdapter.js",
+		"bin-debug/Player.js",
 		"bin-debug/LoadingUI.js",
+		"bin-debug/components/LoadSound.js",
 		"bin-debug/events/PostEvent.js",
 		"bin-debug/view/GameExplainPanel.js",
 		"bin-debug/view/GameView.js",

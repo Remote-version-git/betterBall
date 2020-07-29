@@ -9,6 +9,9 @@ class PostEvent extends egret.Event {
 
   // 重新开始游戏
   public static RESTART_GAME: string = "restart game";
+  
+  // 点击游戏说明按钮后触发
+  public static READ_EXPLAIN: string = "read explain";
 
   constructor(
     type: string,

@@ -2,5 +2,7 @@
 <e:Skin class="GameViewSkin"
 	 width="640"
 	height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:ns1="*">
-	<ns1:GameExplainPanel visible="true" horizontalCenter="0" verticalCenter="0"/>
+	<e:Image id="bg" source="game_bg_png" x="0" y="0" width="640" height="1136"/>
+	<e:Group id="game_scence" width="640" height="1136" horizontalCenter="0" verticalCenter="0"/>
+	<ns1:GameExplainPanel id="explain_panel" visible="true" horizontalCenter="0" verticalCenter="0"/>
 </e:Skin>

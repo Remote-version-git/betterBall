@@ -1,35 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="ScoreGameViewSkin" minWidth="640" minHeight="1136" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
-	<w:Config id="1739551756c" ></w:Config>
-	<e:Image source="game_bg_png" x="0" y="0" width="640" height="1136"/>
-	<e:Group width="640" height="1136" x="0" y="80">
-		<e:Image width="336" height="322" x="152" y="107.07" anchorOffsetX="0" anchorOffsetY="0" source="trophy_png"/>
-		<e:Label id="score" text="0" anchorOffsetX="0" width="100%" anchorOffsetY="0" height="54" bold="true" size="60" textAlign="center" horizontalCenter="0" verticalCenter="-113"/>
-		<e:Label text="本局得分" x="0" y="505" width="100%" height="54" verticalAlign="middle" textAlign="center"/>		
-
-
-		<e:Group height="100" y="700" width="450" horizontalCenter="0">
-			<e:Group width="180" height="60" scaleX="1" scaleY="1" left="0" verticalCenter="0">
+<e:Skin class="ScoreGameViewSkin" minWidth="640" minHeight="1136" xmlns:e="http://ns.egret.com/eui"
+        xmlns:w="http://ns.egret.com/wing">
+	<w:Config id="1739551756c"></w:Config>
+	<e:Image source="game_bg_png" x="0" y="0" width="640" height="1136" />
+	<e:Group width="640" height="1136" x="0" y="0">
+		<e:Image id="trophy_img" width="336" height="322" y="260" anchorOffsetX="168" anchorOffsetY="161" source="trophy_png"
+		         horizontalCenter="0" />
+		<e:Label id="score" text="250" anchorOffsetX="0" width="100%" anchorOffsetY="0" height="54" bold="true" size="60"
+		         textAlign="center" horizontalCenter="0" verticalCenter="-113" textColor="0xc5fdeb" />
+		<e:Label text="本局得分" x="0" y="505" width="100%" height="54" verticalAlign="middle" textAlign="center"
+		         textColor="0xc5fdeb" />
+		<e:Group height="400" y="600" width="200" horizontalCenter="1">
+			<e:Group width="180" height="60" scaleX="1" scaleY="1" top="0" horizontalCenter="0">
 				<e:Button label="" width="100%" height="100%" scaleX="1" scaleY="1" left="0" top="0">
-				<e:skinName>
-					<e:Skin states="up,down,disabled">
-					<e:Image width="100%" height="100%" source="blue_png"/>
-					<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
-					</e:Skin>
-				</e:skinName>
+					<e:skinName>
+						<e:Skin states="up,down,disabled">
+							<e:Image width="100%" height="100%" source="blue_png" />
+							<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0" />
+						</e:Skin>
+					</e:skinName>
 				</e:Button>
-				<e:Label id="showRankingList" text="查看排行榜" scaleX="1" scaleY="1" left="0" top="0" width="100%" height="100%" verticalAlign="middle" textAlign="center" size="30"/>
+				<e:Label id="showRankingList" text="查看排行榜" scaleX="1" scaleY="1" left="0" top="0" width="100%" height="100%"
+				         verticalAlign="middle" textAlign="center" size="30" textColor="0xc5fdeb" />
 			</e:Group>
-			<e:Group width="180" height="60" scaleX="1" scaleY="1" right="0" verticalCenter="0">
-				<e:Button label="" width="100%" height="100%" scaleX="1" scaleY="1" touchEnabled="true" left="0" top="0">
-				<e:skinName>
-					<e:Skin states="up,down,disabled">
-					<e:Image width="100%" height="100%" source="purple_png"/>
-					<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
-					</e:Skin>
-				</e:skinName>
+			<e:Group width="180" height="60" y="110" horizontalCenter="0">
+				<e:Button label="" x="0" y="0" width="100%" height="100%">
+					<e:skinName>
+						<e:Skin states="up,down,disabled">
+							<e:Image width="100%" height="100%" source="blue_png" />
+							<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0" />
+						</e:Skin>
+					</e:skinName>
 				</e:Button>
-				<e:Label id="restart_button" text="再玩一次" scaleX="1" scaleY="1" verticalAlign="middle" textAlign="center" left="0" top="0" width="100%" height="100%"/>
+				<e:Label text="生成成绩单" x="0" y="0" width="100%" height="100%" verticalAlign="middle" textAlign="center"  textColor="0xc5fdeb"/>
+			</e:Group>
+			<e:Group width="180" height="60" scaleX="1" scaleY="1" bottom="0" horizontalCenter="0">
+				<e:Button label="" width="100%" height="100%" scaleX="1" scaleY="1" touchEnabled="true" left="0" top="0">
+					<e:skinName>
+						<e:Skin states="up,down,disabled">
+							<e:Image width="100%" height="100%" source="purple_png" />
+							<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0" />
+						</e:Skin>
+					</e:skinName>
+				</e:Button>
+				<e:Label id="restart_button" text="再玩一次" scaleX="1" scaleY="1" verticalAlign="middle" textAlign="center" left="0"
+				         top="0" width="100%" height="100%" textColor="0xc5fdeb" />
 			</e:Group>
 		</e:Group>
 	</e:Group>

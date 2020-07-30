@@ -29,6 +29,13 @@ var ScoreGameView = (function (_super) {
     };
     ScoreGameView.prototype.childrenCreated = function () {
         _super.prototype.childrenCreated.call(this);
+        // 动画出现
+        this.startAnimate();
+    };
+    ScoreGameView.prototype.startAnimate = function () {
+        var trophy = egret.Tween.get(this.trophy_img);
+        trophy.to({ scaleX: 1.1, scaleY: 1.1 }, 1000).wait(100)
+            .to({ scaleX: 1, scaleY: 1 }, 1000).wait(100);
     };
     ScoreGameView.prototype.RankingButton = function () {
         console.log('查看排行榜');

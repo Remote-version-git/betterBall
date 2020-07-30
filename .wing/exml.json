@@ -1,16 +1,19 @@
 {
-    "design": {
-        "height": "300",
-        "width": "400"
-    },
-    "1739af578e5": {
-        "path": "..\\resource\\eui_skins\\RankingListView.ts",
-        "class": "RankingListView",
-        "parentPath": ""
-    },
-    "1739ec94f03": {
-        "path": "..\\resource\\eui_skins\\ReportCard.ts",
-        "class": "ReportCard",
-        "parentPath": ""
-    }
+  "design": {
+    "height": "300",
+    "width": "400"
+  },
+  "1739af578e5": {
+    "path": "..\\resource\\eui_skins\\RankingListView.ts",
+    "class": "RankingListView",
+    "parentPath": ""
+  },
+  "1739ec94f03": {
+    "path": "..\\resource\\eui_skins\\ReportCard.ts",
+    "class": "ReportCard",
+    "parentPath": ""
+  },
+  "global": {
+    "globalAutoLayerMarkEnable": true
+  }
 }

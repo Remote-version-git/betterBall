@@ -18,16 +18,9 @@ var RankingListView = (function (_super) {
     }
     RankingListView.prototype.onComplete = function () {
         var _this = this;
-        // 发送 Http 请求
-        var request = new egret.HttpRequest();
-        request.responseType = egret.HttpResponseType.TEXT;
-        request.open("https://xwfintech.qingke.io/_api/5f01dfe0d676280036a2e1ff/openapi/pinball/list?pageSize=100", egret.HttpMethod.GET);
-        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        request.send();
-        request.addEventListener(egret.Event.COMPLETE, function (e) {
-            var request = e.currentTarget;
-            // ok(request.response)
-            var rankingData = JSON.parse(request.response);
+        platform.getRank().then(function (res) {
+            console.log(JSON.parse(res));
+            var rankingData = JSON.parse(res);
             // 加载网络图片
             rankingData.rows.forEach(function (item, index) {
                 item.rank = index + 1;
@@ -48,8 +41,7 @@ var RankingListView = (function (_super) {
             _this.rankingData = rankingData;
             var collection = new eui.ArrayCollection(rankingData.rows);
             _this.dataList.dataProvider = collection;
-        }, this);
-        request.addEventListener(egret.ProgressEvent.PROGRESS, function (e) { }, this);
+        });
         // 去掉滚动条
         // this._scroller.verticalScrollBar.autoVisibility = false;
         // this._scroller.verticalScrollBar.visible = false;

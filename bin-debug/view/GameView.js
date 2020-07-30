@@ -293,4 +293,3 @@ var GameView = (function (_super) {
     return GameView;
 }(eui.Component));
 __reflect(GameView.prototype, "GameView", ["eui.UIComponent", "egret.DisplayObject"]);
-//# sourceMappingURL=GameView.js.map

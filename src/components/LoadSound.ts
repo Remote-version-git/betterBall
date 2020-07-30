@@ -5,7 +5,7 @@ class LoadSound {
     private static _channel: egret.SoundChannel;
 
     //加载
-    public static startLoad(load): void {
+    public static startLoad(load:string): void {
         var sound: egret.Sound = this._sound = new egret.Sound();;
         //sound 加载完成监听
         sound.addEventListener(egret.Event.COMPLETE, function (e: egret.Event) {

@@ -2,8 +2,8 @@ class Main extends eui.UILayer {
   protected createChildren(): void {
     super.createChildren();
 
-    // // 开启背景音乐
-    // LoadSound.startLoad('start')
+    // 开启背景音乐
+    LoadSound.startLoad('start')
 
     egret.lifecycle.addLifecycleListener((context) => {
       // custom lifecycle plugin

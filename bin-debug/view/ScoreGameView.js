@@ -41,4 +41,3 @@ var ScoreGameView = (function (_super) {
     return ScoreGameView;
 }(eui.Component));
 __reflect(ScoreGameView.prototype, "ScoreGameView", ["eui.UIComponent", "egret.DisplayObject"]);
-//# sourceMappingURL=ScoreGameView.js.map

@@ -2,7 +2,17 @@
 <e:Skin class="GameViewSkin"
 	 width="640"
 	height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:ns1="*" xmlns:w="http://ns.egret.com/wing">
-	<e:Image id="bg" source="game_bg_png" x="0" y="0" width="640" height="1136"/>
-	<e:Group id="game_scene" width="640" height="1136" horizontalCenter="0" verticalCenter="0"/>
+	<e:Group width="640" height="63" x="0" anchorOffsetX="0" anchorOffsetY="0" y="0">
+		
+			
+		
+		<e:Rect id="status_bar" width="640" height="63" x="0" alpha="1" fillColor="0x16003D" verticalCenter="0"/>
+		<e:Label text="得分" x="297.36" textAlign="center" size="24" verticalCenter="0.5" textColor="0xC7FFED"/>
+		<e:Label id="nickname" text="将敌人消灭到黑洞" x="92.583" textAlign="center" size="20" verticalCenter="3.5" textColor="0xC7FFED"/>
+		<e:Label id="score" text="0" x="352.904" size="20" verticalCenter="0.5" textColor="0xC7FFED"/>
+		<e:Image source="boom_png" x="29" y="12" anchorOffsetX="0" width="51.278" anchorOffsetY="0" height="38.544"/>
+	</e:Group>
+	<e:Image id="bg" source="game_bg_png" x="0" y="63.621" width="640" height="1072.379" anchorOffsetY="0"/>
+	<e:Group id="game_scene" width="640" height="1060.771" horizontalCenter="0" verticalCenter="37.5" anchorOffsetY="0"/>
 	<ns1:GameExplainPanel id="explain_panel" visible="true" horizontalCenter="0" verticalCenter="0"/>
 </e:Skin>

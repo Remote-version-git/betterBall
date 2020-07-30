@@ -29,11 +29,6 @@ var GameView = (function (_super) {
     GameView.prototype.onComplete = function () {
         // 监听面板被点击事件
         this.explain_panel.addEventListener(PostEvent.READ_EXPLAIN, this.createGameScene, this);
-        // bg设置和舞台一样宽高
-        this.bg.width = this.stage.stageWidth;
-        this.bg.height = this.stage.stageHeight;
-        this.game_scene.width = this.stage.stageWidth;
-        this.game_scene.height = this.stage.stageHeight;
     };
     /**
      * 创建游戏场景
@@ -103,8 +98,8 @@ var GameView = (function (_super) {
             var item = this.hole();
             var w = item.width / 2;
             var h = item.height / 2;
-            var sw = this.stage.stageWidth;
-            var sh = this.stage.stageHeight;
+            var sw = this.game_scene.width;
+            var sh = this.game_scene.height;
             // 计算包含锚点
             switch (index) {
                 case 0:
@@ -126,7 +121,7 @@ var GameView = (function (_super) {
                 default:
                     break;
             }
-            this.addChild(item);
+            this.game_scene.addChild(item);
             this.holes[index] = item;
         }
     };
@@ -169,8 +164,8 @@ var GameView = (function (_super) {
         // 用于随机产生计算位置
         var x = batman.width / 2;
         var y = batman.height / 2;
-        var sx = this.stage.stageWidth - x;
-        var sy = this.stage.stageHeight - y;
+        var sx = this.game_scene.width - x;
+        var sy = this.game_scene.height - y;
         var batmanShape = new p2.Circle({
             radius: x,
         });
@@ -269,6 +264,15 @@ var GameView = (function (_super) {
             // 游戏结束
             _this.gameOver();
         }, this);
+        // 侦听积分增加
+        player.addEventListener(PostEvent.INCREMNT_SCORE, function (e) {
+            // 游戏结束
+            _this.score.text = e.score;
+        }, this);
+        // 侦听是否吃完了batman
+        player.addEventListener(PostEvent.INCREMENT_BATMANS, function (e) {
+            _this.productBatman(10);
+        }, this);
         this.player = player;
         this.addChild(player);
         var shape = new p2.Circle({
@@ -287,7 +291,7 @@ var GameView = (function (_super) {
     // 游戏结束
     GameView.prototype.gameOver = function () {
         // 让 main 打开游戏结束界面
-        var p = new PostEvent(PostEvent.GAME_OVER);
+        var p = new PostEvent(PostEvent.GAME_OVER, false, false, parseInt(this.score.text));
         this.dispatchEvent(p);
     };
     return GameView;

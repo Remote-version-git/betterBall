@@ -4,7 +4,7 @@
 	<e:Image source="game_bg_png" x="0" y="0" width="640" height="1136"/>
 	<e:Group width="640" height="1136" x="0" y="80">
 		<e:Image width="336" height="322" x="152" y="107.07" anchorOffsetX="0" anchorOffsetY="0" source="trophy_png"/>
-		<e:Label text="250" anchorOffsetX="0" width="100%" anchorOffsetY="0" height="54" bold="true" size="60" textAlign="center" horizontalCenter="0" verticalCenter="-113"/>
+		<e:Label id="score" text="250" anchorOffsetX="0" width="100%" anchorOffsetY="0" height="54" bold="true" size="60" textAlign="center" horizontalCenter="0" verticalCenter="-113"/>
 		<e:Label text="本局得分" x="0" y="505" width="100%" height="54" verticalAlign="middle" textAlign="center"/>		
 
 

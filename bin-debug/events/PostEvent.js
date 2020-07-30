@@ -10,10 +10,15 @@ r.prototype = e.prototype, t.prototype = new r();
 };
 var PostEvent = (function (_super) {
     __extends(PostEvent, _super);
-    function PostEvent(type, bubbles, cancelable) {
+    function PostEvent(type, bubbles, cancelable, score) {
         if (bubbles === void 0) { bubbles = false; }
         if (cancelable === void 0) { cancelable = false; }
-        return _super.call(this, type, bubbles, cancelable) || this;
+        if (score === void 0) { score = 0; }
+        var _this = _super.call(this, type, bubbles, cancelable) || this;
+        if (score !== 0) {
+            _this.score = score;
+        }
+        return _this;
     }
     // 事件类型
     // 进入游戏界面
@@ -26,6 +31,9 @@ var PostEvent = (function (_super) {
     PostEvent.READ_EXPLAIN = "read explain";
     // 排行榜
     PostEvent.Ranking_List = 'Ranking List';
+    PostEvent.INCREMNT_SCORE = "incremnt score";
+    // 增加batman
+    PostEvent.INCREMENT_BATMANS = "incremnt batmanas";
     return PostEvent;
 }(egret.Event));
 __reflect(PostEvent.prototype, "PostEvent");

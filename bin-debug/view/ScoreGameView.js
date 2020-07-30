@@ -23,6 +23,9 @@ var ScoreGameView = (function (_super) {
     ScoreGameView.prototype.partAdded = function (partName, instance) {
         _super.prototype.partAdded.call(this, partName, instance);
     };
+    ScoreGameView.prototype.createChildren = function () {
+        _super.prototype.createChildren.call(this);
+    };
     ScoreGameView.prototype.childrenCreated = function () {
         _super.prototype.childrenCreated.call(this);
     };

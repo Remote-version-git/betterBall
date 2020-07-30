@@ -2,6 +2,7 @@
 class ScoreGameView extends eui.Component implements eui.UIComponent {
   // 再玩一次
   private restart_button: eui.Button;
+  public score: eui.Label;
   // 查看排行榜
   private showRankingList: eui.Button;
 
@@ -17,6 +18,9 @@ class ScoreGameView extends eui.Component implements eui.UIComponent {
 
   protected partAdded(partName: string, instance: any): void {
     super.partAdded(partName, instance);
+  }
+  protected createChildren(): void {
+    super.createChildren();
   }
 
   protected childrenCreated(): void {

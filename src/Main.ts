@@ -2,7 +2,7 @@ class Main extends eui.UILayer {
   protected createChildren(): void {
     super.createChildren();
 
-    // 开启背景音乐
+    // // 开启背景音乐
     // LoadSound.startLoad('start')
 
     egret.lifecycle.addLifecycleListener((context) => {
@@ -97,6 +97,8 @@ class Main extends eui.UILayer {
     }, this);
     scoreGameView.addEventListener(PostEvent.RESTART_GAME, this.showGameView, this)
     this.addChild(scoreGameView);
+
+    scoreGameView.addEventListener(PostEvent.Ranking_List, this.showRankingList, this);
   }
 
   // 排行榜

@@ -13,7 +13,7 @@ var StartGameView = (function (_super) {
     __extends(StartGameView, _super);
     function StartGameView() {
         var _this = _super.call(this) || this;
-        _this.isShow = true;
+        _this.isShow = false;
         _this.addEventListener(eui.UIEvent.COMPLETE, _this.onComplete, _this);
         return _this;
     }
@@ -65,7 +65,16 @@ var StartGameView = (function (_super) {
     // 创建元素之后，被回调执行,紧接 onComplete 之后
     StartGameView.prototype.childrenCreated = function () {
         _super.prototype.childrenCreated.call(this);
+        // 动画出现
+        this.startAnimate();
+    };
+    StartGameView.prototype.startAnimate = function () {
+        egret.Tween.get(this.pig_bg_img, { loop: true }).to({ x: 45, y: -96 }, 1000).wait(100)
+            .to({ x: 42.87, y: -88.13 }, 1000).wait(100);
+        egret.Tween.get(this.batman_bg_img, { loop: true }).to({ rotation: 5, width: 280, height: 211.6 }, 1000).wait(100)
+            .to({ rotation: 0, width: 270, height: 201.6 }, 1000).wait(100);
     };
     return StartGameView;
 }(eui.Component));
 __reflect(StartGameView.prototype, "StartGameView", ["eui.UIComponent", "egret.DisplayObject"]);
+//# sourceMappingURL=StartGameView.js.map

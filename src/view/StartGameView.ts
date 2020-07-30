@@ -14,6 +14,10 @@ class StartGameView extends eui.Component implements eui.UIComponent {
   private trumpet_check: eui.Button;
   // 喇叭声音图标
   private is_trumpet: eui.Image;
+  // 朱望仔图片
+  private pig_bg_img: eui.Image;
+  // 大反派图片
+  private batman_bg_img: eui.Image;
 
   public constructor() {
     super();
@@ -83,10 +87,20 @@ class StartGameView extends eui.Component implements eui.UIComponent {
   //元素第一次被添加到舞台时回调一次。此时才可以获取元素
   protected createChildren(): void {
     super.createChildren();
+
   }
 
   // 创建元素之后，被回调执行,紧接 onComplete 之后
   protected childrenCreated(): void {
     super.childrenCreated();
+    // 动画出现
+    this.startAnimate();
+  }
+
+  private startAnimate() {
+    egret.Tween.get(this.pig_bg_img, { loop: true }).to({ x: 45, y: -96 }, 1000).wait(100)
+      .to({ x: 42.87, y: -88.13 }, 1000).wait(100)
+    egret.Tween.get(this.batman_bg_img, { loop: true }).to({ rotation: 5, width: 280, height: 211.6 }, 1000).wait(100)
+      .to({ rotation: 0, width: 270, height: 201.6 }, 1000).wait(100)
   }
 }

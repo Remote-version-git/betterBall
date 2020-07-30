@@ -62,7 +62,7 @@ class StartGameView extends eui.Component implements eui.UIComponent {
     this.dispatchEvent(new PostEvent(PostEvent.Ranking_List))
   }
 
-  private isShow: boolean = true;
+  private isShow: boolean = false;
   // 点击喇叭
   private trumpetCheck() {
     if (this.isShow == true) {

@@ -1,13 +1,18 @@
 // 游戏结束后 游戏得分
 class ScoreGameView extends eui.Component implements eui.UIComponent {
+  // 再玩一次
   private restart_button: eui.Button;
+  // 查看排行榜
+  private showRankingList: eui.Button;
+
   public constructor() {
-	super();
+    super();
     this.addEventListener(eui.UIEvent.COMPLETE, this.onComplete, this);
   }
 
   private onComplete() {
-	this.restart_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.restartGame, this);
+    this.restart_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.restartGame, this);
+    this.showRankingList.addEventListener(egret.TouchEvent.TOUCH_TAP, this.RankingButton, this);
   }
 
   protected partAdded(partName: string, instance: any): void {
@@ -16,6 +21,12 @@ class ScoreGameView extends eui.Component implements eui.UIComponent {
 
   protected childrenCreated(): void {
     super.childrenCreated();
+  }
+
+  private RankingButton() {
+    console.log('查看排行榜');
+
+    this.dispatchEvent(new PostEvent(PostEvent.Ranking_List))
   }
 
   private restartGame() {

@@ -13,7 +13,7 @@ var StartGameView = (function (_super) {
     __extends(StartGameView, _super);
     function StartGameView() {
         var _this = _super.call(this) || this;
-        _this.isShow = true;
+        _this.isShow = false;
         _this.addEventListener(eui.UIEvent.COMPLETE, _this.onComplete, _this);
         return _this;
     }
@@ -77,3 +77,4 @@ var StartGameView = (function (_super) {
     return StartGameView;
 }(eui.Component));
 __reflect(StartGameView.prototype, "StartGameView", ["eui.UIComponent", "egret.DisplayObject"]);
+//# sourceMappingURL=StartGameView.js.map

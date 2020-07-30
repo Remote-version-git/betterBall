@@ -68,3 +68,4 @@ var RankingListView = (function (_super) {
     return RankingListView;
 }(eui.Component));
 __reflect(RankingListView.prototype, "RankingListView", ["eui.UIComponent", "egret.DisplayObject"]);
+//# sourceMappingURL=RankingListView.js.map

@@ -4,8 +4,6 @@ class LoadSound {
     private static _sound: egret.Sound;
     private static _channel: egret.SoundChannel;
 
-    constructor() { }
-
     //加载
     public static startLoad(load): void {
         var sound: egret.Sound = this._sound = new egret.Sound();;

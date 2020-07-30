@@ -7,5 +7,10 @@
         "path": "..\\resource\\eui_skins\\RankingListView.ts",
         "class": "RankingListView",
         "parentPath": ""
+    },
+    "1739ec94f03": {
+        "path": "..\\resource\\eui_skins\\ReportCard.ts",
+        "class": "ReportCard",
+        "parentPath": ""
     }
 }

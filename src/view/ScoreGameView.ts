@@ -7,6 +7,8 @@ class ScoreGameView extends eui.Component implements eui.UIComponent {
   private showRankingList: eui.Button;
   // 奖杯
   private trophy_img: eui.Image;
+  // 生成成绩单
+  private report_card_btn: eui.Button;
 
   public constructor() {
     super();
@@ -16,6 +18,7 @@ class ScoreGameView extends eui.Component implements eui.UIComponent {
   private onComplete() {
     this.restart_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.restartGame, this);
     this.showRankingList.addEventListener(egret.TouchEvent.TOUCH_TAP, this.RankingButton, this);
+    this.report_card_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.reportCardButton, this);
   }
 
   protected partAdded(partName: string, instance: any): void {
@@ -35,12 +38,16 @@ class ScoreGameView extends eui.Component implements eui.UIComponent {
   private startAnimate() {
     let trophy = egret.Tween.get(this.trophy_img);
     trophy.to({ scaleX: 1.1, scaleY: 1.1 }, 1000).wait(100)
-    .to({ scaleX: 1, scaleY: 1 }, 1000).wait(100)
+      .to({ scaleX: 1, scaleY: 1 }, 1000).wait(100)
+  }
+
+  private reportCardButton() {
+    // 销毁自已的界面
+    this.parent.removeChild(this);
+    this.dispatchEvent(new PostEvent(PostEvent.Report_Card))
   }
 
   private RankingButton() {
-    console.log('查看排行榜');
-
     this.dispatchEvent(new PostEvent(PostEvent.Ranking_List))
   }
 

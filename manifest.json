@@ -21,6 +21,7 @@
 		"bin-debug/view/GameExplainPanel.js",
 		"bin-debug/view/GameView.js",
 		"bin-debug/view/RankingListView.js",
+		"bin-debug/view/ReportCard.js",
 		"bin-debug/view/ScoreGameView.js",
 		"bin-debug/view/StartGameView.js"
 	]

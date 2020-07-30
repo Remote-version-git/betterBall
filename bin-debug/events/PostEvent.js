@@ -34,6 +34,8 @@ var PostEvent = (function (_super) {
     PostEvent.INCREMNT_SCORE = "incremnt score";
     // 增加batman
     PostEvent.INCREMENT_BATMANS = "incremnt batmanas";
+    // 成绩单
+    PostEvent.Report_Card = "Report Card";
     return PostEvent;
 }(egret.Event));
 __reflect(PostEvent.prototype, "PostEvent");

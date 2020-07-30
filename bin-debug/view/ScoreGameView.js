@@ -19,6 +19,7 @@ var ScoreGameView = (function (_super) {
     ScoreGameView.prototype.onComplete = function () {
         this.restart_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.restartGame, this);
         this.showRankingList.addEventListener(egret.TouchEvent.TOUCH_TAP, this.RankingButton, this);
+        this.report_card_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.reportCardButton, this);
     };
     ScoreGameView.prototype.partAdded = function (partName, instance) {
         _super.prototype.partAdded.call(this, partName, instance);
@@ -36,8 +37,12 @@ var ScoreGameView = (function (_super) {
         trophy.to({ scaleX: 1.1, scaleY: 1.1 }, 1000).wait(100)
             .to({ scaleX: 1, scaleY: 1 }, 1000).wait(100);
     };
+    ScoreGameView.prototype.reportCardButton = function () {
+        // 销毁自已的界面
+        this.parent.removeChild(this);
+        this.dispatchEvent(new PostEvent(PostEvent.Report_Card));
+    };
     ScoreGameView.prototype.RankingButton = function () {
-        console.log('查看排行榜');
         this.dispatchEvent(new PostEvent(PostEvent.Ranking_List));
     };
     ScoreGameView.prototype.restartGame = function () {

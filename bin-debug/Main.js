@@ -150,11 +150,18 @@ var Main = (function (_super) {
         scoreGameView.addEventListener(PostEvent.RESTART_GAME, this.showGameView, this);
         this.addChild(scoreGameView);
         scoreGameView.addEventListener(PostEvent.Ranking_List, this.showRankingList, this);
+        scoreGameView.addEventListener(PostEvent.Report_Card, this.reportCard, this);
     };
     // 排行榜
     Main.prototype.showRankingList = function () {
         var rankingListView = new RankingListView();
         this.addChild(rankingListView);
+    };
+    // 成绩单
+    Main.prototype.reportCard = function () {
+        var rankingCardView = new ReportCard();
+        this.addChild(rankingCardView);
+        rankingCardView.addEventListener(PostEvent.GAME_OVER, this.showGameOver, this);
     };
     return Main;
 }(eui.UILayer));

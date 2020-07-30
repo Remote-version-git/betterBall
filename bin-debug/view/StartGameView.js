@@ -77,4 +77,3 @@ var StartGameView = (function (_super) {
     return StartGameView;
 }(eui.Component));
 __reflect(StartGameView.prototype, "StartGameView", ["eui.UIComponent", "egret.DisplayObject"]);
-//# sourceMappingURL=StartGameView.js.map

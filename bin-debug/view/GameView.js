@@ -13,6 +13,8 @@ var GameView = (function (_super) {
     __extends(GameView, _super);
     function GameView() {
         var _this = _super.call(this) || this;
+        // 喇叭声音切换
+        _this.isShow = false;
         _this.isEnableP2Debug = false;
         //   存储四个黑洞 用于碰撞检测
         _this.holes = new Array(4);
@@ -29,6 +31,23 @@ var GameView = (function (_super) {
     GameView.prototype.onComplete = function () {
         // 监听面板被点击事件
         this.explain_panel.addEventListener(PostEvent.READ_EXPLAIN, this.createGameScene, this);
+        // 侦听声音按钮的触摸点击事件
+        this.trumpet_check.addEventListener(egret.TouchEvent.TOUCH_TAP, this.trumpetCheck, this);
+    };
+    GameView.prototype.trumpetCheck = function () {
+        if (this.isShow == true) {
+            // 关闭声音
+            this.is_trumpet.visible = false;
+            this.isShow = false;
+            LoadSound.startLoad("stop");
+        }
+        CustomElementRegistry;
+        {
+            // 开启声音
+            this.is_trumpet.visible = true;
+            this.isShow = true;
+            LoadSound.startLoad("start");
+        }
     };
     /**
      * 创建游戏场景
@@ -297,4 +316,3 @@ var GameView = (function (_super) {
     return GameView;
 }(eui.Component));
 __reflect(GameView.prototype, "GameView", ["eui.UIComponent", "egret.DisplayObject"]);
-//# sourceMappingURL=GameView.js.map

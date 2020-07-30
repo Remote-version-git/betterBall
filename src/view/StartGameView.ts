@@ -11,7 +11,7 @@ class StartGameView extends eui.Component implements eui.UIComponent {
   // 排行榜
   private ranking_button: eui.Button;
   // 喇叭
-  private trumpet_check: eui.Button;
+  private trumpet_check: eui.Group;
   // 喇叭声音图标
   private is_trumpet: eui.Image;
   // 朱望仔图片

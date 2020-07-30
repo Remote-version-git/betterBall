@@ -37,4 +37,3 @@ var PostEvent = (function (_super) {
     return PostEvent;
 }(egret.Event));
 __reflect(PostEvent.prototype, "PostEvent");
-//# sourceMappingURL=PostEvent.js.map

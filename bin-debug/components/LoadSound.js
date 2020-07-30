@@ -32,4 +32,3 @@ var LoadSound = (function () {
     return LoadSound;
 }());
 __reflect(LoadSound.prototype, "LoadSound");
-//# sourceMappingURL=LoadSound.js.map

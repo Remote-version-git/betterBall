@@ -1,5 +1,9 @@
 // 游戏界面
 class GameView extends eui.Component implements eui.UIComponent {
+   // 喇叭组
+   private trumpet_check: eui.Group;
+   // 喇叭声音图标
+   private is_trumpet: eui.Image;
   public constructor() {
     super();
     this.addEventListener(eui.UIEvent.COMPLETE, this.onComplete, this);
@@ -22,8 +26,30 @@ class GameView extends eui.Component implements eui.UIComponent {
       this.createGameScene,
       this
     );
+    
+    // 侦听声音按钮的触摸点击事件
+    this.trumpet_check.addEventListener(
+      egret.TouchEvent.TOUCH_TAP,
+      this.trumpetCheck,
+      this
+    );
   }
-
+  
+  // 喇叭声音切换
+  private isShow: boolean = false;
+  private trumpetCheck() {
+    if (this.isShow == true) {
+      // 关闭声音
+      this.is_trumpet.visible = false;
+      this.isShow = false;
+      LoadSound.startLoad("stop");
+    } CustomElementRegistry {
+      // 开启声音
+      this.is_trumpet.visible = true;
+      this.isShow = true;
+      LoadSound.startLoad("start");
+    }
+  }
 
   /**
    * 创建游戏场景

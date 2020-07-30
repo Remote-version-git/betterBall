@@ -11,7 +11,10 @@ class GameView extends eui.Component implements eui.UIComponent {
   private bg: egret.Bitmap;
   // 解释面板
   private explain_panel: GameExplainPanel;
+  // 游戏区域
   private game_scene: eui.Group;
+  private status_bar: eui.Group;
+  private score: eui.Label;
   private onComplete() {
     // 监听面板被点击事件
     this.explain_panel.addEventListener(
@@ -19,12 +22,6 @@ class GameView extends eui.Component implements eui.UIComponent {
       this.createGameScene,
       this
     );
-
-    // bg设置和舞台一样宽高
-    this.bg.width = this.stage.stageWidth;
-    this.bg.height = this.stage.stageHeight;
-    this.game_scene.width = this.stage.stageWidth;
-    this.game_scene.height = this.stage.stageHeight;
   }
 
 
@@ -114,8 +111,8 @@ class GameView extends eui.Component implements eui.UIComponent {
       let item = this.hole();
       const w = item.width / 2;
       const h = item.height / 2;
-      const sw = this.stage.stageWidth;
-      const sh = this.stage.stageHeight;
+      const sw = this.game_scene.width
+      const sh = this.game_scene.height;
       // 计算包含锚点
       switch (index) {
         case 0:
@@ -137,7 +134,7 @@ class GameView extends eui.Component implements eui.UIComponent {
         default:
           break;
       }
-      this.addChild(item);
+      this.game_scene.addChild(item);
       this.holes[index] = item;
     }
   }
@@ -192,8 +189,8 @@ class GameView extends eui.Component implements eui.UIComponent {
     // 用于随机产生计算位置
     let x = batman.width / 2;
     let y = batman.height / 2;
-    let sx = this.stage.stageWidth - x;
-    let sy = this.stage.stageHeight - y;
+    let sx = this.game_scene.width - x;
+    let sy = this.game_scene.height - y;
 
     let batmanShape = new p2.Circle({
       radius: x,
@@ -219,7 +216,7 @@ class GameView extends eui.Component implements eui.UIComponent {
   private batmans: egret.Bitmap[] = [];
   private batmanBodys: p2.Body[] = [];
   // 按指定数量产生batman
-  private productBatman(nums: number) {
+  public productBatman(nums: number) {
     for (let index = 0; index < nums; index++) {
       let batman = this.appendToBatman();
       // 向物理世界添加本次batman刚体
@@ -316,6 +313,15 @@ class GameView extends eui.Component implements eui.UIComponent {
       // 游戏结束
       this.gameOver();
     }, this);
+    // 侦听积分增加
+    player.addEventListener(PostEvent.INCREMNT_SCORE, (e) => {
+      // 游戏结束
+      this.score.text = e.score;
+    }, this);
+    // 侦听是否吃完了batman
+    player.addEventListener(PostEvent.INCREMENT_BATMANS, (e) => {
+      this.productBatman(10);
+    }, this);
     this.player = player;
 
     this.addChild(player);  
@@ -341,7 +347,7 @@ class GameView extends eui.Component implements eui.UIComponent {
   // 游戏结束
   public gameOver() {
     // 让 main 打开游戏结束界面
-    let p = new PostEvent(PostEvent.GAME_OVER);
+    let p = new PostEvent(PostEvent.GAME_OVER, false, false, parseInt(this.score.text));
     this.dispatchEvent(p);
   }
 }

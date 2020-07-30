@@ -124,7 +124,7 @@ var Main = (function (_super) {
         });
     };
     /**
-     * 创建场景界面
+     * 显示开始游戏画面
      * Create scene interface
      */
     Main.prototype.createGameScene = function () {
@@ -134,14 +134,19 @@ var Main = (function (_super) {
         // 开始场景
         this.addChild(startGameView);
     };
-    // 当开始游戏场景发出开始游戏时被执行
+    // 显示游戏画面
     Main.prototype.showGameView = function () {
         var gameView = new GameView();
         gameView.addEventListener(PostEvent.GAME_OVER, this.showGameOver, this);
         this.addChild(gameView);
     };
-    Main.prototype.showGameOver = function () {
+    // 显示游戏结束画面
+    Main.prototype.showGameOver = function (e) {
         var scoreGameView = new ScoreGameView();
+        // 初始化分数
+        scoreGameView.addEventListener(eui.UIEvent.COMPLETE, function () {
+            scoreGameView.score.text = String(e.score);
+        }, this);
         scoreGameView.addEventListener(PostEvent.RESTART_GAME, this.showGameView, this);
         this.addChild(scoreGameView);
     };

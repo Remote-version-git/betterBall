@@ -41,7 +41,6 @@ class Player extends egret.Sprite {
     this.bindTouchEvent();
   }
 
-  private pigPoint: egret.Point;
 
   //   猪的装备
   private createObject() {
@@ -79,7 +78,6 @@ class Player extends egret.Sprite {
     this.pig.addEventListener(
       egret.TouchEvent.TOUCH_BEGIN,
       (e) => {
-        // console.log( 'TOUCH_BEGIN' )
         this.disk.visible = true;
         this.arrow.visible = true;
         this.moving = true;
@@ -89,7 +87,6 @@ class Player extends egret.Sprite {
     this.pig.addEventListener(
       egret.TouchEvent.TOUCH_END,
       (e) => {
-        // console.log( 'TOUCH_END' )
         this.disk.visible = false;
         this.arrow.visible = false;
         this.moving = false;
@@ -103,9 +100,6 @@ class Player extends egret.Sprite {
         if (this.moving) {
           let handPoint = new egret.Point(e.stageX, e.stageY);
           let pigPoint = this.localToGlobal(this.pig.x, this.pig.y);
-          this.pigPoint = pigPoint;
-
-          this.pigPoint = pigPoint;
           let angle: number = Math.atan2(
             handPoint.y - pigPoint.y,
             handPoint.x - pigPoint.x
@@ -128,7 +122,6 @@ class Player extends egret.Sprite {
         if (this.moving) {
           let handPoint = new egret.Point(e.stageX, e.stageY);
           let pigPoint = this.localToGlobal(this.pig.x, this.pig.y);
-          this.pigPoint = pigPoint;
 
           let xpower = handPoint.x - pigPoint.x;
           let ypower = handPoint.y - pigPoint.y;
@@ -155,8 +148,10 @@ class Player extends egret.Sprite {
       this
     );
   }
-  // 必须为公开，因为他是被world的endContact事件调用的.
-  // 在每次触摸结束时调用
+  // 积分
+  public score: number = 0;
+
+  // 被world的endContact事件调用.
   public checkHit() {
     this.holes.forEach((h) => {
       //   黑洞检测点
@@ -174,6 +169,8 @@ class Player extends egret.Sprite {
           //    移除掉刚体
           this.world.removeBody(this.batmanBodys[index]);
           this.batmanBodys.splice(index, 1);
+          // 得分增加
+          this.incrementScore(10);
         }
       });
       // 检测pig
@@ -186,9 +183,23 @@ class Player extends egret.Sprite {
       if (rectH.intersects(pigRect)) {
         // 吃掉pig
         egret.Tween.get(this.pig).to({ alpha: 0 }, 200);
-          // 通知GameView游戏结束了
-          this.dispatchEvent(new PostEvent(PostEvent.GAME_OVER));
+        // 通知GameView游戏结束了
+        this.dispatchEvent(new PostEvent(PostEvent.GAME_OVER));
       }
     });
+    // 最后看是否吃完了batman，再给制造一些
+    if (this.batmans.length === 0) {
+      this.dispatchEvent(new PostEvent(PostEvent.INCREMENT_BATMANS));
+    }
+  }
+  /**
+   * 增加积分
+   * @param score 要增加的分数
+   */
+  public incrementScore(score: number) {
+    this.score += score;
+    this.dispatchEvent(
+      new PostEvent(PostEvent.INCREMNT_SCORE, false, false, this.score)
+    );
   }
 }

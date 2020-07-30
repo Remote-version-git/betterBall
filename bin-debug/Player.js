@@ -20,6 +20,8 @@ var Player = (function (_super) {
         //   是否移动猪
         _this.moving = false;
         _this.body = null;
+        // 积分
+        _this.score = 0;
         // batmans
         _this.batmans = batmans;
         // batmans body
@@ -69,13 +71,11 @@ var Player = (function (_super) {
     Player.prototype.bindTouchEvent = function () {
         var _this = this;
         this.pig.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
-            // console.log( 'TOUCH_BEGIN' )
             _this.disk.visible = true;
             _this.arrow.visible = true;
             _this.moving = true;
         }, this);
         this.pig.addEventListener(egret.TouchEvent.TOUCH_END, function (e) {
-            // console.log( 'TOUCH_END' )
             _this.disk.visible = false;
             _this.arrow.visible = false;
             _this.moving = false;
@@ -84,8 +84,6 @@ var Player = (function (_super) {
             if (_this.moving) {
                 var handPoint = new egret.Point(e.stageX, e.stageY);
                 var pigPoint = _this.localToGlobal(_this.pig.x, _this.pig.y);
-                _this.pigPoint = pigPoint;
-                _this.pigPoint = pigPoint;
                 var angle = Math.atan2(handPoint.y - pigPoint.y, handPoint.x - pigPoint.x);
                 var theta = angle * (180 / Math.PI);
                 _this.arrow.rotation = theta;
@@ -100,7 +98,6 @@ var Player = (function (_super) {
             if (_this.moving) {
                 var handPoint = new egret.Point(e.stageX, e.stageY);
                 var pigPoint = _this.localToGlobal(_this.pig.x, _this.pig.y);
-                _this.pigPoint = pigPoint;
                 var xpower = handPoint.x - pigPoint.x;
                 var ypower = handPoint.y - pigPoint.y;
                 // if(xpower > 80) {
@@ -118,8 +115,7 @@ var Player = (function (_super) {
             }
         }, this);
     };
-    // 必须为公开，因为他是被world的endContact事件调用的.
-    // 在每次触摸结束时调用
+    // 被world的endContact事件调用.
     Player.prototype.checkHit = function () {
         var _this = this;
         this.holes.forEach(function (h) {
@@ -138,6 +134,8 @@ var Player = (function (_super) {
                     //    移除掉刚体
                     _this.world.removeBody(_this.batmanBodys[index]);
                     _this.batmanBodys.splice(index, 1);
+                    // 得分增加
+                    _this.incrementScore(10);
                 }
             });
             // 检测pig
@@ -149,6 +147,18 @@ var Player = (function (_super) {
                 _this.dispatchEvent(new PostEvent(PostEvent.GAME_OVER));
             }
         });
+        // 最后看是否吃完了batman，再给制造一些
+        if (this.batmans.length === 0) {
+            this.dispatchEvent(new PostEvent(PostEvent.INCREMENT_BATMANS));
+        }
+    };
+    /**
+     * 增加积分
+     * @param score 要增加的分数
+     */
+    Player.prototype.incrementScore = function (score) {
+        this.score += score;
+        this.dispatchEvent(new PostEvent(PostEvent.INCREMNT_SCORE, false, false, this.score));
     };
     return Player;
 }(egret.Sprite));

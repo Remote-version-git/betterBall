@@ -62,7 +62,7 @@ class Main extends eui.UILayer {
   }
 
   /**
-   * 创建场景界面
+   * 显示开始游戏画面
    * Create scene interface
    */
   protected createGameScene(): void {
@@ -81,14 +81,20 @@ class Main extends eui.UILayer {
     this.addChild(startGameView);
   }
 
-  // 当开始游戏场景发出开始游戏时被执行
+  // 显示游戏画面
   private showGameView() {
     const gameView = new GameView();
     gameView.addEventListener(PostEvent.GAME_OVER, this.showGameOver, this);
     this.addChild(gameView);
   }
-  private showGameOver() {
+
+  // 显示游戏结束画面
+  private showGameOver(e: PostEvent) {
     const scoreGameView = new ScoreGameView();
+    // 初始化分数
+    scoreGameView.addEventListener(eui.UIEvent.COMPLETE, () => {
+      scoreGameView.score.text = String(e.score);
+    }, this);
     scoreGameView.addEventListener(PostEvent.RESTART_GAME, this.showGameView, this)
     this.addChild(scoreGameView);
   }

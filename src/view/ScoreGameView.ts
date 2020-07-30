@@ -5,6 +5,8 @@ class ScoreGameView extends eui.Component implements eui.UIComponent {
   public score: eui.Label;
   // 查看排行榜
   private showRankingList: eui.Button;
+  // 奖杯
+  private trophy_img: eui.Image;
 
   public constructor() {
     super();
@@ -19,12 +21,21 @@ class ScoreGameView extends eui.Component implements eui.UIComponent {
   protected partAdded(partName: string, instance: any): void {
     super.partAdded(partName, instance);
   }
+
   protected createChildren(): void {
     super.createChildren();
   }
 
   protected childrenCreated(): void {
     super.childrenCreated();
+    // 动画出现
+    this.startAnimate();
+  }
+
+  private startAnimate() {
+    let trophy = egret.Tween.get(this.trophy_img);
+    trophy.to({ scaleX: 1.1, scaleY: 1.1 }, 1000).wait(100)
+    .to({ scaleX: 1, scaleY: 1 }, 1000).wait(100)
   }
 
   private RankingButton() {

@@ -84,6 +84,8 @@ var Player = (function (_super) {
             if (_this.moving) {
                 var handPoint = new egret.Point(e.stageX, e.stageY);
                 var pigPoint = _this.localToGlobal(_this.pig.x, _this.pig.y);
+                _this.pigPoint = pigPoint;
+                _this.pigPoint = pigPoint;
                 var angle = Math.atan2(handPoint.y - pigPoint.y, handPoint.x - pigPoint.x);
                 var theta = angle * (180 / Math.PI);
                 _this.arrow.rotation = theta;
@@ -98,6 +100,7 @@ var Player = (function (_super) {
             if (_this.moving) {
                 var handPoint = new egret.Point(e.stageX, e.stageY);
                 var pigPoint = _this.localToGlobal(_this.pig.x, _this.pig.y);
+                _this.pigPoint = pigPoint;
                 var xpower = handPoint.x - pigPoint.x;
                 var ypower = handPoint.y - pigPoint.y;
                 // if(xpower > 80) {
@@ -122,6 +125,7 @@ var Player = (function (_super) {
         this.holes.forEach(function (h) {
             //   黑洞检测点
             var rectH = new egret.Rectangle(h.x, h.y, h.width, h.height);
+            // 检测batman
             _this.batmans.forEach(function (b, index) {
                 //   batman 检测点
                 var rectB = new egret.Rectangle(b.x, b.y, b.width, b.height);
@@ -136,6 +140,14 @@ var Player = (function (_super) {
                     _this.batmanBodys.splice(index, 1);
                 }
             });
+            // 检测pig
+            var pigRect = new egret.Rectangle(_this.body.position[0], _this.body.position[1], _this.pig.width, _this.pig.height);
+            if (rectH.intersects(pigRect)) {
+                // 吃掉pig
+                egret.Tween.get(_this.pig).to({ alpha: 0 }, 200);
+                // 通知GameView游戏结束了
+                _this.dispatchEvent(new PostEvent(PostEvent.GAME_OVER));
+            }
         });
     };
     return Player;

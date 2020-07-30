@@ -309,8 +309,13 @@ class GameView extends eui.Component implements eui.UIComponent {
       this.batmans,
       this.holes,
       this.batmanBodys,
-      this.world
+      this.world,
     );
+    // 侦听 通知游戏结束
+    player.addEventListener(PostEvent.GAME_OVER, () => {
+      // 游戏结束
+      this.gameOver();
+    }, this);
     this.player = player;
 
     this.addChild(player);  
@@ -335,8 +340,6 @@ class GameView extends eui.Component implements eui.UIComponent {
 
   // 游戏结束
   public gameOver() {
-    // 自身销毁
-    this.parent.removeChild(this);
     // 让 main 打开游戏结束界面
     let p = new PostEvent(PostEvent.GAME_OVER);
     this.dispatchEvent(p);

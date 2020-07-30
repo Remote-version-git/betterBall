@@ -16,6 +16,7 @@ class PostEvent extends egret.Event {
   // 排行榜
   public static Ranking_List: string = 'Ranking List';
 
+
   constructor(
     type: string,
     bubbles: boolean = false,

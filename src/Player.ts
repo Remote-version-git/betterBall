@@ -7,16 +7,13 @@ class Player extends egret.Sprite {
   //   是否移动猪
   public moving: boolean = false;
   public body: p2.Body = null;
-
   //   batmans
   private batmans: egret.Bitmap[];
   //   batmans body
   private batmanBodys: p2.Body[];
   // 黑洞们
   public holes: egret.Bitmap[];
-
   public world: p2.World;
-
   constructor(
     bg,
     body,
@@ -36,12 +33,15 @@ class Player extends egret.Sprite {
     this.world = world;
     // 刚体
     this.body = body;
+
     this.bg = bg;
     // 创建对象
     this.createObject();
     // 绑定事件
     this.bindTouchEvent();
   }
+
+  private pigPoint: egret.Point;
 
   //   猪的装备
   private createObject() {
@@ -96,14 +96,16 @@ class Player extends egret.Sprite {
       },
       this
     );
-  
+
     this.bg.addEventListener(
       egret.TouchEvent.TOUCH_MOVE,
       (e) => {
         if (this.moving) {
           let handPoint = new egret.Point(e.stageX, e.stageY);
           let pigPoint = this.localToGlobal(this.pig.x, this.pig.y);
+          this.pigPoint = pigPoint;
 
+          this.pigPoint = pigPoint;
           let angle: number = Math.atan2(
             handPoint.y - pigPoint.y,
             handPoint.x - pigPoint.x
@@ -126,6 +128,7 @@ class Player extends egret.Sprite {
         if (this.moving) {
           let handPoint = new egret.Point(e.stageX, e.stageY);
           let pigPoint = this.localToGlobal(this.pig.x, this.pig.y);
+          this.pigPoint = pigPoint;
 
           let xpower = handPoint.x - pigPoint.x;
           let ypower = handPoint.y - pigPoint.y;
@@ -152,13 +155,13 @@ class Player extends egret.Sprite {
       this
     );
   }
-
   // 必须为公开，因为他是被world的endContact事件调用的.
   // 在每次触摸结束时调用
   public checkHit() {
     this.holes.forEach((h) => {
       //   黑洞检测点
       const rectH = new egret.Rectangle(h.x, h.y, h.width, h.height);
+      // 检测batman
       this.batmans.forEach((b, index) => {
         //   batman 检测点
         const rectB = new egret.Rectangle(b.x, b.y, b.width, b.height);
@@ -173,6 +176,19 @@ class Player extends egret.Sprite {
           this.batmanBodys.splice(index, 1);
         }
       });
+      // 检测pig
+      const pigRect = new egret.Rectangle(
+        this.body.position[0],
+        this.body.position[1],
+        this.pig.width,
+        this.pig.height
+      );
+      if (rectH.intersects(pigRect)) {
+        // 吃掉pig
+        egret.Tween.get(this.pig).to({ alpha: 0 }, 200);
+          // 通知GameView游戏结束了
+          this.dispatchEvent(new PostEvent(PostEvent.GAME_OVER));
+      }
     });
   }
 }

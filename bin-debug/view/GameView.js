@@ -258,11 +258,17 @@ var GameView = (function (_super) {
     };
     // 生成游戏猪
     GameView.prototype.addPlayer = function (bg) {
+        var _this = this;
         var body = new p2.Body({
             mass: 1,
             position: [200, 200],
         });
         var player = new Player(bg, body, this.batmans, this.holes, this.batmanBodys, this.world);
+        // 侦听 通知游戏结束
+        player.addEventListener(PostEvent.GAME_OVER, function () {
+            // 游戏结束
+            _this.gameOver();
+        }, this);
         this.player = player;
         this.addChild(player);
         var shape = new p2.Circle({
@@ -280,8 +286,6 @@ var GameView = (function (_super) {
     };
     // 游戏结束
     GameView.prototype.gameOver = function () {
-        // 自身销毁
-        this.parent.removeChild(this);
         // 让 main 打开游戏结束界面
         var p = new PostEvent(PostEvent.GAME_OVER);
         this.dispatchEvent(p);

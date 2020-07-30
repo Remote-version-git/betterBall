@@ -11,7 +11,7 @@ class StartGameView extends eui.Component implements eui.UIComponent {
   // 排行榜
   private ranking_button: eui.Button;
   // 喇叭
-  private trumpet_check: eui.Button;
+  private trumpet_check: eui.Group;
   // 喇叭声音图标
   private is_trumpet: eui.Image;
   // 朱望仔图片
@@ -26,6 +26,8 @@ class StartGameView extends eui.Component implements eui.UIComponent {
 
   // 组件实例化完之后，自动调用这个函数
   private onComplete() {
+    // 设置音乐播放状态
+    this.is_trumpet.visible = LoadBGM.getInstance().getPlayStatus();
     // 侦听开始按钮的触摸点击事件
     this.start_button.addEventListener(
       egret.TouchEvent.TOUCH_TAP,
@@ -62,21 +64,17 @@ class StartGameView extends eui.Component implements eui.UIComponent {
     this.dispatchEvent(new PostEvent(PostEvent.Ranking_List))
   }
 
-  private isShow: boolean = true;
-  // 点击喇叭
+   // 喇叭声音切换
   private trumpetCheck() {
-    if (this.isShow == true) {
-      // 关闭声音
-      this.is_trumpet.visible = false;
-      this.isShow = false;
-      console.log("关闭");
-      LoadSound.startLoad("stop");
-    } else if (this.isShow == false) {
-      // 开启声音
+    // 获取声音实例
+    const s = LoadBGM.getInstance();
+    // 切换播放状态
+    s.SwitchPlay();
+    // 切换音标图标
+    if (s.getPlayStatus()) {
       this.is_trumpet.visible = true;
-      this.isShow = true;
-      console.log("开启");
-      LoadSound.startLoad("start");
+    } else {
+      this.is_trumpet.visible = false;
     }
   }
 

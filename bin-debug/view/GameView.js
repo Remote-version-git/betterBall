@@ -29,6 +29,22 @@ var GameView = (function (_super) {
     GameView.prototype.onComplete = function () {
         // 监听面板被点击事件
         this.explain_panel.addEventListener(PostEvent.READ_EXPLAIN, this.createGameScene, this);
+        // 侦听声音按钮的触摸点击事件
+        this.trumpet_check.addEventListener(egret.TouchEvent.TOUCH_TAP, this.trumpetCheck, this);
+    };
+    // 喇叭声音切换
+    GameView.prototype.trumpetCheck = function () {
+        // 获取声音实例
+        var s = LoadBGM.getInstance();
+        // 切换播放状态
+        s.SwitchPlay();
+        // 切换音标图标
+        if (s.getPlayStatus()) {
+            this.is_trumpet.visible = true;
+        }
+        else {
+            this.is_trumpet.visible = false;
+        }
     };
     /**
      * 创建游戏场景
@@ -285,11 +301,24 @@ var GameView = (function (_super) {
     GameView.prototype.partAdded = function (partName, instance) {
         _super.prototype.partAdded.call(this, partName, instance);
     };
+    GameView.prototype.createChildren = function () {
+        _super.prototype.createChildren.call(this);
+        // 把音乐放起来
+        var s = LoadBGM.getInstance();
+        if (s.prePlayStatus) {
+            s.playBGM();
+            s.setPlayStatus(true);
+        }
+        this.is_trumpet.visible = s.getPlayStatus();
+    };
     GameView.prototype.childrenCreated = function () {
         _super.prototype.childrenCreated.call(this);
+        // 设置音乐播放状态
     };
     // 游戏结束
     GameView.prototype.gameOver = function () {
+        // 关闭掉声音
+        LoadBGM.getInstance().stopBGM();
         // 让 main 打开游戏结束界面
         var p = new PostEvent(PostEvent.GAME_OVER, false, false, parseInt(this.score.text));
         this.dispatchEvent(p);

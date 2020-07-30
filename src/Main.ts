@@ -100,11 +100,20 @@ class Main extends eui.UILayer {
     this.addChild(scoreGameView);
 
     scoreGameView.addEventListener(PostEvent.Ranking_List, this.showRankingList, this);
+    scoreGameView.addEventListener(PostEvent.Report_Card, this.reportCard, this);
   }
 
   // 排行榜
   private showRankingList() {
     let rankingListView = new RankingListView();
     this.addChild(rankingListView)
+  }
+
+  // 成绩单
+  private reportCard() {
+    let rankingCardView = new ReportCard();
+    this.addChild(rankingCardView)
+    rankingCardView.addEventListener(PostEvent.GAME_OVER, this.showGameOver, this);
+    
   }
 }

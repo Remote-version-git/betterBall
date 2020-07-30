@@ -9,7 +9,7 @@ class PostEvent extends egret.Event {
 
   // 重新开始游戏
   public static RESTART_GAME: string = "restart game";
-  
+
   // 点击游戏说明按钮后触发
   public static READ_EXPLAIN: string = "read explain";
 
@@ -22,6 +22,9 @@ class PostEvent extends egret.Event {
 
   // 增加batman
   public static INCREMENT_BATMANS: string = "incremnt batmanas";
+
+  // 成绩单
+  public static Report_Card: string = "Report Card";
 
   constructor(
     type: string,

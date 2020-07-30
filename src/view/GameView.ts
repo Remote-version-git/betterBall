@@ -1,9 +1,9 @@
 // 游戏界面
 class GameView extends eui.Component implements eui.UIComponent {
-   // 喇叭组
-   private trumpet_check: eui.Group;
-   // 喇叭声音图标
-   private is_trumpet: eui.Image;
+  // 喇叭组
+  private trumpet_check: eui.Group;
+  // 喇叭声音图标
+  private is_trumpet: eui.Image;
   public constructor() {
     super();
     this.addEventListener(eui.UIEvent.COMPLETE, this.onComplete, this);
@@ -26,7 +26,7 @@ class GameView extends eui.Component implements eui.UIComponent {
       this.createGameScene,
       this
     );
-    
+
     // 侦听声音按钮的触摸点击事件
     this.trumpet_check.addEventListener(
       egret.TouchEvent.TOUCH_TAP,
@@ -34,20 +34,18 @@ class GameView extends eui.Component implements eui.UIComponent {
       this
     );
   }
-  
+
   // 喇叭声音切换
-  private isShow: boolean = false;
   private trumpetCheck() {
-    if (this.isShow == true) {
-      // 关闭声音
-      this.is_trumpet.visible = false;
-      this.isShow = false;
-      LoadSound.startLoad("stop");
-    } CustomElementRegistry {
-      // 开启声音
+    // 获取声音实例
+    const s = LoadBGM.getInstance();
+    // 切换播放状态
+    s.SwitchPlay();
+    // 切换音标图标
+    if (s.getPlayStatus()) {
       this.is_trumpet.visible = true;
-      this.isShow = true;
-      LoadSound.startLoad("start");
+    } else {
+      this.is_trumpet.visible = false;
     }
   }
 
@@ -105,7 +103,6 @@ class GameView extends eui.Component implements eui.UIComponent {
     this.addEventListener(egret.Event.ENTER_FRAME, this.onUpdate, this);
   }
 
-
   private isEnableP2Debug: boolean = false;
   private enableP2Debug(world: p2.World) {
     let sprite = new egret.Sprite();
@@ -137,7 +134,7 @@ class GameView extends eui.Component implements eui.UIComponent {
       let item = this.hole();
       const w = item.width / 2;
       const h = item.height / 2;
-      const sw = this.game_scene.width
+      const sw = this.game_scene.width;
       const sh = this.game_scene.height;
       // 计算包含锚点
       switch (index) {
@@ -232,7 +229,6 @@ class GameView extends eui.Component implements eui.UIComponent {
 
     rigidBody.addShape(batmanShape);
     rigidBody.displays = [batman];
-
 
     // 返回 batman刚体 和  batman显示对象
     return [rigidBody, batman];
@@ -332,25 +328,37 @@ class GameView extends eui.Component implements eui.UIComponent {
       this.batmans,
       this.holes,
       this.batmanBodys,
-      this.world,
+      this.world
     );
     // 侦听 通知游戏结束
-    player.addEventListener(PostEvent.GAME_OVER, () => {
-      // 游戏结束
-      this.gameOver();
-    }, this);
+    player.addEventListener(
+      PostEvent.GAME_OVER,
+      () => {
+        // 游戏结束
+        this.gameOver();
+      },
+      this
+    );
     // 侦听积分增加
-    player.addEventListener(PostEvent.INCREMNT_SCORE, (e) => {
-      // 游戏结束
-      this.score.text = e.score;
-    }, this);
+    player.addEventListener(
+      PostEvent.INCREMNT_SCORE,
+      (e) => {
+        // 游戏结束
+        this.score.text = e.score;
+      },
+      this
+    );
     // 侦听是否吃完了batman
-    player.addEventListener(PostEvent.INCREMENT_BATMANS, (e) => {
-      this.productBatman(10);
-    }, this);
+    player.addEventListener(
+      PostEvent.INCREMENT_BATMANS,
+      (e) => {
+        this.productBatman(10);
+      },
+      this
+    );
     this.player = player;
 
-    this.addChild(player);  
+    this.addChild(player);
 
     let shape = new p2.Circle({
       radius: (player.pig.width * player.pig.scaleX) / 2,
@@ -361,19 +369,38 @@ class GameView extends eui.Component implements eui.UIComponent {
     this.world.addBody(body);
   }
 
-
   protected partAdded(partName: string, instance: any): void {
     super.partAdded(partName, instance);
   }
 
+  protected createChildren(): void {
+    super.createChildren();
+    // 把音乐放起来
+    let s = LoadBGM.getInstance();
+    if (s.prePlayStatus) {
+      s.playBGM();
+      s.setPlayStatus(true);
+    }
+    this.is_trumpet.visible = s.getPlayStatus();
+  }
+
   protected childrenCreated(): void {
     super.childrenCreated();
+    // 设置音乐播放状态
   }
 
   // 游戏结束
   public gameOver() {
+    // 关闭掉声音
+    LoadBGM.getInstance().stopBGM();
+
     // 让 main 打开游戏结束界面
-    let p = new PostEvent(PostEvent.GAME_OVER, false, false, parseInt(this.score.text));
+    let p = new PostEvent(
+      PostEvent.GAME_OVER,
+      false,
+      false,
+      parseInt(this.score.text)
+    );
     this.dispatchEvent(p);
   }
 }

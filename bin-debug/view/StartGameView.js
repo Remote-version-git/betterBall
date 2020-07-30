@@ -13,12 +13,13 @@ var StartGameView = (function (_super) {
     __extends(StartGameView, _super);
     function StartGameView() {
         var _this = _super.call(this) || this;
-        _this.isShow = false;
         _this.addEventListener(eui.UIEvent.COMPLETE, _this.onComplete, _this);
         return _this;
     }
     // 组件实例化完之后，自动调用这个函数
     StartGameView.prototype.onComplete = function () {
+        // 设置音乐播放状态
+        this.is_trumpet.visible = LoadBGM.getInstance().getPlayStatus();
         // 侦听开始按钮的触摸点击事件
         this.start_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.startButton, this);
         // 侦听排行榜按钮的触摸点击事件
@@ -38,21 +39,18 @@ var StartGameView = (function (_super) {
     StartGameView.prototype.rankingButton = function () {
         this.dispatchEvent(new PostEvent(PostEvent.Ranking_List));
     };
-    // 点击喇叭
+    // 喇叭声音切换
     StartGameView.prototype.trumpetCheck = function () {
-        if (this.isShow == true) {
-            // 关闭声音
-            this.is_trumpet.visible = false;
-            this.isShow = false;
-            console.log("关闭");
-            LoadSound.startLoad("stop");
-        }
-        else if (this.isShow == false) {
-            // 开启声音
+        // 获取声音实例
+        var s = LoadBGM.getInstance();
+        // 切换播放状态
+        s.SwitchPlay();
+        // 切换音标图标
+        if (s.getPlayStatus()) {
             this.is_trumpet.visible = true;
-            this.isShow = true;
-            console.log("开启");
-            LoadSound.startLoad("start");
+        }
+        else {
+            this.is_trumpet.visible = false;
         }
     };
     StartGameView.prototype.partAdded = function (partName, instance) {

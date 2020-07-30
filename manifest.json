@@ -9,14 +9,14 @@
 		"libs/physics/physics.js"
 	],
 	"game": [
-		"bin-debug/components/LoadSound.js",
+		"bin-debug/ThemeAdapter.js",
 		"bin-debug/AssetAdapter.js",
+		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
 		"bin-debug/p2DebugDraw.js",
 		"bin-debug/Platform.js",
 		"bin-debug/Player.js",
-		"bin-debug/ThemeAdapter.js",
-		"bin-debug/LoadingUI.js",
+		"bin-debug/LoadBGM.js",
 		"bin-debug/events/PostEvent.js",
 		"bin-debug/view/GameExplainPanel.js",
 		"bin-debug/view/GameView.js",

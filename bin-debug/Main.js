@@ -50,8 +50,6 @@ var Main = (function (_super) {
     }
     Main.prototype.createChildren = function () {
         _super.prototype.createChildren.call(this);
-        // // 开启背景音乐
-        // LoadSound.startLoad('start')
         egret.lifecycle.addLifecycleListener(function (context) {
             // custom lifecycle plugin
         });
@@ -145,7 +143,12 @@ var Main = (function (_super) {
         var scoreGameView = new ScoreGameView();
         // 初始化分数
         scoreGameView.addEventListener(eui.UIEvent.COMPLETE, function () {
-            scoreGameView.score.text = String(e.score);
+            if (e.score) {
+                scoreGameView.score.text = String(e.score);
+            }
+            else {
+                scoreGameView.score.text = '0';
+            }
         }, this);
         scoreGameView.addEventListener(PostEvent.RESTART_GAME, this.showGameView, this);
         this.addChild(scoreGameView);

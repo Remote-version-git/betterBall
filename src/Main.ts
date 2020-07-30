@@ -2,9 +2,6 @@ class Main extends eui.UILayer {
   protected createChildren(): void {
     super.createChildren();
 
-    // // 开启背景音乐
-    // LoadSound.startLoad('start')
-
     egret.lifecycle.addLifecycleListener((context) => {
       // custom lifecycle plugin
     });
@@ -93,7 +90,11 @@ class Main extends eui.UILayer {
     const scoreGameView = new ScoreGameView();
     // 初始化分数
     scoreGameView.addEventListener(eui.UIEvent.COMPLETE, () => {
-      scoreGameView.score.text = String(e.score);
+      if (e.score) {
+        scoreGameView.score.text = String(e.score);
+      } else {
+        scoreGameView.score.text = '0';
+      }
     }, this);
     scoreGameView.addEventListener(PostEvent.RESTART_GAME, this.showGameView, this)
     this.addChild(scoreGameView);

@@ -16,8 +16,6 @@ class ScoreGameView extends eui.Component implements eui.UIComponent {
   }
 
   private onComplete() {
-    let s: egret.Sound = RES.getRes("bgm_mp3");
-    s.play();
     this.restart_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.restartGame, this);
     this.showRankingList.addEventListener(egret.TouchEvent.TOUCH_TAP, this.RankingButton, this);
     this.report_card_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.reportCardButton, this);

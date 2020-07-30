@@ -21,7 +21,7 @@ class LoadBGM {
   public getPlayStatus(): boolean {
     return this._isPlay;
   }
-  public setPlayStatus(v: boolean): boolean {
+  public setPlayStatus(v: boolean): void {
     this._isPlay = v;
   }
 

@@ -18,6 +18,7 @@ var ScoreGameView = (function (_super) {
     }
     ScoreGameView.prototype.onComplete = function () {
         var s = RES.getRes("bgm_mp3");
+        s.play();
         this.restart_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.restartGame, this);
         this.showRankingList.addEventListener(egret.TouchEvent.TOUCH_TAP, this.RankingButton, this);
     };

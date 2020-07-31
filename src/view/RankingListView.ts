@@ -32,7 +32,7 @@ class RankingListView extends eui.Component implements eui.UIComponent {
 						item.nickname = '无'
 					}
 					if (item.avatar == null) {
-						item.avatar = 'https://avatars2.githubusercontent.com/u/45430448?s=60&v=4'
+						item.avatar = 'https://gravatar.loli.net/avatar/d41d8cd98f00b204e9800998ecf8427e?d=mp&v=1.4.14'
 					}
 					// 加载网络图片
 					var imgLoader: egret.ImageLoader = new egret.ImageLoader;
@@ -58,6 +58,11 @@ class RankingListView extends eui.Component implements eui.UIComponent {
 			console.log(error);
 			return
 		}
+
+		this.close_button.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
+			TouchEvents.onEvent(this.close_button)
+			egret.Tween.get(this.close_button).to({ scaleX: 0.9, scaleY: 0.9 }, 150)
+		}, this)
 
 		// 关闭
 		this.close_button.addEventListener(

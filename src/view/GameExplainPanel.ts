@@ -16,7 +16,10 @@ class GameExplainPanel extends eui.Component implements eui.UIComponent {
 
 		// 侦听确定按钮的触摸点击事件
 		this.confirm_start.addEventListener(egret.TouchEvent.TOUCH_TAP, this.confirmBtn, this)
-
+		this.confirm_start.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
+			TouchEvents.onEvent(this.confirm_start)
+			egret.Tween.get(this.confirm_start).to({ scaleX: 0.95, scaleY: 0.95 }, 150)
+		}, this)
 	}
 
 	// 点击确定 开始游戏

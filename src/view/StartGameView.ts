@@ -35,6 +35,11 @@ class StartGameView extends eui.Component implements eui.UIComponent {
       this
     );
 
+    // 当用户第一次触摸启用触摸的设备时触发
+    this.start_button.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.startBtnBegin, this)
+    // 当用户在触摸设备上与开始触摸的不同 DisplayObject 实例上抬起接触点时
+    this.start_button.addEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE, this.startBtnReleaseOutside, this)
+
     // 侦听排行榜按钮的触摸点击事件
     this.ranking_button.addEventListener(
       egret.TouchEvent.TOUCH_TAP,
@@ -48,6 +53,16 @@ class StartGameView extends eui.Component implements eui.UIComponent {
       this.trumpetCheck,
       this
     );
+  }
+
+  private startBtnBegin() {
+    console.log('startBtnBegin');
+    egret.Tween.get(this.start_button).to({ scaleX: 0.95, scaleY: 0.95 }, 150)
+  }
+
+  private startBtnReleaseOutside() {
+    console.log('startBtnReleaseOutside');
+egret.Tween.get(this.start_button).to({ scaleX: 1, scaleY: 1 }, 150)
   }
 
   private startButton() {
@@ -64,7 +79,7 @@ class StartGameView extends eui.Component implements eui.UIComponent {
     this.dispatchEvent(new PostEvent(PostEvent.Ranking_List))
   }
 
-   // 喇叭声音切换
+  // 喇叭声音切换
   private trumpetCheck() {
     // 获取声音实例
     const s = LoadBGM.getInstance();
@@ -86,6 +101,8 @@ class StartGameView extends eui.Component implements eui.UIComponent {
   protected createChildren(): void {
     super.createChildren();
 
+    this.start_button.anchorOffsetX = this.start_button.width / 2;
+    this.start_button.anchorOffsetY = this.start_button.height / 2;
   }
 
   // 创建元素之后，被回调执行,紧接 onComplete 之后

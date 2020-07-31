@@ -22,6 +22,9 @@ class PostEvent extends egret.Event {
 
   // 增加batman
   public static INCREMENT_BATMANS: string = "incremnt batmanas";
+  
+  // 增加masks
+  public static INCREMENT_MASKS: string = "incremnt masks";
 
   // 成绩单
   public static Report_Card: string = "Report Card";

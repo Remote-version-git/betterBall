@@ -14,19 +14,36 @@ class Player extends egret.Sprite {
   // 黑洞们
   public holes: egret.Bitmap[];
   public world: p2.World;
+
+  // mask 
+  private masks: egret.Bitmap[];
+  private maskBodys: p2.Body[];
+  
   constructor(
     bg,
     body,
     batmans: egret.Bitmap[],
     holes: egret.Bitmap[],
     batmanBodys: p2.Body[],
-    world: p2.World
+    world: p2.World,
+    masks: egret.Bitmap[],
+    maskBodys: p2.Body[]
   ) {
     super();
+    // 当x发生变化就检测是否吃到东西
+    eui.Watcher.watch(this, ["x"], () => {
+      this.checkHit();
+    }, this);
     // batmans
     this.batmans = batmans;
     // batmans body
     this.batmanBodys = batmanBodys;
+
+    // masks
+    this.masks = masks;
+    // masks body
+    this.maskBodys = maskBodys;
+
     // 黑洞们
     this.holes = holes;
     // world
@@ -63,8 +80,8 @@ class Player extends egret.Sprite {
     // 猪
     let pig: egret.Bitmap = new egret.Bitmap();
     pig.texture = RES.getRes("player_png");
-    pig.width = pig.width / 3;
-    pig.height = pig.height / 3;
+    pig.width = pig.width / 2.5;
+    pig.height = pig.height / 2.5;
     pig.anchorOffsetX = pig.width / 2;
     pig.anchorOffsetY = pig.height / 2;
     this.addChild(pig);
@@ -80,7 +97,6 @@ class Player extends egret.Sprite {
         this.disk.visible = true;
         this.arrow.visible = true;
         this.moving = true;
-        this.checkHit();
       },
       this
     );
@@ -94,6 +110,7 @@ class Player extends egret.Sprite {
       this
     );
 
+    // 游戏背景
     this.bg.addEventListener(
       egret.TouchEvent.TOUCH_MOVE,
       (e) => {
@@ -121,7 +138,6 @@ class Player extends egret.Sprite {
       },
       this
     );
-
     this.bg.addEventListener(
       egret.TouchEvent.TOUCH_END,
       (e) => {
@@ -174,11 +190,31 @@ class Player extends egret.Sprite {
       // 检测猪是否掉进黑洞
       this.checkPig(rectH);
     });
+    this.masks.forEach((m, index) => {
+      let rectM = new egret.Rectangle(m.x, m.y, m.width, m.height);
+      // 检测口罩是否被猪吃了
+      if (this.checkMask(rectM)) {
+          // 吃掉 mask
+          egret.Tween.get(m).to({ alpha: 0 }, 200);
+          //    移除 mask
+          this.masks.splice(index, 1);
+          // 得分增加 20
+          this.incrementScore(20);
+          // 在 mask 被吃掉位置生成得分反馈
+          this.feedbackScore(20, m.x, m.y, this.bg);
+          // 播放一次吃掉的音效
+          this.playHitSound();
+      }
+    })
     // 最后看是否吃完了batman，再给制造一些
     if (this.batmans.length === 0) {
       this.dispatchEvent(new PostEvent(PostEvent.INCREMENT_BATMANS));
       // 提示关卡
       this.feedbackPassCount(this.bg);
+    }
+    // 最后看是否吃完了masks，再给制造一些
+    if (this.masks.length === 0) {
+      this.dispatchEvent(new PostEvent(PostEvent.INCREMENT_MASKS));
     }
   }
   /**
@@ -197,9 +233,27 @@ class Player extends egret.Sprite {
       egret.Tween.get(this.pig).to({ alpha: 0 }, 200);
       // 播放输掉音效
       this.loseSound();
-      // 通知GameView游戏结束了
+      // 通知 GameView 游戏结束了
       this.dispatchEvent(new PostEvent(PostEvent.GAME_OVER));
     }
+  }
+  /**
+   * 检测口罩 是否被猪吃了
+   * @returns true 被吃了 false没被吃
+   */
+  public checkMask(mask: egret.Rectangle): boolean {
+    // 检测pig
+    const pigRect = new egret.Rectangle(
+      this.body.position[0],
+      this.body.position[1],
+      this.pig.width,
+      this.pig.height
+    );
+    
+    if (pigRect.intersects(mask)) {
+      return true;
+    }
+    return false;
   }
   /**
    * 增加积分

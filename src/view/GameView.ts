@@ -36,11 +36,17 @@ class GameView extends eui.Component implements eui.UIComponent {
       this
     );
 
-    this.trumpet_check.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
-      TouchEvents.onEvent(this.trumpet_check)
-      egret.Tween.get(this.trumpet_check).to({ scaleX: 0.9, scaleY: 0.9 }, 150)
-    }, this)
-
+    this.trumpet_check.addEventListener(
+      egret.TouchEvent.TOUCH_BEGIN,
+      () => {
+        TouchEvents.onEvent(this.trumpet_check);
+        egret.Tween.get(this.trumpet_check).to(
+          { scaleX: 0.9, scaleY: 0.9 },
+          150
+        );
+      },
+      this
+    );
   }
 
   // 喇叭声音切换
@@ -56,9 +62,6 @@ class GameView extends eui.Component implements eui.UIComponent {
       this.is_trumpet.visible = false;
     }
   }
-
-  // batman初始生成数量，最小1 最大20
-  public batmanCount: number = 1;
   /**
    * 创建游戏场景
    * Create a game scene
@@ -98,9 +101,11 @@ class GameView extends eui.Component implements eui.UIComponent {
     // 添加玩家
     this.addPlayer(this);
 
-
     // 制造batman到物理世界并显示在舞台
     this.productBatman();
+
+    // 制造 mask 到物理世界并显示在舞台
+    this.productMask();
 
     // p2 调试
     // this.enableP2Debug(world);
@@ -128,8 +133,8 @@ class GameView extends eui.Component implements eui.UIComponent {
   private hole() {
     let hole: egret.Bitmap = new egret.Bitmap(RES.getRes("hole_png"));
     // 调整大小
-    hole.width = hole.width / 2;
-    hole.height = hole.height / 2;
+    hole.width = hole.width / 1.8;
+    hole.height = hole.height / 1.8;
     // 锚点到中心
     hole.anchorOffsetX = hole.width / 2;
     hole.anchorOffsetY = hole.height / 2;
@@ -168,21 +173,6 @@ class GameView extends eui.Component implements eui.UIComponent {
       }
       this.addChild(item);
       this.holes[index] = item;
-
-      // 绑定到物理世界
-      //   let holeShape = new p2.Circle({
-      //     radius: (item.width * item.scaleX) / 2,
-      //   });
-      // let holeBody = new p2.Body({
-      //   type: p2.Body.STATIC,
-      //   position: [
-      //     item.x,
-      //     item.y,
-      //   ],
-      // });
-      // holeBody.displays = [item];
-      // holeBody.addShape(holeShape);
-      // this.world.addBody(holeBody);
     }
   }
 
@@ -220,17 +210,28 @@ class GameView extends eui.Component implements eui.UIComponent {
   // 制造一个batman
   private makeBatman() {
     let batman: egret.Bitmap = new egret.Bitmap(RES.getRes("batman_png"));
-    batman.width = batman.width / 3;
-    batman.height = batman.height / 3;
+    batman.width = batman.width / 2;
+    batman.height = batman.height / 2;
     batman.anchorOffsetX = batman.width / 2;
     batman.anchorOffsetY = batman.height / 2;
     return batman;
   }
+  private makeMask() {
+    let mask: egret.Bitmap = new egret.Bitmap(RES.getRes("mask_png"));
+    mask.width = mask.width / 3;
+    mask.height = mask.height / 3;
+    mask.anchorOffsetX = mask.width / 2;
+    mask.anchorOffsetY = mask.height / 2;
+    return mask;
+  }
 
   // 随机范围
-  public randomNum(maxNum, minNum, decimalNum) {
-    var max = 0, min = 0;
-    minNum <= maxNum ? (min = minNum, max = maxNum) : (min = maxNum, max = minNum);
+  public randomNum(minNum, maxNum, decimalNum = 2) {
+    var max = 0,
+      min = 0;
+    minNum <= maxNum
+      ? ((min = minNum), (max = maxNum))
+      : ((min = maxNum), (max = minNum));
     switch (arguments.length) {
       case 1:
         return Math.floor(Math.random() * (max + 1));
@@ -242,6 +243,22 @@ class GameView extends eui.Component implements eui.UIComponent {
         return Math.random();
     }
   }
+  public randomInteger(minNum, maxNum) {
+    var max = 0,
+      min = 0;
+    minNum <= maxNum
+      ? ((min = minNum), (max = maxNum))
+      : ((min = maxNum), (max = minNum));
+    switch (arguments.length) {
+      case 1:
+        return Math.floor(Math.random() * (max + 1));
+      case 2:
+        return Math.floor(Math.random() * (max - min + 1) + min);
+      default:
+        return Math.random();
+    }
+  }
+
   private make_area: eui.Group;
   // 为batman附加物理计算
   private appendToBatman(): [p2.Body, egret.Bitmap] {
@@ -251,8 +268,8 @@ class GameView extends eui.Component implements eui.UIComponent {
     // 用于随机产生计算位置
     let x = batman.width / 2;
     let y = batman.height / 2;
-    let sx = this.make_area.width;
-    let sy = this.make_area.height;
+    let sx = this.game_scene.width;
+    let sy = this.game_scene.height;
 
     let batmanShape = new p2.Circle({
       radius: x,
@@ -261,8 +278,8 @@ class GameView extends eui.Component implements eui.UIComponent {
     let rigidBody = new p2.Body({
       mass: 1,
       position: [
-        this.randomNum(0, sx - x, 2),
-        this.randomNum(268, sy - y - 270, 2),
+        this.randomInteger(0, sx - x),
+        this.randomInteger(0, sy - y),
       ],
     });
 
@@ -272,7 +289,26 @@ class GameView extends eui.Component implements eui.UIComponent {
     // 返回 batman刚体 和  batman显示对象
     return [rigidBody, batman];
   }
+  // 为 mask 附加随机位置
+  private appendToMask(): egret.Bitmap {
+    // 产生一个新的batman
+    let mask = this.makeMask();
 
+    // 用于随机产生计算位置
+    let x = mask.width / 2;
+    let y = mask.height / 2;
+    let sx = this.game_scene.width;
+    let sy = this.game_scene.height;
+
+    mask.x = this.randomInteger(0, sx - x);
+    mask.y = this.randomInteger(0, sy - y);
+
+    // 返回 mask显示对象
+    return mask;
+  }
+
+  // batman初始生成数量，最小1 最多 20个
+  public batmanCount: number = 1;
   // 保存全部batman显示对象
   private batmans: egret.Bitmap[] = [];
   private batmanBodys: p2.Body[] = [];
@@ -288,7 +324,38 @@ class GameView extends eui.Component implements eui.UIComponent {
       this.batmans.push(batman[1]);
       this.addChild(batman[1]);
     }
-    this.batmanCount++;
+    if (this.batmanCount <= 20) {
+      this.batmanCount++;
+    } else {
+      // 大于20个后，数量在 10 到 20 之间随机
+      this.batmanCount = this.randomInteger(10, 20);
+    }
+  }
+
+  // mask 初始生成数量，最小1 最多 5 个
+  public maskCount: number = 1;
+
+  // 保存全部 mask 显示对象
+  private masks: egret.Bitmap[] = [];
+  private maskBodys: p2.Body[] = [];
+  // 按指定数量产生 mask
+  public productMask() {
+    var nums: number = this.maskCount;
+    for (let index = 0; index < nums; index++) {
+      // 添加mask
+      let mask = this.appendToMask();
+      this.masks.push(mask);
+      this.addChild(mask);
+    }
+
+    // 数量检测
+    if (this.maskCount <= 5) {
+      this.maskCount++;
+    }
+    {
+      // 大于 5 个后，数量在 2 到 5 之间随机
+      this.batmanCount = this.randomInteger(2, 5);
+    }
   }
 
   private addWall(x: number, y: number) {
@@ -367,7 +434,9 @@ class GameView extends eui.Component implements eui.UIComponent {
       this.batmans,
       this.holes,
       this.batmanBodys,
-      this.world
+      this.world,
+      this.masks,
+      this.maskBodys
     );
     // 侦听 通知游戏结束
     player.addEventListener(
@@ -392,6 +461,14 @@ class GameView extends eui.Component implements eui.UIComponent {
       PostEvent.INCREMENT_BATMANS,
       (e) => {
         this.productBatman();
+      },
+      this
+    );
+    // 侦听是否吃完了口罩
+    player.addEventListener(
+      PostEvent.INCREMENT_MASKS,
+      (e) => {
+        this.productMask();
       },
       this
     );

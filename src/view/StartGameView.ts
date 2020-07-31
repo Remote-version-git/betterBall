@@ -62,7 +62,7 @@ class StartGameView extends eui.Component implements eui.UIComponent {
 
   private startBtnReleaseOutside() {
     console.log('startBtnReleaseOutside');
-egret.Tween.get(this.start_button).to({ scaleX: 1, scaleY: 1 }, 150)
+    egret.Tween.get(this.start_button).to({ scaleX: 1, scaleY: 1 }, 150)
   }
 
   private startButton() {

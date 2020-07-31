@@ -36,7 +36,7 @@ class ScoreGameView extends eui.Component implements eui.UIComponent {
   }
 
   private startAnimate() {
-    let trophy = egret.Tween.get(this.trophy_img);
+    let trophy = egret.Tween.get(this.trophy_img, { loop: true });
     trophy.to({ scaleX: 1.1, scaleY: 1.1 }, 1000).wait(100)
       .to({ scaleX: 1, scaleY: 1 }, 1000).wait(100)
   }

@@ -268,6 +268,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
     $.md5 = md5;
 })(this);
+var playerInfo = {
+    openid: ''
+};
 var DebugPlatform = (function () {
     function DebugPlatform() {
     }
@@ -277,8 +280,8 @@ var DebugPlatform = (function () {
             return __generator(this, function (_a) {
                 key = "zxdqw";
                 timestamp = Date.now();
-                sign = md5(key + "openid" + PlayerInfo.openid + "score" + score + timestamp);
-                return [2 /*return*/, this._request("https://xwfintech.qingke.io/5f195b8dc01e13002c2d7341/openapi/pinball/add/measy?key=" + key + "&sign=" + sign + "&openid=" + PlayerInfo.openid + "&score=" + score + "&timestamp=" + timestamp)];
+                sign = md5(key + "openid" + playerInfo.openid + "score" + score + timestamp);
+                return [2 /*return*/, this._request("https://xwfintech.qingke.io/5f195b8dc01e13002c2d7341/openapi/pinball/add/measy?key=" + key + "&sign=" + sign + "&openid=" + playerInfo.openid + "&score=" + score + "&timestamp=" + timestamp)];
             });
         });
     };

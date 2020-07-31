@@ -1,9 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="GameViewSkin" width="640" height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:ns1="*" xmlns:w="http://ns.egret.com/wing">
+<e:Skin class="GameViewSkin" width="640" height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:ns1="*"
+        xmlns:w="http://ns.egret.com/wing">
 	<e:Group width="640" height="63" x="0" anchorOffsetX="0" anchorOffsetY="0" y="0">
 		<e:Rect id="status_bar" width="640" height="63" x="0" alpha="1" fillColor="0x16003D" verticalCenter="0" />
 		<e:Group id="trumpet_check" width="40" height="40" x="580" anchorOffsetX="20" anchorOffsetY="20" verticalCenter="0">
-			<e:Button label="" x="0" width="100%" height="100%" scaleX="1" scaleY="1" anchorOffsetX="0" anchorOffsetY="0" verticalCenter="0">
+			<e:Button label="" x="0" width="100%" height="100%" scaleX="1" scaleY="1" anchorOffsetX="0" anchorOffsetY="0"
+			          verticalCenter="0">
 				<e:skinName>
 					<e:Skin states="up,down,disabled" xmlns:tween="egret.tween.*">
 						<e:Image width="100%" height="100%" source="trumpet_png" />
@@ -11,18 +13,20 @@
 					</e:Skin>
 				</e:skinName>
 			</e:Button>
-			<e:Image id="is_trumpet" width="100%" height="100%" x="0" source="trumpet_check_png" scaleX="1" scaleY="1" visible="true" anchorOffsetX="0" anchorOffsetY="0"  verticalCenter="0"/>
+			<e:Image id="is_trumpet" width="100%" height="100%" x="0" source="trumpet_check_png" scaleX="1" scaleY="1"
+			         visible="true" anchorOffsetX="0" anchorOffsetY="0" verticalCenter="0" />
 		</e:Group>
 		<e:Group x="209.632" verticalCenter="0.5" anchorOffsetX="0" width="63.035">
-			<e:Label text="得分" x="0" textAlign="center" size="18" textColor="0xC7FFED" verticalCenter="0"/>
-			<e:Label id="score" text="0" x="47.615" size="24" textColor="0xC7FFED" verticalCenter="0"/>
+			<e:Label text="得分" x="0" textAlign="center" size="18" textColor="0xC7FFED" verticalCenter="0" />
+			<e:Label id="score" text="0" x="47.615" size="24" textColor="0xC7FFED" verticalCenter="0" />
 		</e:Group>
 		<e:Group x="304.382" verticalCenter="0">
-			<e:Label text="将敌人消灭到黑洞" x="66.685" textAlign="center" size="20" textColor="0xC7FFED" verticalCenter="0.5"/>
-			<e:Image source="boom_png" x="13.122" anchorOffsetX="0" width="51.278" anchorOffsetY="0" height="38.544" verticalCenter="-2"/>
+			<e:Label text="将敌人消灭到黑洞" x="66.685" textAlign="center" size="20" textColor="0xC7FFED" verticalCenter="0.5" />
+			<e:Image source="boom_png" x="13.122" anchorOffsetX="0" width="51.278" anchorOffsetY="0" height="38.544"
+			         verticalCenter="-2" />
 		</e:Group>
-		<e:Image id="avatar" width="39" height="39" x="46.746" verticalCenter="0"/>
-		<e:Label id="nickname" text="向日葵的日子" x="97.122" size="16" verticalCenter="0" textColor="0xC7FFED"/>
+		<e:Image id="avatar" width="39" height="39" x="46.746" verticalCenter="0" />
+		<e:Label id="nickname" text="向日葵的日子" x="97.122" size="16" verticalCenter="0" textColor="0xC7FFED" />
 	</e:Group>
 	<e:Image id="bg" source="game_bg_png" x="0" y="63.621" width="640" height="1072.379" anchorOffsetY="0" />
 	<e:Group id="game_scene" width="640" height="1060" horizontalCenter="0" verticalCenter="37.5" anchorOffsetY="0" />

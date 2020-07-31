@@ -6,8 +6,8 @@
 		<e:Button id="confirm_start" label="确定" width="144" height="48" bottom="0" horizontalCenter="-5" x="210" y="400" scaleX="1" scaleY="1">
 			<e:skinName>
 			<e:Skin states="up,down,disabled">
-				<e:Image width="100%" height="100%" source="blue_png"/>
-				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+				<e:Image width="100%" height="100%" width.down="95%" height.down="95%" horizontalCenter="0" verticalCenter="0" source="blue_png"/>
+				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0" size.down="28" />
 			</e:Skin>
 			</e:skinName>
 		</e:Button>

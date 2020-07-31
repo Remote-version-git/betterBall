@@ -64,12 +64,10 @@ class Player extends egret.Sprite {
     // 猪
     let pig: egret.Bitmap = new egret.Bitmap();
     pig.texture = RES.getRes("player_png");
-    pig.width = pig.width / 2;
-    pig.height = pig.height / 2;
+    pig.width = pig.width / 3;
+    pig.height = pig.height / 3;
     pig.anchorOffsetX = pig.width / 2;
     pig.anchorOffsetY = pig.height / 2;
-    pig.scaleX = 0.6;
-    pig.scaleY = 0.6;
     this.addChild(pig);
     pig.touchEnabled = true;
     this.pig = pig;
@@ -100,6 +98,7 @@ class Player extends egret.Sprite {
       egret.TouchEvent.TOUCH_MOVE,
       (e) => {
         if (this.moving) {
+          console.log(e);
           let handPoint = new egret.Point(e.stageX, e.stageY);
           let pigPoint = this.localToGlobal(this.pig.x, this.pig.y);
 
@@ -151,7 +150,7 @@ class Player extends egret.Sprite {
   public checkHit() {
     this.holes.forEach((h) => {
       //   黑洞检测点
-      let rectH = h.getBounds(new egret.Rectangle(h.x, h.y, h.width, h.height));
+      let rectH = new egret.Rectangle(h.x, h.y, h.width, h.height);
       // 检测batman
       this.batmans.forEach((b, index) => {
         //   batman 检测点

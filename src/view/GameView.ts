@@ -86,7 +86,7 @@ class GameView extends eui.Component implements eui.UIComponent {
     this.add4Wall();
 
     // 添加玩家
-    this.addPlayer(this.game_scene);
+    this.addPlayer(this);
 
     // 添加障碍物
     this.addWall(300, 300);
@@ -134,17 +134,17 @@ class GameView extends eui.Component implements eui.UIComponent {
       let item = this.hole();
       const w = item.width / 2;
       let h = item.height / 2;
-      const sw = this.game_scene.width;
-      const sh = this.game_scene.height;
+      const sw = this.width;
+      const sh = this.height;
       // 计算包含锚点
       switch (index) {
         case 0:
           item.x = w;
-          item.y = h;
+          item.y = h + this.status_bar.height + 13;
           break;
         case 1:
           item.x = -w + sw;
-          item.y = h;
+          item.y = h + this.status_bar.height + 13;
           break;
         case 2:
           item.x = w;
@@ -157,13 +157,9 @@ class GameView extends eui.Component implements eui.UIComponent {
         default:
           break;
       }
-      this.game_scene.addChild(item);
+      this.addChild(item);
       this.holes[index] = item;
     }
-    console.log(this.holes[0].x, this.holes[0].y);
-    console.log(this.holes[1].x, this.holes[1].y);
-    console.log(this.holes[2].x, this.holes[2].y);
-    console.log(this.holes[3].x, this.holes[3].y);
   }
 
   // 物理世界

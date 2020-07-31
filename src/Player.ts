@@ -18,7 +18,8 @@ class Player extends egret.Sprite {
   // mask 
   private masks: egret.Bitmap[];
   private maskBodys: p2.Body[];
-  
+  // 监听属性实例
+  public watchX: eui.Watcher;
   constructor(
     bg,
     body,
@@ -31,7 +32,7 @@ class Player extends egret.Sprite {
   ) {
     super();
     // 当x发生变化就检测是否吃到东西
-    eui.Watcher.watch(this, ["x"], () => {
+    this.watchX = eui.Watcher.watch(this, ["x"], () => {
       this.checkHit();
     }, this);
     // batmans
@@ -208,13 +209,13 @@ class Player extends egret.Sprite {
     })
     // 最后看是否吃完了batman，再给制造一些
     if (this.batmans.length === 0) {
+      // 最后看是否吃完了masks 而且batman也吃完了，再给制造一些
+      if (this.masks.length === 0 && this.batmans.length === 0) {
+        this.dispatchEvent(new PostEvent(PostEvent.INCREMENT_MASKS));
+      }
       this.dispatchEvent(new PostEvent(PostEvent.INCREMENT_BATMANS));
       // 提示关卡
       this.feedbackPassCount(this.bg);
-    }
-    // 最后看是否吃完了masks，再给制造一些
-    if (this.masks.length === 0) {
-      this.dispatchEvent(new PostEvent(PostEvent.INCREMENT_MASKS));
     }
   }
   /**

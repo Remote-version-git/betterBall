@@ -259,7 +259,6 @@ class GameView extends eui.Component implements eui.UIComponent {
     }
   }
 
-  private make_area: eui.Group;
   // 为batman附加物理计算
   private appendToBatman(): [p2.Body, egret.Bitmap] {
     // 产生一个新的batman
@@ -269,7 +268,7 @@ class GameView extends eui.Component implements eui.UIComponent {
     let x = batman.width / 2;
     let y = batman.height / 2;
     let sx = this.game_scene.width;
-    let sy = this.game_scene.height;
+    let sy = this.game_scene.height - 76;
 
     let batmanShape = new p2.Circle({
       radius: x,
@@ -278,8 +277,8 @@ class GameView extends eui.Component implements eui.UIComponent {
     let rigidBody = new p2.Body({
       mass: 1,
       position: [
-        this.randomInteger(0, sx - x),
-        this.randomInteger(0, sy - y),
+        this.randomInteger(10, sx - x),
+        this.randomInteger(76 + this.holes[0].height, sy - y),
       ],
     });
 
@@ -298,10 +297,10 @@ class GameView extends eui.Component implements eui.UIComponent {
     let x = mask.width / 2;
     let y = mask.height / 2;
     let sx = this.game_scene.width;
-    let sy = this.game_scene.height;
+    let sy = this.game_scene.height - 76 - this.holes[0].height;
 
-    mask.x = this.randomInteger(0, sx - x);
-    mask.y = this.randomInteger(0, sy - y);
+    mask.x = this.randomInteger(10, sx - x);
+    mask.y = this.randomInteger(76 + this.holes[0].height, sy - y);
 
     // 返回 mask显示对象
     return mask;
@@ -442,6 +441,8 @@ class GameView extends eui.Component implements eui.UIComponent {
     player.addEventListener(
       PostEvent.GAME_OVER,
       () => {
+        // 取消监听
+        this.player.watchX.unwatch();
         // 游戏结束
         this.gameOver();
       },
@@ -464,11 +465,11 @@ class GameView extends eui.Component implements eui.UIComponent {
       },
       this
     );
-    // 侦听是否吃完了口罩
+    // 侦听是否吃完了口罩 而且 batman 也吃完了
     player.addEventListener(
       PostEvent.INCREMENT_MASKS,
       (e) => {
-        this.productMask();
+          this.productMask();
       },
       this
     );
@@ -518,9 +519,15 @@ class GameView extends eui.Component implements eui.UIComponent {
     // 关闭掉声音
     LoadBGM.getInstance().stopBGM();
     // 更新积分
-    window.platform.addJifen(parseInt(this.score.text)).then((res) => {
-      console.log(res);
-    });
+    try {
+      if (window.playerInfo && window.playerInfo.openid) {
+        window.platform.addJifen(parseInt(this.score.text)).then((res) => {
+          console.log(res);
+        });
+      }
+    } catch (error) {
+      console.log("添加积分失败!");
+    }
     // 让 main 打开游戏结束界面
     let p = new PostEvent(
       PostEvent.GAME_OVER,

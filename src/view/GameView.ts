@@ -159,8 +159,23 @@ class GameView extends eui.Component implements eui.UIComponent {
       }
       this.addChild(item);
       this.holes[index] = item;
-    }
+
+      // 绑定到物理世界
+    //   let holeShape = new p2.Circle({
+    //     radius: (item.width * item.scaleX) / 2,
+    //   });
+    // let holeBody = new p2.Body({
+    //   type: p2.Body.STATIC,
+    //   position: [
+    //     item.x,
+    //     item.y,
+    //   ],
+    // });
+    // holeBody.displays = [item];
+    // holeBody.addShape(holeShape);
+    // this.world.addBody(holeBody);
   }
+}
 
   // 物理世界
   private world: p2.World = null;
@@ -168,265 +183,277 @@ class GameView extends eui.Component implements eui.UIComponent {
 
   private playerTouch: boolean = false;
 
-  // 防抖,限定时间内只调一次，重复触发将重新计算
-  debounce(callback, delay = 300) {
-    var t = null
-    return function () {
-      clearTimeout(t)
-      t = window.setTimeout(callback, delay)
+// 防抖,限定时间内只调一次，重复触发将重新计算
+debounce(callback, delay = 300) {
+  var t = null
+  return function () {
+    clearTimeout(t)
+    t = window.setTimeout(callback, delay)
+  }
+}
+throttle(callback, duration = 500) {
+  var lastTime = new Date().getTime()
+  return function () {
+    var now = new Date().getTime()
+    if (now - lastTime > duration) {
+      callback();
+      lastTime = now;
     }
   }
-  throttle(callback, duration = 500) {
-    var lastTime = new Date().getTime()
-    return function () {
-      var now = new Date().getTime()
-      if (now - lastTime > duration) {
-        callback();
-        lastTime = now;
-      }
-    }
-  }
+}
   // private preTime: number;
   // 屏幕刷新函数
   private onUpdate() {
-    // let pass = egret.getTimer() - this.preTime;
-    // 执行的时间间隔 单位秒
-    this.world.step(1);
+  // let pass = egret.getTimer() - this.preTime;
+  // 执行的时间间隔 单位秒
+  this.world.step(1);
 
-    // 遍历每个刚体
-    this.world.bodies.forEach((body) => {
-      // 如果不为null，则更新素材的坐标和角度
-      if (body.displays) {
-        // 位置
-        body.displays[0].x = body.position[0];
-        body.displays[0].y = body.position[1];
-        // 角度
-        // body.displays[0].rotation = body.angle * 180 / Math.PI;
-      }
-    });
-
-    // this.preTime = egret.getTimer();
-
-    // p2 测试
-    if (this.isEnableP2Debug) {
-      this.p2debug.drawDebug();
+  // 遍历每个刚体
+  this.world.bodies.forEach((body) => {
+    // 如果不为null，则更新素材的坐标和角度
+    if (body.displays) {
+      // 位置
+      body.displays[0].x = body.position[0];
+      body.displays[0].y = body.position[1];
+      // 角度
+      // body.displays[0].rotation = body.angle * 180 / Math.PI;
     }
+  });
+
+  // this.preTime = egret.getTimer();
+
+  // p2 测试
+  if (this.isEnableP2Debug) {
+    this.p2debug.drawDebug();
   }
+}
 
   // 制造一个batman
   private makeBatman() {
-    let batman: egret.Bitmap = new egret.Bitmap(RES.getRes("batman_png"));
-    batman.width = batman.width / 3;
-    batman.height = batman.height / 3;
-    batman.anchorOffsetX = batman.width / 2;
-    batman.anchorOffsetY = batman.height / 2;
-    return batman;
-  }
+  let batman: egret.Bitmap = new egret.Bitmap(RES.getRes("batman_png"));
+  batman.width = batman.width / 3;
+  batman.height = batman.height / 3;
+  batman.anchorOffsetX = batman.width / 2;
+  batman.anchorOffsetY = batman.height / 2;
+  return batman;
+}
   // 为batman附加物理计算
   private appendToBatman(): [p2.Body, egret.Bitmap] {
-    // 产生一个新的batman
-    let batman = this.makeBatman();
+  // 产生一个新的batman
+  let batman = this.makeBatman();
 
-    // 用于随机产生计算位置
-    let x = batman.width / 2;
-    let y = batman.height / 2;
-    let sx = this.game_scene.width - x;
-    let sy = this.game_scene.height - y;
+  // 用于随机产生计算位置
+  let x = batman.width / 2;
+  let y = batman.height / 2;
+  let sx = this.game_scene.width - x;
+  let sy = this.game_scene.height - y;
 
-    let batmanShape = new p2.Circle({
-      radius: x,
-    });
+  let batmanShape = new p2.Circle({
+    radius: x,
+  });
 
-    let rigidBody = new p2.Body({
-      mass: 1,
-      position: [
-        Math.floor(Math.random() * (-x + sx - x + 1) + x),
-        Math.floor(Math.random() * (-y + sy - y + 1) + y),
-      ],
-    });
+  let rigidBody = new p2.Body({
+    mass: 1,
+    position: [
+      Math.floor(Math.random() * (-x + sx - x + 1) + x),
+      Math.floor(Math.random() * (-y + sy - y + 1) + y),
+    ],
+  });
 
-    rigidBody.addShape(batmanShape);
-    rigidBody.displays = [batman];
+  rigidBody.addShape(batmanShape);
+  rigidBody.displays = [batman];
 
-    // 返回 batman刚体 和  batman显示对象
-    return [rigidBody, batman];
-  }
+  // 返回 batman刚体 和  batman显示对象
+  return [rigidBody, batman];
+}
 
   // 保存全部batman显示对象
   private batmans: egret.Bitmap[] = [];
   private batmanBodys: p2.Body[] = [];
   // 按指定数量产生batman
   public productBatman(nums: number) {
-    for (let index = 0; index < nums; index++) {
-      let batman = this.appendToBatman();
-      // 向物理世界添加本次batman刚体
-      this.world.addBody(batman[0]);
-      this.batmanBodys.push(batman[0]);
-      // 添加batman
-      this.batmans.push(batman[1]);
-      this.addChild(batman[1]);
-    }
+  for (let index = 0; index < nums; index++) {
+    let batman = this.appendToBatman();
+    // 向物理世界添加本次batman刚体
+    this.world.addBody(batman[0]);
+    this.batmanBodys.push(batman[0]);
+    // 添加batman
+    this.batmans.push(batman[1]);
+    this.addChild(batman[1]);
   }
+}
 
   private addWall(x: number, y: number) {
-    let lwall: egret.Bitmap = new egret.Bitmap();
-    lwall.texture = RES.getRes("wall2_png");
-    lwall.anchorOffsetX = lwall.width / 2;
-    lwall.anchorOffsetY = lwall.height / 2;
-    // // 图片加到页面
-    this.addChild(lwall);
+  let lwall: egret.Bitmap = new egret.Bitmap();
+  lwall.texture = RES.getRes("wall2_png");
+  lwall.anchorOffsetX = lwall.width / 2;
+  lwall.anchorOffsetY = lwall.height / 2;
+  // // 图片加到页面
+  this.addChild(lwall);
 
-    let wallShape = new p2.Box({
-      width: lwall.width,
-      height: lwall.height,
-    });
-    let wallBody = new p2.Body({
-      type: p2.Body.STATIC,
-      position: [x, y],
-    });
-    wallBody.addShape(wallShape);
-    wallBody.displays = [lwall];
-    this.world.addBody(wallBody);
-  }
+  let wallShape = new p2.Box({
+    width: lwall.width,
+    height: lwall.height,
+  });
+  let wallBody = new p2.Body({
+    type: p2.Body.STATIC,
+    position: [x, y],
+  });
+  wallBody.addShape(wallShape);
+  wallBody.displays = [lwall];
+  this.world.addBody(wallBody);
+}
 
   // 四面墙壁
   private add4Wall() {
-    // 下
-    let planeShape: p2.Plane = new p2.Plane();
-    let planeBody: p2.Body = new p2.Body({
-      type: p2.Body.STATIC,
-      position: [0, this.stage.stageHeight],
-    });
+  // 下
+  let planeShape: p2.Plane = new p2.Plane();
+  let planeBody: p2.Body = new p2.Body({
+    type: p2.Body.STATIC,
+    position: [0, this.stage.stageHeight],
+  });
 
-    planeBody.angle = Math.PI;
-    // planeBody.displays = [];
-    planeBody.addShape(planeShape);
-    this.world.addBody(planeBody);
+  planeBody.angle = Math.PI;
+  // planeBody.displays = [];
+  planeBody.addShape(planeShape);
+  this.world.addBody(planeBody);
 
-    // 墙面 - 左
-    let planeShapel: p2.Plane = new p2.Plane();
-    let planeBodyl: p2.Body = new p2.Body({
-      type: p2.Body.STATIC,
-      position: [0, 0],
-    });
-    planeBodyl.angle = -Math.PI / 2;
-    planeBodyl.addShape(planeShapel);
-    this.world.addBody(planeBodyl);
+  // 墙面 - 左
+  let planeShapel: p2.Plane = new p2.Plane();
+  let planeBodyl: p2.Body = new p2.Body({
+    type: p2.Body.STATIC,
+    position: [0, 0],
+  });
+  planeBodyl.angle = -Math.PI / 2;
+  planeBodyl.addShape(planeShapel);
+  this.world.addBody(planeBodyl);
 
-    // 墙面 - 右
-    let planeShaper: p2.Plane = new p2.Plane();
-    let planeBodyr: p2.Body = new p2.Body({
-      type: p2.Body.STATIC,
-      position: [this.stage.stageWidth, 0],
-    });
-    planeBodyr.angle = Math.PI / 2;
-    planeBodyr.addShape(planeShaper);
-    this.world.addBody(planeBodyr);
+  // 墙面 - 右
+  let planeShaper: p2.Plane = new p2.Plane();
+  let planeBodyr: p2.Body = new p2.Body({
+    type: p2.Body.STATIC,
+    position: [this.stage.stageWidth, 0],
+  });
+  planeBodyr.angle = Math.PI / 2;
+  planeBodyr.addShape(planeShaper);
+  this.world.addBody(planeBodyr);
 
-    // 墙面 - 上
-    let planeShapet: p2.Plane = new p2.Plane();
-    let planeBodyt: p2.Body = new p2.Body({
-      type: p2.Body.STATIC,
-      position: [0, 63],
-    });
-    planeBodyt.addShape(planeShapet);
-    this.world.addBody(planeBodyt);
-  }
+  // 墙面 - 上
+  let planeShapet: p2.Plane = new p2.Plane();
+  let planeBodyt: p2.Body = new p2.Body({
+    type: p2.Body.STATIC,
+    position: [0, 63],
+  });
+  planeBodyt.addShape(planeShapet);
+  this.world.addBody(planeBodyt);
+}
   private player: Player;
   // 生成游戏猪
   private addPlayer(bg) {
-    let body = new p2.Body({
-      mass: 1,
-      position: [200, 200],
+  let body = new p2.Body({
+    mass: 1,
+    position: [200, 200],
+  });
+
+  let player = new Player(
+    bg,
+    body,
+    this.batmans,
+    this.holes,
+    this.batmanBodys,
+    this.world
+  );
+  // 侦听 通知游戏结束
+  player.addEventListener(
+    PostEvent.GAME_OVER,
+    () => {
+      // 游戏结束
+      this.gameOver();
+    },
+    this
+  );
+  // 侦听积分增加
+  player.addEventListener(
+    PostEvent.INCREMNT_SCORE,
+    (e) => {
+      // 游戏结束
+      this.score.text = e.score;
+    },
+    this
+  );
+  player.addEventListener(egret.Event.CHANGE, (e) => {
+    // 猪开始移动时，先检测是否处于黑洞，处于黑洞就吃掉
+    this.holes.forEach((h) => {
+      //   黑洞检测点
+      let rectH = new egret.Rectangle(h.x, h.y, h.width, h.height);
+      // 检测猪是否掉进黑洞
+      this.player.checkPig(rectH);
     });
+  }, this);
+  // 侦听是否吃完了batman
+  player.addEventListener(
+    PostEvent.INCREMENT_BATMANS,
+    (e) => {
+      this.productBatman(10);
+    },
+    this
+  );
+  this.player = player;
 
-    let player = new Player(
-      bg,
-      body,
-      this.batmans,
-      this.holes,
-      this.batmanBodys,
-      this.world
-    );
-    // 侦听 通知游戏结束
-    player.addEventListener(
-      PostEvent.GAME_OVER,
-      () => {
-        // 游戏结束
-        this.gameOver();
-      },
-      this
-    );
-    // 侦听积分增加
-    player.addEventListener(
-      PostEvent.INCREMNT_SCORE,
-      (e) => {
-        // 游戏结束
-        this.score.text = e.score;
-      },
-      this
-    );
-    // 侦听是否吃完了batman
-    player.addEventListener(
-      PostEvent.INCREMENT_BATMANS,
-      (e) => {
-        this.productBatman(10);
-      },
-      this
-    );
-    this.player = player;
+  this.addChild(player);
 
-    this.addChild(player);
+  let shape = new p2.Circle({
+    radius: (player.pig.width * player.pig.scaleX) / 2,
+  });
 
-    let shape = new p2.Circle({
-      radius: (player.pig.width * player.pig.scaleX) / 2,
-    });
-
-    body.addShape(shape);
-    body.displays = [player];
-    this.world.addBody(body);
-  }
+  body.addShape(shape);
+  body.displays = [player];
+  this.world.addBody(body);
+}
 
   protected partAdded(partName: string, instance: any): void {
-    super.partAdded(partName, instance);
-  }
+  super.partAdded(partName, instance);
+}
 
   private nickname: eui.Label;
   private avatar: eui.Image;
   protected createChildren(): void {
-    super.createChildren();
-    // 名称
-    if (window && window.playerInfo) {
-      this.nickname.text = window.playerInfo.nickname;
-      this.avatar.source = window.playerInfo.headimgurl;
-    }
+  super.createChildren();
+  // 名称
+  if(window && window.playerInfo) {
+    this.nickname.text = window.playerInfo.nickname;
+    this.avatar.source = window.playerInfo.headimgurl;
+  }
     // 头像
     // 把音乐放起来
     let s = LoadBGM.getInstance();
-    if (s.prePlayStatus) {
-      s.playBGM();
-      s.setPlayStatus(true);
-    }
-    this.is_trumpet.visible = s.getPlayStatus();
+  if(s.prePlayStatus) {
+    s.playBGM();
+    s.setPlayStatus(true);
   }
+    this.is_trumpet.visible = s.getPlayStatus();
+}
 
   protected childrenCreated(): void {
-    super.childrenCreated();
-    // 设置音乐播放状态
-  }
+  super.childrenCreated();
+  // 设置音乐播放状态
+}
 
   // 游戏结束
   public gameOver() {
-    // 关闭掉声音
-    LoadBGM.getInstance().stopBGM();
-
-    // 让 main 打开游戏结束界面
-    let p = new PostEvent(
-      PostEvent.GAME_OVER,
-      false,
-      false,
-      parseInt(this.score.text)
-    );
-    this.dispatchEvent(p);
-  }
+  // 关闭掉声音
+  LoadBGM.getInstance().stopBGM();
+  // 更新积分
+  window.platform.addJifen(parseInt(this.score.text)).then(res => {
+    console.log(res);
+  });
+  // 让 main 打开游戏结束界面
+  let p = new PostEvent(
+    PostEvent.GAME_OVER,
+    false,
+    false,
+    parseInt(this.score.text)
+  );
+  this.dispatchEvent(p);
+}
 }

@@ -168,6 +168,24 @@ class GameView extends eui.Component implements eui.UIComponent {
 
   private playerTouch: boolean = false;
 
+  // 防抖,限定时间内只调一次，重复触发将重新计算
+  debounce(callback, delay = 300) {
+    var t = null
+    return function () {
+      clearTimeout(t)
+      t = window.setTimeout(callback, delay)
+    }
+  }
+  throttle(callback, duration = 500) {
+    var lastTime = new Date().getTime()
+    return function () {
+      var now = new Date().getTime()
+      if (now - lastTime > duration) {
+        callback();
+        lastTime = now;
+      }
+    }
+  }
   // private preTime: number;
   // 屏幕刷新函数
   private onUpdate() {

@@ -81,6 +81,13 @@ class Player extends egret.Sprite {
         this.disk.visible = true;
         this.arrow.visible = true;
         this.moving = true;
+        // 猪开始移动时，先检测是否处于黑洞，处于黑洞就吃掉
+        this.holes.forEach((h) => {
+          //   黑洞检测点
+          let rectH = new egret.Rectangle(h.x, h.y, h.width, h.height);
+          // 检测猪是否掉进黑洞
+          this.checkPig(rectH);
+        });
       },
       this
     );
@@ -98,7 +105,6 @@ class Player extends egret.Sprite {
       egret.TouchEvent.TOUCH_MOVE,
       (e) => {
         if (this.moving) {
-          console.log(e);
           let handPoint = new egret.Point(e.stageX, e.stageY);
           let pigPoint = this.localToGlobal(this.pig.x, this.pig.y);
 
@@ -168,23 +174,30 @@ class Player extends egret.Sprite {
           this.incrementScore(10);
         }
       });
-      // 检测pig
-      const pigRect = new egret.Rectangle(
-        this.body.position[0],
-        this.body.position[1],
-        this.pig.width,
-        this.pig.height
-      );
-      if (rectH.intersects(pigRect)) {
-        // 吃掉pig
-        egret.Tween.get(this.pig).to({ alpha: 0 }, 200);
-        // 通知GameView游戏结束了
-        this.dispatchEvent(new PostEvent(PostEvent.GAME_OVER));
-      }
+      // 检测猪是否掉进黑洞
+      this.checkPig(rectH);
     });
     // 最后看是否吃完了batman，再给制造一些
     if (this.batmans.length === 0) {
       this.dispatchEvent(new PostEvent(PostEvent.INCREMENT_BATMANS));
+    }
+  }
+  /**
+   * 检测猪是否与一个黑洞碰撞
+   */
+  public checkPig(hole: egret.Rectangle) {
+    // 检测pig
+    const pigRect = new egret.Rectangle(
+      this.body.position[0],
+      this.body.position[1],
+      this.pig.width,
+      this.pig.height
+    );
+    if (hole.intersects(pigRect)) {
+      // 吃掉pig
+      egret.Tween.get(this.pig).to({ alpha: 0 }, 200);
+      // 通知GameView游戏结束了
+      this.dispatchEvent(new PostEvent(PostEvent.GAME_OVER));
     }
   }
   /**

@@ -267,7 +267,7 @@ class GameView extends eui.Component implements eui.UIComponent {
     // 用于随机产生计算位置
     let x = batman.width / 2;
     let y = batman.height / 2;
-    let sx = this.game_scene.width;
+    let sx = this.game_scene.width - x;
     let sy = this.game_scene.height - 76;
 
     let batmanShape = new p2.Circle({
@@ -277,7 +277,7 @@ class GameView extends eui.Component implements eui.UIComponent {
     let rigidBody = new p2.Body({
       mass: 1,
       position: [
-        this.randomInteger(10, sx - x),
+        this.randomInteger(x, sx - x),
         this.randomInteger(76 + this.holes[0].height, sy - y),
       ],
     });
@@ -296,18 +296,18 @@ class GameView extends eui.Component implements eui.UIComponent {
     // 用于随机产生计算位置
     let x = mask.width / 2;
     let y = mask.height / 2;
-    let sx = this.game_scene.width;
+    let sx = this.game_scene.width - 20;
     let sy = this.game_scene.height - 76 - this.holes[0].height;
 
-    mask.x = this.randomInteger(10, sx - x);
-    mask.y = this.randomInteger(76 + this.holes[0].height, sy - y);
+    mask.x = this.randomInteger(x, sx - x);
+    mask.y = this.randomInteger(y + 76 + this.holes[0].height, sy - y);
 
     // 返回 mask显示对象
     return mask;
   }
 
-  // batman初始生成数量，最小1 最多 20个
-  public batmanCount: number = 1;
+  // batman初始生成数量，最小3 最多 20个
+  public batmanCount: number = 3;
   // 保存全部batman显示对象
   private batmans: egret.Bitmap[] = [];
   private batmanBodys: p2.Body[] = [];

@@ -3,7 +3,7 @@ class GameView extends eui.Component implements eui.UIComponent {
   // 玩家生成区域
   public player_area: eui.Group;
   // 喇叭组
-  private trumpet_check: eui.Group;
+  private trumpet_check: eui.Button;
   // 喇叭声音图标
   private is_trumpet: eui.Image;
   public constructor() {
@@ -35,6 +35,12 @@ class GameView extends eui.Component implements eui.UIComponent {
       this.trumpetCheck,
       this
     );
+
+    this.trumpet_check.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
+      TouchEvents.onEvent(this.trumpet_check)
+      egret.Tween.get(this.trumpet_check).to({ scaleX: 0.9, scaleY: 0.9 }, 150)
+    }, this)
+
   }
 
   // 喇叭声音切换
@@ -184,26 +190,6 @@ class GameView extends eui.Component implements eui.UIComponent {
   private world: p2.World = null;
   private p2debug: p2DebugDraw = null;
 
-  private playerTouch: boolean = false;
-
-  // 防抖,限定时间内只调一次，重复触发将重新计算
-  debounce(callback, delay = 300) {
-    var t = null;
-    return function () {
-      clearTimeout(t);
-      t = window.setTimeout(callback, delay);
-    };
-  }
-  throttle(callback, duration = 500) {
-    var lastTime = new Date().getTime();
-    return function () {
-      var now = new Date().getTime();
-      if (now - lastTime > duration) {
-        callback();
-        lastTime = now;
-      }
-    };
-  }
   // private preTime: number;
   // 屏幕刷新函数
   private onUpdate() {

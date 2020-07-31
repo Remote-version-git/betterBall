@@ -11,7 +11,7 @@ class StartGameView extends eui.Component implements eui.UIComponent {
   // 排行榜
   private ranking_button: eui.Button;
   // 喇叭
-  private trumpet_check: eui.Group;
+  private trumpet_check: eui.Button;
   // 喇叭声音图标
   private is_trumpet: eui.Image;
   // 朱望仔图片
@@ -35,10 +35,26 @@ class StartGameView extends eui.Component implements eui.UIComponent {
       this
     );
 
-    // 当用户第一次触摸启用触摸的设备时触发
-    this.start_button.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.startBtnBegin, this)
-    // 当用户在触摸设备上与开始触摸的不同 DisplayObject 实例上抬起接触点时
-    this.start_button.addEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE, this.startBtnReleaseOutside, this)
+    // 按钮 触摸动画
+    this.start_button.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
+      TouchEvents.onEvent(this.start_button)
+      egret.Tween.get(this.start_button).to({ scaleX: 0.95, scaleY: 0.95 }, 150)
+    }, this)
+
+    this.rules_button.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
+      TouchEvents.onEvent(this.rules_button)
+      egret.Tween.get(this.rules_button).to({ scaleX: 0.95, scaleY: 0.95 }, 150)
+    }, this)
+
+    this.trumpet_check.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
+      TouchEvents.onEvent(this.trumpet_check)
+      egret.Tween.get(this.trumpet_check).to({ scaleX: 0.9, scaleY: 0.9 }, 150)
+    }, this)
+
+    this.ranking_button.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
+      TouchEvents.onEvent(this.ranking_button)
+      egret.Tween.get(this.ranking_button).to({ scaleX: 0.95, scaleY: 0.95 }, 150)
+    }, this)
 
     // 侦听排行榜按钮的触摸点击事件
     this.ranking_button.addEventListener(
@@ -53,16 +69,6 @@ class StartGameView extends eui.Component implements eui.UIComponent {
       this.trumpetCheck,
       this
     );
-  }
-
-  private startBtnBegin() {
-    console.log('startBtnBegin');
-    egret.Tween.get(this.start_button).to({ scaleX: 0.95, scaleY: 0.95 }, 150)
-  }
-
-  private startBtnReleaseOutside() {
-    console.log('startBtnReleaseOutside');
-    egret.Tween.get(this.start_button).to({ scaleX: 1, scaleY: 1 }, 150)
   }
 
   private startButton() {
@@ -101,8 +107,8 @@ class StartGameView extends eui.Component implements eui.UIComponent {
   protected createChildren(): void {
     super.createChildren();
 
-    this.start_button.anchorOffsetX = this.start_button.width / 2;
-    this.start_button.anchorOffsetY = this.start_button.height / 2;
+    // this.start_button.anchorOffsetX = this.start_button.width / 2;
+    // this.start_button.anchorOffsetY = this.start_button.height / 2;
   }
 
   // 创建元素之后，被回调执行,紧接 onComplete 之后

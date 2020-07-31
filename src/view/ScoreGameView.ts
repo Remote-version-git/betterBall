@@ -16,9 +16,24 @@ class ScoreGameView extends eui.Component implements eui.UIComponent {
   }
 
   private onComplete() {
+    // 侦听再玩一次的触摸点击事件
     this.restart_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.restartGame, this);
+    this.restart_button.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
+      TouchEvents.onEvent(this.restart_button)
+      egret.Tween.get(this.restart_button).to({ scaleX: 0.95, scaleY: 0.95 }, 150)
+    }, this)
+    // 侦听查看排行榜的触摸点击事件
     this.showRankingList.addEventListener(egret.TouchEvent.TOUCH_TAP, this.RankingButton, this);
+    this.showRankingList.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
+      TouchEvents.onEvent(this.showRankingList)
+      egret.Tween.get(this.showRankingList).to({ scaleX: 0.95, scaleY: 0.95 }, 150)
+    }, this)
+    // 侦听生成成绩单的触摸点击事件
     this.report_card_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.reportCardButton, this);
+    this.report_card_btn.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
+      TouchEvents.onEvent(this.report_card_btn)
+      egret.Tween.get(this.report_card_btn).to({ scaleX: 0.95, scaleY: 0.95 }, 150)
+    }, this)
   }
 
   protected partAdded(partName: string, instance: any): void {

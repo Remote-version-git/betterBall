@@ -14,11 +14,17 @@ class ReportCard extends eui.Component implements eui.UIComponent {
   }
 
   private onComplete() {
+    // 返回按钮
     this.go_back.addEventListener(
       egret.TouchEvent.TOUCH_TAP,
       this.goBack,
       this
     );
+
+    this.go_back.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
+      TouchEvents.onEvent(this.go_back)
+      egret.Tween.get(this.go_back).to({ scaleX: 0.95, scaleY: 0.95 }, 150)
+    }, this)
   }
 
   private goBack() {

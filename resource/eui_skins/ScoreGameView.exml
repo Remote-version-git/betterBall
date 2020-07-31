@@ -11,8 +11,8 @@
 		<e:Label text="本局得分" x="0" y="505" width="100%" height="54" verticalAlign="middle" textAlign="center"
 		          textColor="0x794af6" fontFamily="Microsoft YaHei"/>
 		<e:Group height="400" y="600" width="200" horizontalCenter="1">
-			<e:Group width="180" height="60" scaleX="1" scaleY="1" top="0" horizontalCenter="0">
-				<e:Button id="showRankingList" label="查看排行榜" width="100%" height="100%" scaleX="1" scaleY="1" left="0" top="0">
+			<!--<e:Group width="180" height="60" scaleX="1" scaleY="1" top="0" horizontalCenter="0">-->
+				<e:Button id="showRankingList" label="查看排行榜" width="180" height="60" scaleX="1" scaleY="1" horizontalCenter="0" top="0" anchorOffsetX="90" anchorOffsetY="30">
 					<e:skinName>
 						<e:Skin states="up,down,disabled">
 							<e:Image width="100%" height="100%" source="blue_png" width.down="95%" height.down="95%" horizontalCenter="0" verticalCenter="0" />
@@ -20,11 +20,9 @@
 						</e:Skin>
 					</e:skinName>
 				</e:Button>
-				<!--<e:Label id="showRankingList" text="查看排行榜" scaleX="1" scaleY="1" left="0" top="0" width="100%" height="100%"
-				         verticalAlign="middle" textAlign="center" size="30"  textColor="0xffffff" fontFamily="Microsoft YaHei"/>-->
-			</e:Group>
-			<e:Group width="180" height="60" y="110" horizontalCenter="0">
-				<e:Button id="report_card_btn" label="生成成绩单" x="0" y="0" width="100%" height="100%">
+			<!--</e:Group>-->
+			<!--<e:Group width="180" height="60" y="110" horizontalCenter="0">-->
+				<e:Button id="report_card_btn" label="生成成绩单" y="140" width="180" height="60" horizontalCenter="0" anchorOffsetX="90" anchorOffsetY="30">
 					<e:skinName>
 						<e:Skin states="up,down,disabled">
 							<e:Image width="100%" height="100%" source="blue_png" width.down="95%" height.down="95%" horizontalCenter="0" verticalCenter="0" />
@@ -33,9 +31,9 @@
 					</e:skinName>
 				</e:Button>
 				<!--<e:Label id="report_card_btn" text="生成成绩单" x="0" y="0" width="100%" height="100%" verticalAlign="middle" textAlign="center"  textColor="0xffffff"/>-->
-			</e:Group>
-			<e:Group width="180" height="60" scaleX="1" scaleY="1" bottom="0" horizontalCenter="0">
-				<e:Button id="restart_button" label="再玩一次" width="100%" height="100%" scaleX="1" scaleY="1" touchEnabled="true" left="0" top="0">
+			<!--</e:Group>-->
+			<!--<e:Group width="180" height="60" scaleX="1" scaleY="1" bottom="0" horizontalCenter="0">-->
+				<e:Button id="restart_button" label="再玩一次" width="180" height="60" scaleX="1" scaleY="1" touchEnabled="true" horizontalCenter="0" bottom="0" anchorOffsetX="90" anchorOffsetY="30">
 					<e:skinName>
 						<e:Skin states="up,down,disabled">
 							<e:Image width="100%" height="100%" source="purple_png" width.down="95%" height.down="95%" horizontalCenter="0" verticalCenter="0" />
@@ -45,7 +43,7 @@
 				</e:Button>
 				<!--<e:Label id="restart_button" text="再玩一次" scaleX="1" scaleY="1" verticalAlign="middle" textAlign="center" left="0"
 				         top="0" width="100%" height="100%"  textColor="0xffffff"/>-->
-			</e:Group>
+			<!--</e:Group>-->
 		</e:Group>
 	</e:Group>
 </e:Skin>

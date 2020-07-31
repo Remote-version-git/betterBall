@@ -17,8 +17,8 @@
 				<e:Label text="成绩:" y="60" left="0" width="100%" verticalAlign="middle" textAlign="center" size="24" textColor="0xc8aef7"/>
 			</e:Group>
 			<e:Group width="280" height="100" x="130" y="40" anchorOffsetX="0">
-				<e:Label text="小麦" left="0" top="0" verticalAlign="middle" textAlign="left" width="100%" size="24" textColor="0xc8aef7"/>
-				<e:Label text="300" y="60" left="0" width="100%" verticalAlign="middle" textAlign="left" size="24" textColor="0xc8aef7"/>
+				<e:Label id="nickname" left="0" top="0" verticalAlign="middle" textAlign="left" width="100%" size="24" textColor="0xc8aef7" text="小麦"/>
+				<e:Label id="score" text="0" y="60" left="0" width="100%" verticalAlign="middle" textAlign="left" size="24" textColor="0xc8aef7"/>
 			</e:Group>
 		</e:Group>
 		<e:Group width="500" height="160" y="520" anchorOffsetX="0" horizontalCenter="0" anchorOffsetY="0">

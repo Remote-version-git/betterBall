@@ -44,7 +44,7 @@ class ScoreGameView extends eui.Component implements eui.UIComponent {
   private reportCardButton() {
     // 销毁自已的界面
     this.parent.removeChild(this);
-    this.dispatchEvent(new PostEvent(PostEvent.Report_Card))
+    this.dispatchEvent(new PostEvent(PostEvent.Report_Card, false, false, Number(this.score.text)));
   }
 
   private RankingButton() {

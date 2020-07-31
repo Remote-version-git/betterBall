@@ -64,6 +64,8 @@ class Player extends egret.Sprite {
     // 猪
     let pig: egret.Bitmap = new egret.Bitmap();
     pig.texture = RES.getRes("player_png");
+    pig.width = pig.width / 2;
+    pig.height = pig.height / 2;
     pig.anchorOffsetX = pig.width / 2;
     pig.anchorOffsetY = pig.height / 2;
     pig.scaleX = 0.6;
@@ -100,17 +102,23 @@ class Player extends egret.Sprite {
         if (this.moving) {
           let handPoint = new egret.Point(e.stageX, e.stageY);
           let pigPoint = this.localToGlobal(this.pig.x, this.pig.y);
+
+          // 获取角度
           let angle: number = Math.atan2(
             handPoint.y - pigPoint.y,
             handPoint.x - pigPoint.x
           );
-          let theta: number = angle * (180 / Math.PI);
-          this.arrow.rotation = theta;
 
-          // 箭头长短
+          // 箭头旋转
+          this.arrow.rotation = angle * (180 / Math.PI);
+
+          // 箭头长度
           let distance = egret.Point.distance(handPoint, pigPoint);
-          if (distance > 120) distance = 120;
-          this.arrow.scaleX = distance / 120;
+          if (distance > 75) distance = 75;
+          if (distance < 50) distance = 50;
+          // 对应到比例 0 ~ 1
+          this.arrow.scaleX = (distance / 100);
+          this.arrow.scaleY = (distance / 100);
         }
       },
       this
@@ -125,18 +133,6 @@ class Player extends egret.Sprite {
 
           let xpower = handPoint.x - pigPoint.x;
           let ypower = handPoint.y - pigPoint.y;
-
-          // if(xpower > 80) {
-          //     xpower = 80
-          // }
-
-          // let power = 80
-
-          // if(xpower > power) xpower = power
-          // if(xpower < -power) xpower = -power
-
-          // if(ypower > power) ypower = power
-          // if(ypower < -power) ypower = -power
 
           this.body.applyForce([xpower / 5, ypower / 5], [0, 0]);
 
@@ -155,7 +151,7 @@ class Player extends egret.Sprite {
   public checkHit() {
     this.holes.forEach((h) => {
       //   黑洞检测点
-      const rectH = new egret.Rectangle(h.x, h.y, h.width, h.height);
+      let rectH = h.getBounds(new egret.Rectangle(h.x, h.y, h.width, h.height));
       // 检测batman
       this.batmans.forEach((b, index) => {
         //   batman 检测点

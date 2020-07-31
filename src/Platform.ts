@@ -262,16 +262,14 @@ declare interface Platform {
 
   $.md5 = md5
   
-})(this)
-let playerInfo = {
-  openid: ''
-};
+})(window)
+
 class DebugPlatform implements Platform {
     async addJifen(score) {
         const key = "zxdqw";
         const timestamp = Date.now();
-        var sign = md5(`${key}openid${playerInfo.openid}score${score}${timestamp}`);
-        return this._request(`https://xwfintech.qingke.io/5f195b8dc01e13002c2d7341/openapi/pinball/add/measy?key=${key}&sign=${sign}&openid=${playerInfo.openid}&score=${score}&timestamp=${timestamp}`)
+        var sign = window.md5(`${key}openid${window.playerInfo.openid}score${score}${timestamp}`);
+        return this._request(`https://xwfintech.qingke.io/5f195b8dc01e13002c2d7341/openapi/pinball/add/measy?key=${key}&sign=${sign}&openid=${window.playerInfo.openid}&score=${score}&timestamp=${timestamp}`)
     }
     async getRank() {
         return this._request('https://xwfintech.qingke.io/_api/5f195b8dc01e13002c2d7341/openapi/pinball/list?pageSize=100')
@@ -305,6 +303,18 @@ declare let platform: Platform;
 declare interface Window {
 
     platform: Platform
+    playerInfo: {
+      openid: '',
+      country: '',
+      province: "",
+      city: "",
+      sex: "",
+      headimgurl: "",
+      language: "",
+      nickname: "",
+    }
+    unescape: Function,
+    md5: Function
 }
 
 

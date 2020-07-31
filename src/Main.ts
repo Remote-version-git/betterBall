@@ -89,31 +89,62 @@ class Main extends eui.UILayer {
   private showGameOver(e: PostEvent) {
     const scoreGameView = new ScoreGameView();
     // 初始化分数
-    scoreGameView.addEventListener(eui.UIEvent.COMPLETE, () => {
-      if (e.score) {
-        scoreGameView.score.text = String(e.score);
-      } else {
-        scoreGameView.score.text = '0';
-      }
-    }, this);
-    scoreGameView.addEventListener(PostEvent.RESTART_GAME, this.showGameView, this)
+    scoreGameView.addEventListener(
+      eui.UIEvent.COMPLETE,
+      () => {
+        if (e.score) {
+          scoreGameView.score.text = String(e.score);
+        } else {
+          scoreGameView.score.text = "0";
+        }
+      },
+      this
+    );
+    scoreGameView.addEventListener(
+      PostEvent.RESTART_GAME,
+      this.showGameView,
+      this
+    );
     this.addChild(scoreGameView);
 
-    scoreGameView.addEventListener(PostEvent.Ranking_List, this.showRankingList, this);
-    scoreGameView.addEventListener(PostEvent.Report_Card, this.reportCard, this);
+    scoreGameView.addEventListener(
+      PostEvent.Ranking_List,
+      this.showRankingList,
+      this
+    );
+    scoreGameView.addEventListener(
+      PostEvent.Report_Card,
+      this.reportCard,
+      this
+    );
   }
 
   // 排行榜
   private showRankingList() {
     let rankingListView = new RankingListView();
-    this.addChild(rankingListView)
+    this.addChild(rankingListView);
   }
 
   // 成绩单
-  private reportCard() {
+  private reportCard(e) {
     let rankingCardView = new ReportCard();
-    this.addChild(rankingCardView)
-    rankingCardView.addEventListener(PostEvent.GAME_OVER, this.showGameOver, this);
-    
+    // 初始化分数
+    rankingCardView.addEventListener(
+      eui.UIEvent.COMPLETE,
+      () => {
+        if (e.score) {
+          rankingCardView.score.text = String(e.score);
+        } else {
+          rankingCardView.score.text = "0";
+        }
+      },
+      this
+    );
+    this.addChild(rankingCardView);
+    rankingCardView.addEventListener(
+      PostEvent.GAME_OVER,
+      this.showGameOver,
+      this
+    );
   }
 }

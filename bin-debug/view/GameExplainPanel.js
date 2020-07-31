@@ -35,3 +35,4 @@ var GameExplainPanel = (function (_super) {
     return GameExplainPanel;
 }(eui.Component));
 __reflect(GameExplainPanel.prototype, "GameExplainPanel", ["eui.UIComponent", "egret.DisplayObject"]);
+//# sourceMappingURL=GameExplainPanel.js.map

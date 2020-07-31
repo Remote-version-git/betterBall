@@ -22,14 +22,21 @@ var ReportCard = (function (_super) {
     ReportCard.prototype.goBack = function () {
         // 销毁自己的界面
         this.parent.removeChild(this);
-        this.dispatchEvent(new PostEvent(PostEvent.GAME_OVER));
+        this.dispatchEvent(new PostEvent(PostEvent.GAME_OVER, false, false, Number(this.score.text)));
     };
     ReportCard.prototype.partAdded = function (partName, instance) {
         _super.prototype.partAdded.call(this, partName, instance);
     };
     ReportCard.prototype.childrenCreated = function () {
         _super.prototype.childrenCreated.call(this);
+        if (window && window.playerInfo && window.playerInfo.nickname) {
+            this.nickname.text = window.playerInfo.nickname;
+        }
+        else {
+            this.nickname.text = "获取名称失败";
+        }
     };
     return ReportCard;
 }(eui.Component));
 __reflect(ReportCard.prototype, "ReportCard", ["eui.UIComponent", "egret.DisplayObject"]);
+//# sourceMappingURL=ReportCard.js.map

@@ -17,11 +17,6 @@ var ScoreGameView = (function (_super) {
         return _this;
     }
     ScoreGameView.prototype.onComplete = function () {
-<<<<<<< HEAD
-        var s = RES.getRes("bgm_mp3");
-        s.play();
-=======
->>>>>>> e6e95d7fea7943443466b30081b72a813d2298e1
         this.restart_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.restartGame, this);
         this.showRankingList.addEventListener(egret.TouchEvent.TOUCH_TAP, this.RankingButton, this);
         this.report_card_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.reportCardButton, this);
@@ -45,7 +40,7 @@ var ScoreGameView = (function (_super) {
     ScoreGameView.prototype.reportCardButton = function () {
         // 销毁自已的界面
         this.parent.removeChild(this);
-        this.dispatchEvent(new PostEvent(PostEvent.Report_Card));
+        this.dispatchEvent(new PostEvent(PostEvent.Report_Card, false, false, Number(this.score.text)));
     };
     ScoreGameView.prototype.RankingButton = function () {
         this.dispatchEvent(new PostEvent(PostEvent.Ranking_List));
@@ -61,3 +56,4 @@ var ScoreGameView = (function (_super) {
     return ScoreGameView;
 }(eui.Component));
 __reflect(ScoreGameView.prototype, "ScoreGameView", ["eui.UIComponent", "egret.DisplayObject"]);
+//# sourceMappingURL=ScoreGameView.js.map

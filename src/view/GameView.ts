@@ -133,7 +133,7 @@ class GameView extends eui.Component implements eui.UIComponent {
     for (let index = 0; index < this.holes.length; index++) {
       let item = this.hole();
       const w = item.width / 2;
-      const h = item.height / 2;
+      let h = item.height / 2;
       const sw = this.game_scene.width;
       const sh = this.game_scene.height;
       // 计算包含锚点
@@ -160,6 +160,10 @@ class GameView extends eui.Component implements eui.UIComponent {
       this.game_scene.addChild(item);
       this.holes[index] = item;
     }
+    console.log(this.holes[0].x, this.holes[0].y);
+    console.log(this.holes[1].x, this.holes[1].y);
+    console.log(this.holes[2].x, this.holes[2].y);
+    console.log(this.holes[3].x, this.holes[3].y);
   }
 
   // 物理世界
@@ -198,8 +202,8 @@ class GameView extends eui.Component implements eui.UIComponent {
   // 制造一个batman
   private makeBatman() {
     let batman: egret.Bitmap = new egret.Bitmap(RES.getRes("batman_png"));
-    batman.width = batman.width / 2;
-    batman.height = batman.height / 2;
+    batman.width = batman.width / 3;
+    batman.height = batman.height / 3;
     batman.anchorOffsetX = batman.width / 2;
     batman.anchorOffsetY = batman.height / 2;
     return batman;
@@ -309,7 +313,7 @@ class GameView extends eui.Component implements eui.UIComponent {
     let planeShapet: p2.Plane = new p2.Plane();
     let planeBodyt: p2.Body = new p2.Body({
       type: p2.Body.STATIC,
-      position: [0, 0],
+      position: [0, 63],
     });
     planeBodyt.addShape(planeShapet);
     this.world.addBody(planeBodyt);
@@ -373,8 +377,16 @@ class GameView extends eui.Component implements eui.UIComponent {
     super.partAdded(partName, instance);
   }
 
+  private nickname: eui.Label;
+  private avatar: eui.Image;
   protected createChildren(): void {
     super.createChildren();
+    // 名称
+    if (window && window.playerInfo) {
+      this.nickname.text = window.playerInfo.nickname;
+      this.avatar.source = window.playerInfo.headimgurl;
+    }
+    // 头像
     // 把音乐放起来
     let s = LoadBGM.getInstance();
     if (s.prePlayStatus) {

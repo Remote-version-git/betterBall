@@ -147,7 +147,7 @@ var Main = (function (_super) {
                 scoreGameView.score.text = String(e.score);
             }
             else {
-                scoreGameView.score.text = '0';
+                scoreGameView.score.text = "0";
             }
         }, this);
         scoreGameView.addEventListener(PostEvent.RESTART_GAME, this.showGameView, this);
@@ -161,11 +161,21 @@ var Main = (function (_super) {
         this.addChild(rankingListView);
     };
     // 成绩单
-    Main.prototype.reportCard = function () {
+    Main.prototype.reportCard = function (e) {
         var rankingCardView = new ReportCard();
+        // 初始化分数
+        rankingCardView.addEventListener(eui.UIEvent.COMPLETE, function () {
+            if (e.score) {
+                rankingCardView.score.text = String(e.score);
+            }
+            else {
+                rankingCardView.score.text = "0";
+            }
+        }, this);
         this.addChild(rankingCardView);
         rankingCardView.addEventListener(PostEvent.GAME_OVER, this.showGameOver, this);
     };
     return Main;
 }(eui.UILayer));
 __reflect(Main.prototype, "Main");
+//# sourceMappingURL=Main.js.map

@@ -57,3 +57,4 @@ var LoadBGM = (function () {
     return LoadBGM;
 }());
 __reflect(LoadBGM.prototype, "LoadBGM");
+//# sourceMappingURL=LoadBGM.js.map

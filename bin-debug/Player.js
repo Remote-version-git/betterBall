@@ -59,6 +59,8 @@ var Player = (function (_super) {
         // 猪
         var pig = new egret.Bitmap();
         pig.texture = RES.getRes("player_png");
+        pig.width = pig.width / 2;
+        pig.height = pig.height / 2;
         pig.anchorOffsetX = pig.width / 2;
         pig.anchorOffsetY = pig.height / 2;
         pig.scaleX = 0.6;
@@ -84,14 +86,19 @@ var Player = (function (_super) {
             if (_this.moving) {
                 var handPoint = new egret.Point(e.stageX, e.stageY);
                 var pigPoint = _this.localToGlobal(_this.pig.x, _this.pig.y);
+                // 获取角度
                 var angle = Math.atan2(handPoint.y - pigPoint.y, handPoint.x - pigPoint.x);
-                var theta = angle * (180 / Math.PI);
-                _this.arrow.rotation = theta;
-                // 箭头长短
+                // 箭头旋转
+                _this.arrow.rotation = angle * (180 / Math.PI);
+                // 箭头长度
                 var distance = egret.Point.distance(handPoint, pigPoint);
-                if (distance > 120)
-                    distance = 120;
-                _this.arrow.scaleX = distance / 120;
+                if (distance > 75)
+                    distance = 75;
+                if (distance < 50)
+                    distance = 50;
+                // 对应到比例 0 ~ 1
+                _this.arrow.scaleX = (distance / 100);
+                _this.arrow.scaleY = (distance / 100);
             }
         }, this);
         this.bg.addEventListener(egret.TouchEvent.TOUCH_END, function (e) {
@@ -100,14 +107,6 @@ var Player = (function (_super) {
                 var pigPoint = _this.localToGlobal(_this.pig.x, _this.pig.y);
                 var xpower = handPoint.x - pigPoint.x;
                 var ypower = handPoint.y - pigPoint.y;
-                // if(xpower > 80) {
-                //     xpower = 80
-                // }
-                // let power = 80
-                // if(xpower > power) xpower = power
-                // if(xpower < -power) xpower = -power
-                // if(ypower > power) ypower = power
-                // if(ypower < -power) ypower = -power
                 _this.body.applyForce([xpower / 5, ypower / 5], [0, 0]);
                 _this.disk.visible = false;
                 _this.arrow.visible = false;
@@ -120,7 +119,7 @@ var Player = (function (_super) {
         var _this = this;
         this.holes.forEach(function (h) {
             //   黑洞检测点
-            var rectH = new egret.Rectangle(h.x, h.y, h.width, h.height);
+            var rectH = h.getBounds(new egret.Rectangle(h.x, h.y, h.width, h.height));
             // 检测batman
             _this.batmans.forEach(function (b, index) {
                 //   batman 检测点
@@ -163,3 +162,4 @@ var Player = (function (_super) {
     return Player;
 }(egret.Sprite));
 __reflect(Player.prototype, "Player");
+//# sourceMappingURL=Player.js.map

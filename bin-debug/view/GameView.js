@@ -140,6 +140,10 @@ var GameView = (function (_super) {
             this.game_scene.addChild(item);
             this.holes[index] = item;
         }
+        console.log(this.holes[0].x, this.holes[0].y);
+        console.log(this.holes[1].x, this.holes[1].y);
+        console.log(this.holes[2].x, this.holes[2].y);
+        console.log(this.holes[3].x, this.holes[3].y);
     };
     // private preTime: number;
     // 屏幕刷新函数
@@ -167,8 +171,8 @@ var GameView = (function (_super) {
     // 制造一个batman
     GameView.prototype.makeBatman = function () {
         var batman = new egret.Bitmap(RES.getRes("batman_png"));
-        batman.width = batman.width / 2;
-        batman.height = batman.height / 2;
+        batman.width = batman.width / 3;
+        batman.height = batman.height / 3;
         batman.anchorOffsetX = batman.width / 2;
         batman.anchorOffsetY = batman.height / 2;
         return batman;
@@ -262,7 +266,7 @@ var GameView = (function (_super) {
         var planeShapet = new p2.Plane();
         var planeBodyt = new p2.Body({
             type: p2.Body.STATIC,
-            position: [0, 0],
+            position: [0, 63],
         });
         planeBodyt.addShape(planeShapet);
         this.world.addBody(planeBodyt);
@@ -303,6 +307,12 @@ var GameView = (function (_super) {
     };
     GameView.prototype.createChildren = function () {
         _super.prototype.createChildren.call(this);
+        // 名称
+        if (window && window.playerInfo) {
+            this.nickname.text = window.playerInfo.nickname;
+            this.avatar.source = window.playerInfo.headimgurl;
+        }
+        // 头像
         // 把音乐放起来
         var s = LoadBGM.getInstance();
         if (s.prePlayStatus) {
@@ -326,3 +336,4 @@ var GameView = (function (_super) {
     return GameView;
 }(eui.Component));
 __reflect(GameView.prototype, "GameView", ["eui.UIComponent", "egret.DisplayObject"]);
+//# sourceMappingURL=GameView.js.map

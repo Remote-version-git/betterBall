@@ -19,38 +19,49 @@ class RankingListView extends eui.Component implements eui.UIComponent {
 
 	private rankingData;
 	private onComplete() {
+		try {
 
-		platform.getRank().then(res => {
-			console.log(JSON.parse(res));
-			let rankingData = JSON.parse(res)
-
-			// 加载网络图片
-			rankingData.rows.forEach((item, index) => {
-				item.rank = index + 1;
-				item.score = item.score + '分';
-				var imgLoader: egret.ImageLoader = new egret.ImageLoader;
-				egret.ImageLoader.crossOrigin = "anonymous";
-				imgLoader.load(item.avatar);
-				imgLoader.once(egret.Event.COMPLETE, (e, index) => {
-					if (e.currentTarget.data) {
-						let texture = new egret.Texture();
-						texture.bitmapData = e.currentTarget.data;
-						if (this.rankingData.rows[index] && this.rankingData.rows[index].avatar) {
-							this.rankingData.rows[index].avatar = texture;
-						}
+			platform.getRank().then(res => {
+				let rankingData = JSON.parse(res)
+				// 加载网络图片
+				rankingData.rows.forEach((item, index) => {
+					item.rank = index + 1;
+					item.score = item.score + '分';
+					if (item.nickname == null) {
+						item.nickname = '无'
 					}
-				}, this);
+					if (item.avatar == null){
+						item.avatar = 'https://avatars2.githubusercontent.com/u/45430448?s=60&v=4'
+					}
+					var imgLoader: egret.ImageLoader = new egret.ImageLoader;
+					egret.ImageLoader.crossOrigin = "anonymous";
+					imgLoader.load(item.avatar);
+					imgLoader.once(egret.Event.COMPLETE, (e, index) => {
+						if (e.currentTarget.data) {
+							let texture = new egret.Texture();
+							texture.bitmapData = e.currentTarget.data;
+							if (this.rankingData.rows[index] && this.rankingData.rows[index].avatar) {
+								this.rankingData.rows[index].avatar = texture;
+							}
+						}
+					}, this);
+				})
+				this.rankingData = rankingData;
+				var collection = new eui.ArrayCollection(rankingData.rows);
+				this.dataList.dataProvider = collection;
 			})
-			this.rankingData = rankingData;
-			var collection = new eui.ArrayCollection(rankingData.rows);
-			this.dataList.dataProvider = collection;
-		})
 
-		// 去掉滚动条
-		// this._scroller.verticalScrollBar.autoVisibility = false;
-		// this._scroller.verticalScrollBar.visible = false;
+		} catch (error) {
+			console.log(error);
+			return
+		}
 
-		this.close_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.closeButton, this)
+		// 关闭
+		this.close_button.addEventListener(
+			egret.TouchEvent.TOUCH_TAP,
+			this.closeButton,
+			this
+		)
 	}
 
 	private closeButton() {

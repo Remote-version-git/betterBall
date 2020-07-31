@@ -27,9 +27,6 @@
 					<e:Skin xmlns:e="http://ns.egret.com/eui" states="up,down" height="80">
 						<e:Label id="rank" text="{data.rank}" textColor="0x000000" size="24" width="25%" height="100%" left="0" top="0"
 						         verticalAlign="middle" textAlign="center" />
-						<!--<e:Group width="25%" height="100%" left="0" top="0" visible="false">
-							<e:Image source="{data.avatar}" width="70" height="70" verticalCenter="0" horizontalCenter="0"></e:Image>
-						</e:Group>-->
 						<e:Group width="25%" height="100%" x="125">
 							<e:Image source="{data.avatar}" width="70" height="70" verticalCenter="0" horizontalCenter="0"></e:Image>
 						</e:Group>

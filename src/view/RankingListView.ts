@@ -23,16 +23,18 @@ class RankingListView extends eui.Component implements eui.UIComponent {
 
 			platform.getRank().then(res => {
 				let rankingData = JSON.parse(res)
-				// 加载网络图片
+
 				rankingData.rows.forEach((item, index) => {
 					item.rank = index + 1;
 					item.score = item.score + '分';
+					// 把请求到的空数据设置一个固定的值
 					if (item.nickname == null) {
 						item.nickname = '无'
 					}
-					if (item.avatar == null){
+					if (item.avatar == null) {
 						item.avatar = 'https://avatars2.githubusercontent.com/u/45430448?s=60&v=4'
 					}
+					// 加载网络图片
 					var imgLoader: egret.ImageLoader = new egret.ImageLoader;
 					egret.ImageLoader.crossOrigin = "anonymous";
 					imgLoader.load(item.avatar);
@@ -47,6 +49,7 @@ class RankingListView extends eui.Component implements eui.UIComponent {
 					}, this);
 				})
 				this.rankingData = rankingData;
+				// 渲染数据
 				var collection = new eui.ArrayCollection(rankingData.rows);
 				this.dataList.dataProvider = collection;
 			})

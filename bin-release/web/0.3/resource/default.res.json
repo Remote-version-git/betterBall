@@ -82,8 +82,7 @@
 		{
 			"url": "assets/sound/add.mp3",
 			"type": "sound",
-			"name": "add_mp3",
-			"soundType": "effect"
+			"name": "add_mp3"
 		},
 		{
 			"url": "assets/sound/bgm.mp3",
@@ -93,8 +92,7 @@
 		{
 			"url": "assets/sound/lose.mp3",
 			"type": "sound",
-			"name": "lose_mp3",
-			"soundType": "effect"
+			"name": "lose_mp3"
 		},
 		{
 			"url": "assets/icon/1st.png",

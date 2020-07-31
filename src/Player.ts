@@ -41,7 +41,6 @@ class Player extends egret.Sprite {
     this.bindTouchEvent();
   }
 
-
   //   猪的装备
   private createObject() {
     // 箭头
@@ -81,13 +80,7 @@ class Player extends egret.Sprite {
         this.disk.visible = true;
         this.arrow.visible = true;
         this.moving = true;
-        // 猪开始移动时，先检测是否处于黑洞，处于黑洞就吃掉
-        this.holes.forEach((h) => {
-          //   黑洞检测点
-          let rectH = new egret.Rectangle(h.x, h.y, h.width, h.height);
-          // 检测猪是否掉进黑洞
-          this.checkPig(rectH);
-        });
+        this.checkHit();
       },
       this
     );
@@ -120,10 +113,10 @@ class Player extends egret.Sprite {
           // 箭头长度
           let distance = egret.Point.distance(handPoint, pigPoint);
           if (distance > 75) distance = 75;
-          if (distance < 50) distance = 50;
+          if (distance < 10) distance = 10;
           // 对应到比例 0 ~ 1
-          this.arrow.scaleX = (distance / 100);
-          this.arrow.scaleY = (distance / 100);
+          this.arrow.scaleX = distance / 100;
+          this.arrow.scaleY = distance / 100;
         }
       },
       this
@@ -172,6 +165,10 @@ class Player extends egret.Sprite {
           this.batmanBodys.splice(index, 1);
           // 得分增加
           this.incrementScore(10);
+          // 在batman被吃掉位置生成得分反馈
+          this.feedbackScore(10, b.x, b.y, this.bg);
+          // 播放一次吃掉的音效
+          this.playHitSound();
         }
       });
       // 检测猪是否掉进黑洞
@@ -180,6 +177,8 @@ class Player extends egret.Sprite {
     // 最后看是否吃完了batman，再给制造一些
     if (this.batmans.length === 0) {
       this.dispatchEvent(new PostEvent(PostEvent.INCREMENT_BATMANS));
+      // 提示关卡
+      this.feedbackPassCount(this.bg);
     }
   }
   /**
@@ -196,6 +195,8 @@ class Player extends egret.Sprite {
     if (hole.intersects(pigRect)) {
       // 吃掉pig
       egret.Tween.get(this.pig).to({ alpha: 0 }, 200);
+      // 播放输掉音效
+      this.loseSound();
       // 通知GameView游戏结束了
       this.dispatchEvent(new PostEvent(PostEvent.GAME_OVER));
     }
@@ -209,5 +210,77 @@ class Player extends egret.Sprite {
     this.dispatchEvent(
       new PostEvent(PostEvent.INCREMNT_SCORE, false, false, this.score)
     );
+  }
+  /**
+   * 反馈得分
+   * @param score 反馈分数
+   * @param x 生成x位置
+   * @param y 生成y位置
+   * @param area 添加到的区域（显示容器）
+   */
+  public feedbackScore(
+    score: number,
+    x: number,
+    y: number,
+    area: egret.DisplayObjectContainer
+  ) {
+    let t = new eui.Label("+" + score);
+    t.x = x;
+    t.y = y;
+    t.textColor = 0xfaed36;
+    t.fontFamily = "Consolas";
+    t.size = 18;
+    egret.Tween.get(t).to({ alpha: 0, y: y - 10 }, 1000).call(() => {
+      area.removeChild(t);
+      t = null;
+    });
+    area.addChild(t);
+  }
+
+  /**
+   * 反馈关数 并 自增关数
+   */
+  public passCount: number = 1;
+  public feedbackPassCount(
+    area: egret.DisplayObjectContainer,
+    content: string = "第 " + this.passCount + " 关",
+    x: number = this.bg.width / 2,
+    y: number = this.bg.height / 2,
+  ) {
+    let t = new eui.Label(content);
+    t.x = x - t.textWidth / 4 - 10;
+    t.y = y;
+    t.anchorOffsetX = t.textWidth / 2;
+    t.anchorOffsetY = t.textHeight / 2;
+    t.textColor = 0xffffff;
+    t.fontFamily = "Mircrosoft YaHei";
+    t.size = 50;
+    t.bold = true;
+    egret.Tween.get(t).to({ alpha: 1, y: y - 30 }, 2000).call(() => {
+      area.removeChild(t);
+      t = null;
+    });
+    area.addChild(t);
+    // 自增关数
+    this.passCount++;
+  }
+
+  /**
+   * 播放吃掉声效
+   */
+  private playHitSound() {
+    if (LoadBGM.getInstance().getPlayStatus()) {
+      var sound: egret.Sound = RES.getRes("add_mp3");
+      sound.play(0, 1);
+    }
+  }
+  /**
+   * 播放输掉音效
+   */
+  private loseSound() {
+    if (LoadBGM.getInstance().getPlayStatus()) {
+      var sound: egret.Sound = RES.getRes("lose_mp3");
+      sound.play(0, 1);
+    }
   }
 }

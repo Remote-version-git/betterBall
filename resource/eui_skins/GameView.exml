@@ -21,7 +21,7 @@
 			<e:Label id="score" text="0" x="47.615" size="24" textColor="0xC7FFED" verticalCenter="0" />
 		</e:Group>
 		<e:Group x="304.382" verticalCenter="0">
-			<e:Label text="将敌人消灭到黑洞" x="66.685" textAlign="center" size="20" textColor="0xC7FFED" verticalCenter="0.5" />
+			<e:Label text="将大反派推到黑洞" x="66.685" textAlign="center" size="20" textColor="0xC7FFED" verticalCenter="0.5" />
 			<e:Image source="boom_png" x="13.122" anchorOffsetX="0" width="51.278" anchorOffsetY="0" height="38.544"
 			         verticalCenter="-2" />
 		</e:Group>

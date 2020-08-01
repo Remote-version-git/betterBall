@@ -206,25 +206,6 @@ class GameView extends eui.Component implements eui.UIComponent {
     return mask;
   }
 
-  // 随机范围
-  public randomNum(minNum, maxNum, decimalNum = 2) {
-    var max = 0,
-      min = 0;
-    minNum <= maxNum
-      ? ((min = minNum), (max = maxNum))
-      : ((min = maxNum), (max = minNum));
-    switch (arguments.length) {
-      case 1:
-        return Math.floor(Math.random() * (max + 1));
-      case 2:
-        return Math.floor(Math.random() * (max - min + 1) + min);
-      case 3:
-        return (Math.random() * (max - min) + min).toFixed(decimalNum);
-      default:
-        return Math.random();
-    }
-  }
-
   public randomInteger(minNum, maxNum) {
     var max = 0,
       min = 0;
@@ -421,10 +402,33 @@ class GameView extends eui.Component implements eui.UIComponent {
         );
         this.removeEventListener(egret.Event.ENTER_FRAME, this.onUpdate, this);
         this.world.off("endContact", () => {});
-        // 游戏结束
-        this.gameOver();
+        // 监听面板被点击事件
+        this.explain_panel.removeEventListener(
+          PostEvent.READ_EXPLAIN,
+          this.createGameScene,
+          this
+        );
+
+        // 侦听声音按钮的触摸点击事件
+        this.trumpet_check.removeEventListener(
+          egret.TouchEvent.TOUCH_TAP,
+          this.trumpetCheck,
+          this
+        );
+
+        this.trumpet_check.removeEventListener(
+          egret.TouchEvent.TOUCH_BEGIN,
+          () => {
+          },
+          this
+        );
         // 取消监听
         player.removeEventListener(PostEvent.GAME_OVER, () => {}, this);
+        player.removeEventListener(PostEvent.INCREMNT_SCORE, () => {}, this);
+        player.removeEventListener(PostEvent.INCREMENT_BATMANS, () => {}, this);
+        player.removeEventListener(PostEvent.INCREMENT_MASKS, () => {}, this);
+        // 游戏结束
+        this.gameOver();
       },
       this
     );
@@ -432,10 +436,8 @@ class GameView extends eui.Component implements eui.UIComponent {
     player.addEventListener(
       PostEvent.INCREMNT_SCORE,
       (e) => {
-        // 游戏结束
+        // 增加积分
         this.score.text = e.score;
-        // 取消监听
-        player.removeEventListener(PostEvent.INCREMNT_SCORE, () => {}, this);
       },
       this
     );
@@ -444,8 +446,6 @@ class GameView extends eui.Component implements eui.UIComponent {
       PostEvent.INCREMENT_BATMANS,
       (e) => {
         this.productBatman();
-        // 取消监听
-        player.removeEventListener(PostEvent.INCREMENT_BATMANS, () => {}, this);
       },
       this
     );
@@ -463,8 +463,6 @@ class GameView extends eui.Component implements eui.UIComponent {
         this.masks.splice(0);
         // 生产新的
         this.productMask();
-        // 取消监听
-        player.removeEventListener(PostEvent.INCREMENT_MASKS, () => {}, this);
       },
       this
     );
@@ -535,11 +533,9 @@ class GameView extends eui.Component implements eui.UIComponent {
     try {
       if (window.playerInfo && window.playerInfo.openid) {
         window.platform.addJifen(parseInt(this.score.text)).then((res) => {
-          console.log(res);
         });
       }
     } catch (error) {
-      console.log("添加积分失败!");
     }
     // 让 main 打开游戏结束界面
     let p = new PostEvent(

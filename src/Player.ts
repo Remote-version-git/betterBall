@@ -40,7 +40,7 @@ class Player extends egret.Sprite {
     holes: egret.Bitmap[],
     batmanBodys: p2.Body[],
     world: p2.World,
-    masks: egret.Bitmap[],
+    masks: egret.Bitmap[]
   ) {
     super();
     // 当x发生变化就检测是否吃到东西
@@ -136,8 +136,8 @@ class Player extends egret.Sprite {
 
           // 获取角度
           let angle: number = Math.atan2(
-            handPoint.y - pigPoint.y,
-            handPoint.x - pigPoint.x
+            -(handPoint.y - pigPoint.y),
+            -(handPoint.x - pigPoint.x)
           );
 
           // 箭头旋转
@@ -161,8 +161,8 @@ class Player extends egret.Sprite {
           let handPoint = new egret.Point(e.stageX, e.stageY);
           let pigPoint = this.localToGlobal(this.pig.x, this.pig.y);
 
-          let xpower = handPoint.x - pigPoint.x;
-          let ypower = handPoint.y - pigPoint.y;
+          let xpower = -(handPoint.x - pigPoint.x);
+          let ypower = -(handPoint.y - pigPoint.y);
 
           this.body.applyForce([xpower / 5, ypower / 5], [0, 0]);
 
@@ -312,17 +312,20 @@ class Player extends egret.Sprite {
   public passCount: number = 1;
   public feedbackPassCount(
     area: egret.DisplayObjectContainer,
-    content: string = "第 " + this.passCount + " 关",
-    x: number = this.bg.width / 2,
+    passCount: number = this.passCount,
     y: number = this.bg.height / 2
   ) {
-    let t = new eui.Label(content);
-    t.x = x - t.textWidth / 4 - 10;
+    let t = new eui.Label();
+    t.width = this.stage.stageWidth;
     t.y = y;
-    t.anchorOffsetX = t.textWidth / 2;
-    t.anchorOffsetY = t.textHeight / 2;
+    t.textAlign = egret.HorizontalAlign.CENTER;
     t.textColor = 0xffffff;
     t.fontFamily = "Mircrosoft YaHei";
+    t.textFlow = <Array<egret.ITextElement>>[
+      { text: "第 ", style: { textColor: 0x24c8ed } },
+      { text: `${passCount}`, style: { textColor: 0xffffff } },
+      { text: " 关", style: { textColor: 0x24c8ed } },
+    ];
     t.size = 50;
     t.bold = true;
     egret.Tween.get(t)

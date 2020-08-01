@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "game_bg_png,batman_bg_png,logo_png,pig_bg_png,rules_button_png,start_button_png,txt_batman_png,txt_friend_png,blue_png,close_png,purple_png,yellow_png,trumpet_png,trumpet_check_png,add_mp3,bgm_mp3,lose_mp3,1st_png,2nd_png,3rd_png,blue2_png,cup_png,line_png,rectbk_png,rectwh_png,trophy_png,bg_png,state_png,activity_rules_png,arrow_png,batman_png,boom_png,circle_png,clock_png,disk_png,game_bg2_png,hole_png,logo2_png,mask_png,player_png,playerlight_png,wall_png,wall2_png,logo3_png,rect_png,erweima_png,text_zwzdzdfp_png",
+			"keys": "game_bg_png,batman_bg_png,pig_bg_png,start_button_png,txt_batman_png,txt_friend_png,blue_png,close_png,purple_png,yellow_png,trumpet_png,trumpet_check_png,add_mp3,bgm_mp3,lose_mp3,1st_png,2nd_png,3rd_png,blue2_png,cup_png,state_png,arrow_png,batman_png,boom_png,circle_png,clock_png,disk_png,hole_png,logo2_png,mask_png,player_png,playerlight_png,wall_png,wall2_png,rect_png,text_zwzdzdfp_png,trophy_png,rectwh_png",
 			"name": "preload"
 		}
 	],
@@ -17,19 +17,9 @@
 			"name": "batman_bg_png"
 		},
 		{
-			"url": "assets/start/logo.png",
-			"type": "image",
-			"name": "logo_png"
-		},
-		{
 			"url": "assets/start/pig_bg.png",
 			"type": "image",
 			"name": "pig_bg_png"
-		},
-		{
-			"url": "assets/start/rules_button.png",
-			"type": "image",
-			"name": "rules_button_png"
 		},
 		{
 			"url": "assets/start/start_button.png",
@@ -122,40 +112,9 @@
 			"name": "cup_png"
 		},
 		{
-			"url": "assets/img/line.png",
-			"type": "image",
-			"name": "line_png"
-		},
-		{
-			"url": "assets/img/rectbk.png",
-			"type": "image",
-			"name": "rectbk_png"
-		},
-		{
-			"url": "assets/img/rectwh.png",
-			"type": "image",
-			"name": "rectwh_png",
-			"scale9grid": "7,7,7,11"
-		},
-		{
-			"url": "assets/img/trophy.png",
-			"type": "image",
-			"name": "trophy_png"
-		},
-		{
-			"url": "assets/image/bg.png",
-			"type": "image",
-			"name": "bg_png"
-		},
-		{
 			"url": "assets/image/state.png",
 			"type": "image",
 			"name": "state_png"
-		},
-		{
-			"url": "assets/image/activity_rules.png",
-			"type": "image",
-			"name": "activity_rules_png"
 		},
 		{
 			"url": "assets/game/arrow.png",
@@ -186,11 +145,6 @@
 			"url": "assets/game/disk.png",
 			"type": "image",
 			"name": "disk_png"
-		},
-		{
-			"url": "assets/game/game_bg.png",
-			"type": "image",
-			"name": "game_bg2_png"
 		},
 		{
 			"url": "assets/game/hole.png",
@@ -228,25 +182,26 @@
 			"name": "wall2_png"
 		},
 		{
-			"url": "assets/share/logo.png",
-			"type": "image",
-			"name": "logo3_png"
-		},
-		{
 			"url": "assets/share/rect.png",
 			"type": "image",
 			"name": "rect_png",
 			"scale9grid": "17,18,34,27"
 		},
 		{
-			"name": "erweima_png",
+			"url": "assets/share/text_zwzdzdfp.png",
 			"type": "image",
-			"url": "assets/share/erweima.png"
+			"name": "text_zwzdzdfp_png"
 		},
 		{
-			"name": "text_zwzdzdfp_png",
+			"url": "assets/image/trophy.png",
 			"type": "image",
-			"url": "assets/share/text_zwzdzdfp.png"
+			"name": "trophy_png"
+		},
+		{
+			"url": "assets/image/rectwh.png",
+			"type": "image",
+			"name": "rectwh_png",
+			"scale9grid": "7,7,7,12"
 		}
 	]
 }

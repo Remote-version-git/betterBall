@@ -22,18 +22,13 @@ class RankingListView extends eui.Component implements eui.UIComponent {
 		try {
 
 			platform.getRank().then(res => {
-				let rankingData = JSON.parse(res)
+				// 解析过滤空数据
+				let rankingData = JSON.parse(res).rows.filter(v => v.nickname !== null && v.avatar !== null);
 
-				rankingData.rows.forEach((item, index) => {
+				rankingData.forEach((item, index) => {
+
 					item.rank = index + 1;
 					item.score = item.score + '分';
-					// 把请求到的空数据设置一个固定的值
-					if (item.nickname == null) {
-						item.nickname = '无'
-					}
-					if (item.avatar == null) {
-						item.avatar = 'https://gravatar.loli.net/avatar/d41d8cd98f00b204e9800998ecf8427e?d=mp&v=1.4.14'
-					}
 					// 加载网络图片
 					var imgLoader: egret.ImageLoader = new egret.ImageLoader;
 					egret.ImageLoader.crossOrigin = "anonymous";
@@ -42,20 +37,19 @@ class RankingListView extends eui.Component implements eui.UIComponent {
 						if (e.currentTarget.data) {
 							let texture = new egret.Texture();
 							texture.bitmapData = e.currentTarget.data;
-							if (this.rankingData.rows[index] && this.rankingData.rows[index].avatar) {
-								this.rankingData.rows[index].avatar = texture;
+							if (this.rankingData[index] && this.rankingData[index].avatar) {
+								this.rankingData[index].avatar = texture;
 							}
 						}
 					}, this);
 				})
 				this.rankingData = rankingData;
 				// 渲染数据
-				var collection = new eui.ArrayCollection(rankingData.rows);
+				var collection = new eui.ArrayCollection(rankingData);
 				this.dataList.dataProvider = collection;
 			})
 
 		} catch (error) {
-			console.log(error);
 			return
 		}
 

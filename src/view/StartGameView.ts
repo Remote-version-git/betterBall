@@ -6,8 +6,6 @@ class StartGameView extends eui.Component implements eui.UIComponent {
   private start_group: eui.Group;
   // 开始按钮
   private start_button: eui.Button;
-  // 规则按钮
-  private rules_button: eui.Button;
   // 排行榜
   private ranking_button: eui.Button;
   // 喇叭
@@ -39,11 +37,6 @@ class StartGameView extends eui.Component implements eui.UIComponent {
     this.start_button.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
       TouchEvents.onEvent(this.start_button)
       egret.Tween.get(this.start_button).to({ scaleX: 0.95, scaleY: 0.95 }, 150)
-    }, this)
-
-    this.rules_button.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
-      TouchEvents.onEvent(this.rules_button)
-      egret.Tween.get(this.rules_button).to({ scaleX: 0.95, scaleY: 0.95 }, 150)
     }, this)
 
     this.trumpet_check.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
@@ -106,9 +99,6 @@ class StartGameView extends eui.Component implements eui.UIComponent {
   //元素第一次被添加到舞台时回调一次。此时才可以获取元素
   protected createChildren(): void {
     super.createChildren();
-
-    // this.start_button.anchorOffsetX = this.start_button.width / 2;
-    // this.start_button.anchorOffsetY = this.start_button.height / 2;
   }
 
   // 创建元素之后，被回调执行,紧接 onComplete 之后

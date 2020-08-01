@@ -2,10 +2,9 @@
 class ReportCard extends eui.Component implements eui.UIComponent {
   // 返回
   private go_back: eui.Button;
-
   // 成绩
   public score: eui.Label;
-
+  // 昵称
   private nickname: eui.Label;
 
   public constructor() {

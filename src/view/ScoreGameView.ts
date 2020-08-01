@@ -18,8 +18,8 @@ class ScoreGameView extends eui.Component implements eui.UIComponent {
   }
 
   private onComplete() {
-    this.bg.width = this.stage.stageWidth;
-    this.bg.height = this.stage.stageHeight;
+    this.width = this.stage.stageWidth;
+    this.height = this.stage.stageHeight;
     // 侦听再玩一次的触摸点击事件
     this.restart_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.restartGame, this);
     this.restart_button.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {

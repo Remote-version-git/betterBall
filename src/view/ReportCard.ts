@@ -15,8 +15,8 @@ class ReportCard extends eui.Component implements eui.UIComponent {
   }
 
   private onComplete() {
-    this.bg.width = this.stage.stageWidth;
-    this.bg.height = this.stage.stageHeight;
+    this.width = this.stage.stageWidth;
+    this.height = this.stage.stageHeight;
     // 返回按钮
     this.go_back.addEventListener(
       egret.TouchEvent.TOUCH_TAP,

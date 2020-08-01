@@ -28,8 +28,8 @@
 		<e:Image id="avatar" width="39" height="39" x="46.746" verticalCenter="0" />
 		<e:Label id="nickname" x="97.122" size="16" verticalCenter="0" textColor="0xC7FFED"  width="100" fontFamily="Microsoft YaHei"/>
 	</e:Group>
-	<e:Image id="bg" source="game_bg_png" x="0" y="63.621" width="640" height="1072.379" anchorOffsetY="0" />
-	<e:Group id="game_scene" width="640" height="1060" horizontalCenter="0" verticalCenter="37.5" anchorOffsetY="0" >
+	<e:Image id="bg" source="game_bg_png" x="0" y="63.621" width="100%" height="100%" anchorOffsetY="0" />
+	<e:Group id="game_scene" width="100%" height="1060" horizontalCenter="0" verticalCenter="37.5" anchorOffsetY="0" >
 		<e:Group id="player_area" width="56.33333333333333" height="34" y="837.978" anchorOffsetY="0" horizontalCenter="0"/>
 	</e:Group>
 	<ns1:GameExplainPanel id="explain_panel" visible="true" horizontalCenter="0" verticalCenter="0" />

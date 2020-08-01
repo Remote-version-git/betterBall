@@ -24,8 +24,8 @@ class StartGameView extends eui.Component implements eui.UIComponent {
 
   // 组件实例化完之后，自动调用这个函数
   private onComplete() {
-    this.start_bg.width = this.stage.stageWidth;
-    this.start_bg.height = this.stage.stageHeight;
+    this.width = this.stage.stageWidth;
+    this.height = this.stage.stageHeight;
     // 设置音乐播放状态
     this.is_trumpet.visible = LoadBGM.getInstance().getPlayStatus();
     // 侦听开始按钮的触摸点击事件

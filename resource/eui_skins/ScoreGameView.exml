@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="ScoreGameViewSkin" minWidth="640" minHeight="1136" xmlns:e="http://ns.egret.com/eui"
-        xmlns:w="http://ns.egret.com/wing">
+        xmlns:w="http://ns.egret.com/wing" width="640" height="1136">
 	<w:Config id="1739551756c"></w:Config>
-	<e:Image id="bg" source="game_bg_png" x="0" y="0" width="640" height="1136" />
+	<e:Image id="bg" source="game_bg_png" x="0" y="0" width="100%" height="100%" />
 	<e:Group width="640" height="1136" x="0" y="0">
 		<e:Image id="trophy_img" width="336" height="322" y="260" anchorOffsetX="168" anchorOffsetY="161" source="trophy_png"
 		         horizontalCenter="16" />

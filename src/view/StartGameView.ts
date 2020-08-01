@@ -1,7 +1,7 @@
 // 进入游戏界面
 class StartGameView extends eui.Component implements eui.UIComponent {
   // 开始游戏背景
-  private start_bg: eui.Rect;
+  private start_bg: eui.Image;
   // 开始游戏界面
   private start_group: eui.Group;
   // 开始按钮
@@ -24,6 +24,8 @@ class StartGameView extends eui.Component implements eui.UIComponent {
 
   // 组件实例化完之后，自动调用这个函数
   private onComplete() {
+    this.start_bg.width = this.stage.stageWidth;
+    this.start_bg.height = this.stage.stageHeight;
     // 设置音乐播放状态
     this.is_trumpet.visible = LoadBGM.getInstance().getPlayStatus();
     // 侦听开始按钮的触摸点击事件

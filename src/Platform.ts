@@ -311,14 +311,14 @@ declare let platform: Platform;
 declare interface Window {
   platform: Platform;
   playerInfo: {
-    city: "河源",
-    country: "中国",
-    headimgurl: "http://thirdwx.qlogo.cn/mmopen/vi_32/wVWr3F86ztaFPgmX2uwribAMcXicHFGN3D4OuDhZEcXkuS7fxBaicPszuBia0UGCg8UXnDIfFc89z7b1go3NNHD3Xg/132";
-    language: "zh_CN",
-    nickname: "向日葵的日子",
-    openid: "ogIOb0Znw8D_cds0KME378hs8PWY",
+    city: "",
+    country: "",
+    headimgurl: "";
+    language: "",
+    nickname: "",
+    openid: "",
     privilege: "",
-    province: "广东",
+    province: "",
     sex: 1,
     success: true,
   };

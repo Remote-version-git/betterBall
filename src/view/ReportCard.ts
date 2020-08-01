@@ -7,12 +7,16 @@ class ReportCard extends eui.Component implements eui.UIComponent {
   // 昵称
   private nickname: eui.Label;
 
+  private bg: eui.Image;
+
   public constructor() {
     super();
     this.addEventListener(eui.UIEvent.COMPLETE, this.onComplete, this);
   }
 
   private onComplete() {
+    this.bg.width = this.stage.stageWidth;
+    this.bg.height = this.stage.stageHeight;
     // 返回按钮
     this.go_back.addEventListener(
       egret.TouchEvent.TOUCH_TAP,

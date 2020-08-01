@@ -22,6 +22,9 @@ class GameView extends eui.Component implements eui.UIComponent {
   private status_bar: eui.Group;
   private score: eui.Label;
   private onComplete() {
+    this.bg.width = this.stage.stageWidth;
+    this.bg.height = this.stage.stageHeight;
+    this.game_scene.height = this.stage.stageHeight;
     // 监听面板被点击事件
     this.explain_panel.addEventListener(
       PostEvent.READ_EXPLAIN,

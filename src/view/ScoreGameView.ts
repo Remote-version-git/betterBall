@@ -10,12 +10,16 @@ class ScoreGameView extends eui.Component implements eui.UIComponent {
   // 生成成绩单
   private report_card_btn: eui.Button;
 
+  private bg: eui.Image;
+
   public constructor() {
     super();
     this.addEventListener(eui.UIEvent.COMPLETE, this.onComplete, this);
   }
 
   private onComplete() {
+    this.bg.width = this.stage.stageWidth;
+    this.bg.height = this.stage.stageHeight;
     // 侦听再玩一次的触摸点击事件
     this.restart_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.restartGame, this);
     this.restart_button.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {

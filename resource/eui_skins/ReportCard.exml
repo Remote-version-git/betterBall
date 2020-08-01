@@ -2,7 +2,7 @@
 <e:Skin class="ReportCardSkin" width="640" height="1136" xmlns:e="http://ns.egret.com/eui"
         xmlns:w="http://ns.egret.com/wing">
 	<w:Config id="1739ec94f03"></w:Config>
-	<e:Image source="game_bg_png" left="0" right="0" top="0" bottom="0" />
+	<e:Image id="bg" source="game_bg_png" left="0" right="0" top="0" bottom="0" />
 	<e:Group left="0" right="0" top="0" bottom="0">
 
 		<e:Group id="go_back" width="180" height="60" y="800" anchorOffsetX="90" anchorOffsetY="30" horizontalCenter="0">

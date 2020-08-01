@@ -70,7 +70,9 @@
           return res;
         }
         // 挂到全局
-        window["playerInfo"] = parseQueryString(url);
+        window["playerInfo"] = JSON.parse(
+          parseQueryString(window.decodeURIComponent(url)).user
+        );
       })(window);
       var loadScript = function (list, callback) {
         var loaded = 0;

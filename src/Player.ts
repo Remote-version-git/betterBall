@@ -15,11 +15,24 @@ class Player extends egret.Sprite {
   public holes: egret.Bitmap[];
   public world: p2.World;
 
-  // mask 
+  // mask
   private masks: egret.Bitmap[];
   private maskBodys: p2.Body[];
   // 监听属性实例
   public watchX: eui.Watcher;
+  throttle(func, delay) {
+    var timer = null;
+    return function () {
+      var context = this;
+      var args = arguments;
+      if (!timer) {
+        timer = setTimeout(function () {
+          func.apply(context, args);
+          timer = null;
+        }, delay);
+      }
+    };
+  }
   constructor(
     bg,
     body,
@@ -28,13 +41,17 @@ class Player extends egret.Sprite {
     batmanBodys: p2.Body[],
     world: p2.World,
     masks: egret.Bitmap[],
-    maskBodys: p2.Body[]
   ) {
     super();
     // 当x发生变化就检测是否吃到东西
-    this.watchX = eui.Watcher.watch(this, ["x"], () => {
-      this.checkHit();
-    }, this);
+    this.watchX = eui.Watcher.watch(
+      this,
+      ["x"],
+      this.throttle(() => {
+        this.checkHit();
+      }, 20),
+      this
+    );
     // batmans
     this.batmans = batmans;
     // batmans body
@@ -42,8 +59,6 @@ class Player extends egret.Sprite {
 
     // masks
     this.masks = masks;
-    // masks body
-    this.maskBodys = maskBodys;
 
     // 黑洞们
     this.holes = holes;
@@ -195,24 +210,21 @@ class Player extends egret.Sprite {
       let rectM = new egret.Rectangle(m.x, m.y, m.width, m.height);
       // 检测口罩是否被猪吃了
       if (this.checkMask(rectM)) {
-          // 吃掉 mask
-          egret.Tween.get(m).to({ alpha: 0 }, 200);
-          //    移除 mask
-          this.masks.splice(index, 1);
-          // 得分增加 20
-          this.incrementScore(20);
-          // 在 mask 被吃掉位置生成得分反馈
-          this.feedbackScore(20, m.x, m.y, this.bg);
-          // 播放一次吃掉的音效
-          this.playHitSound();
+        // 吃掉 mask
+        egret.Tween.get(m).to({ alpha: 0 }, 200);
+        //    移除 mask
+        this.masks.splice(index, 1);
+        // 得分增加 20
+        this.incrementScore(20);
+        // 在 mask 被吃掉位置生成得分反馈
+        this.feedbackScore(20, m.x, m.y, this.bg);
+        // 播放一次吃掉的音效
+        this.playHitSound();
       }
-    })
+    });
     // 最后看是否吃完了batman，再给制造一些
     if (this.batmans.length === 0) {
-      // 最后看是否吃完了masks 而且batman也吃完了，再给制造一些
-      if (this.masks.length === 0 && this.batmans.length === 0) {
-        this.dispatchEvent(new PostEvent(PostEvent.INCREMENT_MASKS));
-      }
+      this.dispatchEvent(new PostEvent(PostEvent.INCREMENT_MASKS));
       this.dispatchEvent(new PostEvent(PostEvent.INCREMENT_BATMANS));
       // 提示关卡
       this.feedbackPassCount(this.bg);
@@ -250,7 +262,7 @@ class Player extends egret.Sprite {
       this.pig.width,
       this.pig.height
     );
-    
+
     if (pigRect.intersects(mask)) {
       return true;
     }
@@ -285,10 +297,12 @@ class Player extends egret.Sprite {
     t.textColor = 0xfaed36;
     t.fontFamily = "Consolas";
     t.size = 18;
-    egret.Tween.get(t).to({ alpha: 0, y: y - 10 }, 1000).call(() => {
-      area.removeChild(t);
-      t = null;
-    });
+    egret.Tween.get(t)
+      .to({ alpha: 0, y: y - 10 }, 1000)
+      .call(() => {
+        area.removeChild(t);
+        t = null;
+      });
     area.addChild(t);
   }
 
@@ -300,7 +314,7 @@ class Player extends egret.Sprite {
     area: egret.DisplayObjectContainer,
     content: string = "第 " + this.passCount + " 关",
     x: number = this.bg.width / 2,
-    y: number = this.bg.height / 2,
+    y: number = this.bg.height / 2
   ) {
     let t = new eui.Label(content);
     t.x = x - t.textWidth / 4 - 10;
@@ -311,10 +325,12 @@ class Player extends egret.Sprite {
     t.fontFamily = "Mircrosoft YaHei";
     t.size = 50;
     t.bold = true;
-    egret.Tween.get(t).to({ alpha: 1, y: y - 30 }, 2000).call(() => {
-      area.removeChild(t);
-      t = null;
-    });
+    egret.Tween.get(t)
+      .to({ alpha: 1, y: y - 30 }, 2000)
+      .call(() => {
+        area.removeChild(t);
+        t = null;
+      });
     area.addChild(t);
     // 自增关数
     this.passCount++;

@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "game_bg_png,batman_bg_png,pig_bg_png,start_button_png,txt_batman_png,txt_friend_png,blue_png,close_png,purple_png,yellow_png,trumpet_png,trumpet_check_png,add_mp3,bgm_mp3,lose_mp3,1st_png,2nd_png,3rd_png,blue2_png,cup_png,state_png,arrow_png,batman_png,boom_png,circle_png,clock_png,disk_png,hole_png,logo2_png,mask_png,player_png,playerlight_png,wall_png,wall2_png,rect_png,text_zwzdzdfp_png,trophy_png,rectwh_png",
+			"keys": "game_bg_png,batman_bg_png,pig_bg_png,start_button_png,txt_batman_png,txt_friend_png,close_png,purple_png,yellow_png,trumpet_png,trumpet_check_png,add_mp3,bgm_mp3,lose_mp3,blue2_png,cup_png,state_png,arrow_png,batman_png,boom_png,disk_png,hole_png,mask_png,player_png,rect_png,trophy_png",
 			"name": "preload"
 		}
 	],
@@ -87,26 +87,6 @@
 			"soundType": "effect"
 		},
 		{
-			"url": "assets/icon/1st.png",
-			"type": "image",
-			"name": "1st_png"
-		},
-		{
-			"url": "assets/icon/2nd.png",
-			"type": "image",
-			"name": "2nd_png"
-		},
-		{
-			"url": "assets/icon/3rd.png",
-			"type": "image",
-			"name": "3rd_png"
-		},
-		{
-			"url": "assets/icon/blue.png",
-			"type": "image",
-			"name": "blue2_png"
-		},
-		{
 			"url": "assets/icon/cup.png",
 			"type": "image",
 			"name": "cup_png"
@@ -132,16 +112,6 @@
 			"name": "boom_png"
 		},
 		{
-			"url": "assets/game/circle.png",
-			"type": "image",
-			"name": "circle_png"
-		},
-		{
-			"url": "assets/game/clock.png",
-			"type": "image",
-			"name": "clock_png"
-		},
-		{
 			"url": "assets/game/disk.png",
 			"type": "image",
 			"name": "disk_png"
@@ -150,11 +120,6 @@
 			"url": "assets/game/hole.png",
 			"type": "image",
 			"name": "hole_png"
-		},
-		{
-			"url": "assets/game/logo.png",
-			"type": "image",
-			"name": "logo2_png"
 		},
 		{
 			"url": "assets/game/mask.png",
@@ -167,41 +132,15 @@
 			"name": "player_png"
 		},
 		{
-			"url": "assets/game/playerlight.png",
-			"type": "image",
-			"name": "playerlight_png"
-		},
-		{
-			"url": "assets/game/wall.png",
-			"type": "image",
-			"name": "wall_png"
-		},
-		{
-			"url": "assets/game/wall2.png",
-			"type": "image",
-			"name": "wall2_png"
-		},
-		{
 			"url": "assets/share/rect.png",
 			"type": "image",
 			"name": "rect_png",
 			"scale9grid": "17,18,34,27"
 		},
 		{
-			"url": "assets/share/text_zwzdzdfp.png",
-			"type": "image",
-			"name": "text_zwzdzdfp_png"
-		},
-		{
 			"url": "assets/image/trophy.png",
 			"type": "image",
 			"name": "trophy_png"
-		},
-		{
-			"url": "assets/image/rectwh.png",
-			"type": "image",
-			"name": "rectwh_png",
-			"scale9grid": "7,7,7,12"
 		}
 	]
 }

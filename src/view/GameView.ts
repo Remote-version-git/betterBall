@@ -73,24 +73,29 @@ class GameView extends eui.Component implements eui.UIComponent {
       // 重力
       gravity: [0, 0],
     });
-    world.defaultContactMaterial.restitution = 1;
-    world.defaultContactMaterial.friction = 0.1;
+
+    // Pre-fill object pools. Completely optional but good for performance!
+    world.overlapKeeper.recordPool.resize(16);
+    world.narrowphase.contactEquationPool.resize(1024);
+    world.narrowphase.frictionEquationPool.resize(1024);
+
+    // Set stiffness of all contacts and constraints
+    world.setGlobalStiffness(1e8);
+
+    // Enables sleeping of bodies
+    world.sleepMode = p2.World.BODY_SLEEPING;
+
+    world.defaultContactMaterial.restitution = 15 / 16;
+    world.defaultContactMaterial.friction = 0.4;
+
     world.on(
       "endContact",
       (e) => {
         this.player.checkHit();
-        // if (e.bodyB.name == "batman") {
-        //   this.world.removeBody(e.bodyB);
-        //   this.removeChild(e.bodyB.displays[0]);
-        //   e.bodyB.displays[0] = null;
-        // }
       },
       this
     );
     this.world = world;
-    // this.world.on('postBroadphase', this.a)
-    // this.world.on('preSolve', this.b)
-    // this.world.on('endContact', this.d)
 
     // 添加四个黑洞
     this.holeAroundMap();
@@ -107,23 +112,11 @@ class GameView extends eui.Component implements eui.UIComponent {
     // 制造 mask 到物理世界并显示在舞台
     this.productMask();
 
-    // p2 调试
-    // this.enableP2Debug(world);
-
     // 添加 player
     this.addEventListener(egret.Event.ENTER_FRAME, this.onUpdate, this);
 
     // 提示关卡
     this.player.feedbackPassCount(this);
-  }
-
-  private isEnableP2Debug: boolean = false;
-  private enableP2Debug(world: p2.World) {
-    let sprite = new egret.Sprite();
-    this.addChild(sprite);
-    this.p2debug = new p2DebugDraw(world);
-    this.p2debug.setSprite(sprite);
-    this.isEnableP2Debug = true;
   }
 
   //   存储四个黑洞 用于碰撞检测
@@ -178,15 +171,10 @@ class GameView extends eui.Component implements eui.UIComponent {
 
   // 物理世界
   private world: p2.World = null;
-  private p2debug: p2DebugDraw = null;
 
-  // private preTime: number;
   // 屏幕刷新函数
   private onUpdate() {
-    // let pass = egret.getTimer() - this.preTime;
-    // 执行的时间间隔 单位秒
     this.world.step(1);
-
     // 遍历每个刚体
     this.world.bodies.forEach((body) => {
       // 如果不为null，则更新素材的坐标和角度
@@ -194,17 +182,8 @@ class GameView extends eui.Component implements eui.UIComponent {
         // 位置
         body.displays[0].x = body.position[0];
         body.displays[0].y = body.position[1];
-        // 角度
-        // body.displays[0].rotation = body.angle * 180 / Math.PI;
       }
     });
-
-    // this.preTime = egret.getTimer();
-
-    // p2 测试
-    if (this.isEnableP2Debug) {
-      this.p2debug.drawDebug();
-    }
   }
 
   // 制造一个batman
@@ -243,6 +222,7 @@ class GameView extends eui.Component implements eui.UIComponent {
         return Math.random();
     }
   }
+
   public randomInteger(minNum, maxNum) {
     var max = 0,
       min = 0;
@@ -336,7 +316,6 @@ class GameView extends eui.Component implements eui.UIComponent {
 
   // 保存全部 mask 显示对象
   private masks: egret.Bitmap[] = [];
-  private maskBodys: p2.Body[] = [];
   // 按指定数量产生 mask
   public productMask() {
     var nums: number = this.maskCount;
@@ -350,30 +329,10 @@ class GameView extends eui.Component implements eui.UIComponent {
     // 数量检测
     if (this.maskCount <= 5) {
       this.maskCount++;
-    }
-    {
+    } else {
       // 大于 5 个后，数量在 2 到 5 之间随机
       this.batmanCount = this.randomInteger(2, 5);
     }
-  }
-
-  private addWall(x: number, y: number) {
-    let lwall: egret.Bitmap = new egret.Bitmap();
-    lwall.texture = RES.getRes("wall2_png");
-    // // 图片加到页面
-    this.addChild(lwall);
-
-    let wallShape = new p2.Box({
-      width: lwall.width,
-      height: lwall.height,
-    });
-    let wallBody = new p2.Body({
-      type: p2.Body.STATIC,
-      position: [x, y],
-    });
-    wallBody.addShape(wallShape);
-    wallBody.displays = [lwall];
-    this.world.addBody(wallBody);
   }
 
   // 四面墙壁
@@ -434,17 +393,36 @@ class GameView extends eui.Component implements eui.UIComponent {
       this.holes,
       this.batmanBodys,
       this.world,
-      this.masks,
-      this.maskBodys
+      this.masks
     );
     // 侦听 通知游戏结束
     player.addEventListener(
       PostEvent.GAME_OVER,
       () => {
-        // 取消监听
+        // 取消属性监听 和 事件侦听
         this.player.watchX.unwatch();
+        this.bg.removeEventListener(egret.TouchEvent.TOUCH_END, () => {}, this);
+        this.bg.removeEventListener(
+          egret.TouchEvent.TOUCH_MOVE,
+          () => {},
+          this
+        );
+        player.pig.removeEventListener(
+          egret.TouchEvent.TOUCH_BEGIN,
+          () => {},
+          this
+        );
+        player.pig.removeEventListener(
+          egret.TouchEvent.TOUCH_END,
+          () => {},
+          this
+        );
+        this.removeEventListener(egret.Event.ENTER_FRAME, this.onUpdate, this);
+        this.world.off("endContact", () => {});
         // 游戏结束
         this.gameOver();
+        // 取消监听
+        player.removeEventListener(PostEvent.GAME_OVER, () => {}, this);
       },
       this
     );
@@ -454,6 +432,8 @@ class GameView extends eui.Component implements eui.UIComponent {
       (e) => {
         // 游戏结束
         this.score.text = e.score;
+        // 取消监听
+        player.removeEventListener(PostEvent.INCREMNT_SCORE, () => {}, this);
       },
       this
     );
@@ -462,6 +442,8 @@ class GameView extends eui.Component implements eui.UIComponent {
       PostEvent.INCREMENT_BATMANS,
       (e) => {
         this.productBatman();
+        // 取消监听
+        player.removeEventListener(PostEvent.INCREMENT_BATMANS, () => {}, this);
       },
       this
     );
@@ -469,7 +451,18 @@ class GameView extends eui.Component implements eui.UIComponent {
     player.addEventListener(
       PostEvent.INCREMENT_MASKS,
       (e) => {
-          this.productMask();
+        // 从显示列表拿下来之前没吃完的
+        if (this.masks.length > 0) {
+          this.masks.forEach((item) => {
+            this.removeChild(item);
+          });
+        }
+        // 清除掉没吃完的
+        this.masks.splice(0);
+        // 生产新的
+        this.productMask();
+        // 取消监听
+        player.removeEventListener(PostEvent.INCREMENT_MASKS, () => {}, this);
       },
       this
     );
@@ -496,8 +489,26 @@ class GameView extends eui.Component implements eui.UIComponent {
     super.createChildren();
     // 名称
     if (window && window.playerInfo) {
-      this.nickname.text = window.playerInfo.nickname;
-      this.avatar.source = window.playerInfo.headimgurl;
+      if (window.playerInfo.nickname) {
+        this.nickname.text = window.playerInfo.nickname;
+      }
+      if (window.playerInfo.headimgurl) {
+        // 加载网络图片
+        var imgLoader: egret.ImageLoader = new egret.ImageLoader();
+        egret.ImageLoader.crossOrigin = "anonymous";
+        imgLoader.load(window.playerInfo.headimgurl);
+        imgLoader.once(
+          egret.Event.COMPLETE,
+          (e, index) => {
+            if (e.currentTarget.data) {
+              let texture = new egret.Texture();
+              texture.bitmapData = e.currentTarget.data;
+              this.avatar.source = texture;
+            }
+          },
+          this
+        );
+      }
     }
     // 头像
     // 把音乐放起来

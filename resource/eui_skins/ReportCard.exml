@@ -5,16 +5,16 @@
 	<e:Image id="bg" source="game_bg_png" left="0" right="0" top="0" bottom="0"  width="100%" height="100%"/>
 	<e:Group left="0" right="0" top="0" bottom="0">
 
-		<e:Group id="go_back" width="180" height="60" y="800" anchorOffsetX="90" anchorOffsetY="30" horizontalCenter="0">
+		<e:Group id="go_back" width="180" height="60" anchorOffsetX="90" anchorOffsetY="30" horizontalCenter="0" verticalCenter="429">
 			<e:Rect width="100%" height="100%" x="0" y="0" strokeColor="0xffffff" strokeWeight="2" ellipseWidth="40"
 			        ellipseHeight="40" scaleX="1" scaleY="1" fillColor="0x4f7cf9" />
-			<e:Label text="返回" scaleX="1" scaleY="1" horizontalCenter="0" verticalCenter="0" width="100%" height="100%"
+			<e:Label text="返回" scaleX="1" scaleY="1" horizontalCenter="0" verticalCenter="2" width="100%" height="100%"
 			         textAlign="center" fontFamily="Arial" size="24" verticalAlign="middle" />
 		</e:Group>
-		<e:Group width="500" height="230" verticalCenter="-125" horizontalCenter="0">
-			<e:Image width="100%" source="rect_png" anchorOffsetX="0" anchorOffsetY="0"
-			         scaleX="1" scaleY="1"  top="2" bottom="-2" horizontalCenter="0"/>
-			<e:Group y="65" horizontalCenter="0">
+		<e:Group width="500" height="230" horizontalCenter="0" verticalCenter="0">
+			<e:Image width="100%" anchorOffsetX="0" anchorOffsetY="0"
+			         scaleX="1" scaleY="1"  top="2" bottom="-2" horizontalCenter="0" alpha="0.5" fillMode="scale" source="rect_png"/>
+			<e:Group y="73.526" horizontalCenter="13.5">
 				<e:Group width="80" height="100" x="8.784" y="13.176">
 					
 								
@@ -30,11 +30,13 @@
 							
 					<e:Label id="nickname" left="0" top="0" verticalAlign="middle" textAlign="left" width="100%" size="24" textColor="0xc8aef7" text="小麦"/>
 					<e:Label id="score" text="0" y="60" left="0" width="100%" verticalAlign="middle" textAlign="left" size="24" textColor="0xc8aef7"/>
-					<e:Image source="player_png" top="-10" bottom="10" horizontalCenter="66.5"/>
 				</e:Group>
 			</e:Group>
 		</e:Group>
-		<e:Label text="朱望仔大战大反派" size="50" fontFamily="Microsoft YaHei" horizontalCenter="0" verticalCenter="-338" textColor="0xC8AEF7" bold="true"/>
+		<e:Group verticalCenter="-326.5" horizontalCenter="15">
+			<e:Image source="ui_json.txt_friend_png" x="-42.25" y="27.72" anchorOffsetX="0" width="323.304" anchorOffsetY="0" height="125.729"/>
+			<e:Image source="ui_json.txt_batman_png" x="215.48" y="20" anchorOffsetX="0" width="298.342" anchorOffsetY="0" height="192.954"/>
+		</e:Group>
 
 	</e:Group>
 </e:Skin>

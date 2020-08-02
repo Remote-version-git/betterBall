@@ -88,7 +88,7 @@ class GameView extends eui.Component implements eui.UIComponent {
     world.sleepMode = p2.World.BODY_SLEEPING;
 
     world.defaultContactMaterial.restitution = 15 / 16;
-    world.defaultContactMaterial.friction = 0.4;
+    world.defaultContactMaterial.friction = 1;
 
     world.on(
       "endContact",

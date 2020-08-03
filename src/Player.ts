@@ -160,7 +160,6 @@ class Player extends egret.Sprite {
         if (this.moving) {
           let handPoint = new egret.Point(e.stageX, e.stageY);
           let pigPoint = this.localToGlobal(this.pig.x, this.pig.y);
-
           let xpower = -(handPoint.x - pigPoint.x);
           let ypower = -(handPoint.y - pigPoint.y);
 
@@ -324,15 +323,30 @@ class Player extends egret.Sprite {
     t.textFlow = <Array<egret.ITextElement>>[
       {
         text: "第 ",
-        style: { textColor: 0xffce45, size: 50, stroke: 1, strokeColor: 0xf1f1f1 },
+        style: {
+          textColor: 0xffce45,
+          size: 50,
+          stroke: 1,
+          strokeColor: 0xf1f1f1,
+        },
       },
       {
         text: `${passCount}`,
-        style: { textColor: 0xdd5145, size: 80, stroke: 1, strokeColor: 0xf1f1f1 },
+        style: {
+          textColor: 0xdd5145,
+          size: 80,
+          stroke: 1,
+          strokeColor: 0xf1f1f1,
+        },
       },
       {
         text: " 关",
-        style: { textColor: 0xffce45, size: 50, stroke: 1, strokeColor: 0xf1f1f1 },
+        style: {
+          textColor: 0xffce45,
+          size: 50,
+          stroke: 1,
+          strokeColor: 0xf1f1f1,
+        },
       },
     ];
     t.size = 50;

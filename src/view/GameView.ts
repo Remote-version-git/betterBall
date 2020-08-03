@@ -87,8 +87,9 @@ class GameView extends eui.Component implements eui.UIComponent {
     // Enables sleeping of bodies
     world.sleepMode = p2.World.BODY_SLEEPING;
 
-    world.defaultContactMaterial.restitution = 15 / 16;
-    world.defaultContactMaterial.friction = 1;
+    // Turn off friction and set some bounciness
+    world.defaultContactMaterial.friction = 0;
+    world.defaultContactMaterial.restitution = 15/16;
 
     world.on(
       "endContact",
@@ -119,6 +120,7 @@ class GameView extends eui.Component implements eui.UIComponent {
 
     // 提示关卡
     this.player.feedbackPassCount(this);
+
   }
 
   //   存储四个黑洞 用于碰撞检测
@@ -174,9 +176,11 @@ class GameView extends eui.Component implements eui.UIComponent {
   // 物理世界
   private world: p2.World = null;
 
+
   // 屏幕刷新函数
   private onUpdate() {
     this.world.step(1);
+
     // 遍历每个刚体
     this.world.bodies.forEach((body) => {
       // 如果不为null，则更新素材的坐标和角度
@@ -230,8 +234,8 @@ class GameView extends eui.Component implements eui.UIComponent {
     // 用于随机产生计算位置
     let x = batman.width / 2;
     let y = batman.height / 2;
-    let sx = this.game_scene.width - x;
-    let sy = this.game_scene.height - 76;
+    let sx = this.game_scene.width - x - 20;
+    let sy = this.game_scene.height - 76 - this.holes[0].height;
 
     let batmanShape = new p2.Circle({
       radius: x,
@@ -241,7 +245,7 @@ class GameView extends eui.Component implements eui.UIComponent {
       mass: 1,
       position: [
         this.randomInteger(x, sx - x),
-        this.randomInteger(76 + this.holes[0].height, sy - y),
+        this.randomInteger(y + 76 + this.holes[0].height, sy - y),
       ],
     });
 
@@ -259,7 +263,7 @@ class GameView extends eui.Component implements eui.UIComponent {
     // 用于随机产生计算位置
     let x = mask.width / 2;
     let y = mask.height / 2;
-    let sx = this.game_scene.width - 20;
+    let sx = this.game_scene.width - x - 20;
     let sy = this.game_scene.height - 76 - this.holes[0].height;
 
     mask.x = this.randomInteger(x, sx - x);
@@ -418,8 +422,7 @@ class GameView extends eui.Component implements eui.UIComponent {
 
         this.trumpet_check.removeEventListener(
           egret.TouchEvent.TOUCH_BEGIN,
-          () => {
-          },
+          () => {},
           this
         );
         // 取消监听
@@ -532,11 +535,9 @@ class GameView extends eui.Component implements eui.UIComponent {
     // 更新积分
     try {
       if (window.playerInfo && window.playerInfo.openid) {
-        window.platform.addJifen(parseInt(this.score.text)).then((res) => {
-        });
+        window.platform.addJifen(this.score.text).then((res) => {});
       }
-    } catch (error) {
-    }
+    } catch (error) {}
     // 让 main 打开游戏结束界面
     let p = new PostEvent(
       PostEvent.GAME_OVER,

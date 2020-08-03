@@ -19,6 +19,8 @@ class RankingListView extends eui.Component implements eui.UIComponent {
 
 	private rankingData;
 	private onComplete() {
+		this.width = this.stage.stageWidth;
+		this.height = this.stage.stageHeight;
 		try {
 
 			platform.getRank().then(res => {

@@ -18,7 +18,7 @@
 				
 				
 			
-				<e:Image width="100%" height="100%" source="ui_json#blue_png"/>
+				<e:Image width="100%" height="100%" source="blue_png"/>
 				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0" size.down="28"/>
 				</e:Skin>
 			</e:skinName>

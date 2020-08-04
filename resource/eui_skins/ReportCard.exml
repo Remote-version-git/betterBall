@@ -15,21 +15,21 @@
 			<e:Image width="100%" anchorOffsetX="0" anchorOffsetY="0"
 			         scaleX="1" scaleY="1"  top="2" bottom="-2" horizontalCenter="0" alpha="0.5" fillMode="scale" source="rect_png"/>
 			<e:Group y="73.526" horizontalCenter="13.5">
-				<e:Group width="80" height="100" x="8.784" y="13.176">
+				<e:Group width="128" height="100" x="8.784" y="13.176" anchorOffsetX="0">
 					
 								
 								
 							
-					<e:Label text="姓名:" left="0" top="0" width="100%" verticalAlign="middle" textAlign="center" size="24" textColor="0xc8aef7"/>
-					<e:Label text="成绩:" y="60" left="0" width="100%" verticalAlign="middle" textAlign="center" size="24" textColor="0xc8aef7"/>
+					<e:Label text="姓       名:" top="0" width="100%" verticalAlign="middle" textAlign="center" size="24" textColor="0xc8aef7" left="0" anchorOffsetX="-1.641" anchorOffsetY="-3.281"/>
+					<e:Label text="最高成绩:" y="60" width="122" verticalAlign="middle" textAlign="center" size="24" textColor="0xc8aef7" anchorOffsetX="0" left="0"/>
 				</e:Group>
-				<e:Group width="280" height="100" x="98.784" anchorOffsetX="0" y="13.176">
+				<e:Group width="280" height="100" x="147.784" anchorOffsetX="0" y="13.176">
 					
 								
 								
 							
-					<e:Label id="nickname" left="0" top="0" verticalAlign="middle" textAlign="left" width="100%" size="24" textColor="0xc8aef7" text="小麦"/>
-					<e:Label id="score" text="0" y="60" left="0" width="100%" verticalAlign="middle" textAlign="left" size="24" textColor="0xc8aef7"/>
+					<e:Label id="nickname" top="0" verticalAlign="middle" textAlign="left" width="100%" size="24" textColor="0xc8aef7" text="小麦" left="0"/>
+					<e:Label id="score" text="0" y="61" width="270.993" verticalAlign="middle" textAlign="left" size="24" textColor="0xc8aef7" anchorOffsetX="0" rotation="359.778" left="0"/>
 				</e:Group>
 			</e:Group>
 		</e:Group>

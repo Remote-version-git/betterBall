@@ -89,7 +89,7 @@ class GameView extends eui.Component implements eui.UIComponent {
 
     // Turn off friction and set some bounciness
     world.defaultContactMaterial.friction = 0;
-    world.defaultContactMaterial.restitution = 15/16;
+    world.defaultContactMaterial.restitution = 15 / 16;
 
     world.on(
       "endContact",
@@ -120,7 +120,6 @@ class GameView extends eui.Component implements eui.UIComponent {
 
     // 提示关卡
     this.player.feedbackPassCount(this);
-
   }
 
   //   存储四个黑洞 用于碰撞检测
@@ -175,7 +174,6 @@ class GameView extends eui.Component implements eui.UIComponent {
 
   // 物理世界
   private world: p2.World = null;
-
 
   // 屏幕刷新函数
   private onUpdate() {
@@ -491,15 +489,15 @@ class GameView extends eui.Component implements eui.UIComponent {
   protected createChildren(): void {
     super.createChildren();
     // 名称
-    if (window && window.playerInfo) {
-      if (window.playerInfo.nickname) {
-        this.nickname.text = window.playerInfo.nickname;
+    if (window && window.PlayerInfo) {
+      if (window.PlayerInfo.nickname) {
+        this.nickname.text = window.PlayerInfo.nickname;
       }
-      if (window.playerInfo.headimgurl) {
+      if (window.PlayerInfo.headimgurl) {
         // 加载网络图片
         var imgLoader: egret.ImageLoader = new egret.ImageLoader();
         egret.ImageLoader.crossOrigin = "anonymous";
-        imgLoader.load(window.playerInfo.headimgurl);
+        imgLoader.load(window.PlayerInfo.headimgurl);
         imgLoader.once(
           egret.Event.COMPLETE,
           (e, index) => {
@@ -534,8 +532,8 @@ class GameView extends eui.Component implements eui.UIComponent {
     LoadBGM.getInstance().stopBGM();
     // 更新积分
     try {
-      if (window.playerInfo && window.playerInfo.openid) {
-        window.platform.addJifen(this.score.text).then((res) => {});
+      if (window.PlayerInfo && window.PlayerInfo.openid) {
+        window.platform.postUserScore(this.score.text);
       }
     } catch (error) {}
     // 让 main 打开游戏结束界面

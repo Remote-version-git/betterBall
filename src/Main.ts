@@ -127,21 +127,20 @@ class Main extends eui.UILayer {
 
   // 成绩单
   private reportCard(e) {
-    let rankingCardView = new ReportCard();
-    // 初始化分数
-    rankingCardView.addEventListener(
+    let reportCard = new ReportCard();
+    reportCard.addEventListener(
       eui.UIEvent.COMPLETE,
       () => {
         if (e.score) {
-          rankingCardView.score.text = String(e.score);
+          reportCard.currentScore = String(e.score);
         } else {
-          rankingCardView.score.text = "0";
+          reportCard.currentScore = "0";
         }
       },
       this
     );
-    this.addChild(rankingCardView);
-    rankingCardView.addEventListener(
+    this.addChild(reportCard);
+    reportCard.addEventListener(
       PostEvent.GAME_OVER,
       this.showGameOver,
       this

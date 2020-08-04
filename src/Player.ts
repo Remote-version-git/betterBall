@@ -136,8 +136,8 @@ class Player extends egret.Sprite {
 
           // 获取角度
           let angle: number = Math.atan2(
-            -(handPoint.y - pigPoint.y),
-            -(handPoint.x - pigPoint.x)
+            handPoint.y - pigPoint.y,
+            handPoint.x - pigPoint.x
           );
 
           // 箭头旋转
@@ -160,8 +160,8 @@ class Player extends egret.Sprite {
         if (this.moving) {
           let handPoint = new egret.Point(e.stageX, e.stageY);
           let pigPoint = this.localToGlobal(this.pig.x, this.pig.y);
-          let xpower = -(handPoint.x - pigPoint.x);
-          let ypower = -(handPoint.y - pigPoint.y);
+          let xpower = handPoint.x - pigPoint.x;
+          let ypower = handPoint.y - pigPoint.y;
 
           this.body.applyForce([xpower / 5, ypower / 5], [0, 0]);
 

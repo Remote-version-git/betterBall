@@ -22,13 +22,12 @@ class RankingListView extends eui.Component implements eui.UIComponent {
 		this.width = this.stage.stageWidth;
 		this.height = this.stage.stageHeight;
 		try {
-
-			platform.getRank().then(res => {
+			
+			platform.getRankResult().then(res => {
 				// 解析过滤空数据
-				let rankingData = JSON.parse(res).rows.filter(v => v.nickname !== null && v.avatar !== null);
+				let rankingData = JSON.parse(res).data.filter(v => v.nickname !== null && v.avatar !== null);
 
 				rankingData.forEach((item, index) => {
-
 					item.rank = index + 1;
 					item.score = item.score + '分';
 					// 加载网络图片

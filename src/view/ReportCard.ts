@@ -2,12 +2,15 @@
 class ReportCard extends eui.Component implements eui.UIComponent {
   // 返回
   private go_back: eui.Button;
-  // 成绩
+  // 用户最高成绩
   public score: eui.Label;
   // 昵称
   private nickname: eui.Label;
 
   private bg: eui.Image;
+
+  // 用户当前的成绩
+  public currentScore: string;
 
   public constructor() {
     super();
@@ -24,16 +27,27 @@ class ReportCard extends eui.Component implements eui.UIComponent {
       this
     );
 
-    this.go_back.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
-      TouchEvents.onEvent(this.go_back)
-      egret.Tween.get(this.go_back).to({ scaleX: 0.95, scaleY: 0.95 }, 150)
-    }, this)
+    this.go_back.addEventListener(
+      egret.TouchEvent.TOUCH_BEGIN,
+      () => {
+        TouchEvents.onEvent(this.go_back);
+        egret.Tween.get(this.go_back).to({ scaleX: 0.95, scaleY: 0.95 }, 150);
+      },
+      this
+    );
   }
 
   private goBack() {
     // 销毁自己的界面
     this.parent.removeChild(this);
-    this.dispatchEvent(new PostEvent(PostEvent.GAME_OVER, false, false, Number(this.score.text)));
+    this.dispatchEvent(
+      new PostEvent(
+        PostEvent.GAME_OVER,
+        false,
+        false,
+        Number(this.currentScore)
+      )
+    );
   }
 
   protected partAdded(partName: string, instance: any): void {
@@ -42,10 +56,23 @@ class ReportCard extends eui.Component implements eui.UIComponent {
 
   protected childrenCreated(): void {
     super.childrenCreated();
-    if (window && window.playerInfo && window.playerInfo.nickname) {
-      this.nickname.text = window.playerInfo.nickname;
+  }
+  protected createChildren(): void {
+    super.createChildren();
+    if (window && window.PlayerInfo && window.PlayerInfo.nickname) {
+      this.nickname.text = window.PlayerInfo.nickname;
+      if (window.PlayerInfo.openid) {
+        platform.getScoreByOpenid().then((res) => {
+          let r = JSON.parse(res);
+          if (r.data && r.data.score) {
+            this.score.text = r.data.score;
+          } else {
+            this.score.text = "数据异常";
+          }
+        });
+      }
     } else {
-      this.nickname.text = "获取名称失败";
+      this.nickname.text = "数据异常";
     }
   }
 }

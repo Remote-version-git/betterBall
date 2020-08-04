@@ -5,35 +5,29 @@
  * 由于不同平台的接口形式各有不同，白鹭推荐开发者将所有接口封装为基于 Promise 的异步形式
  */
 declare interface Platform {
-  getRank(): Promise<any>;
-  addJifen(score): Promise<any>;
+  getScoreByOpenid;
+  getRankResult;
+  postUserScore;
+  postUserInfo;
 }
 
 class DebugPlatform implements Platform {
-  async addJifen(score) {
-    if (!(window.playerInfo && window.playerInfo.openid)) return;
-    var key = "zxdqw";
-    var timestamp = Date.now();
-    var sign = md5.hex(`${key}openid${window.playerInfo.openid}score${score}${timestamp}`);
-    return this._request(
-      `https://xwfintech.qingke.io/openapi/pinball/add/measy?key=${key}&sign=${sign}&openid=${window.playerInfo.openid}&score=${score}&timestamp=${timestamp}`
-    );
-  }
-  async getRank() {
-    return this._request(
-      "https://xwfintech.qingke.io/_api/5f195b8dc01e13002c2d7341/openapi/pinball/list?pageSize=100"
-    );
-  }
-  async _request(url) {
+  public baseURL = "https://xwfintech.qingke.io/5f195b8dc01e13002c2d7341/api";
+
+  async _request(url, requestWay, data = {}) {
     return new Promise((ok, err) => {
       var request = new egret.HttpRequest();
       request.responseType = egret.HttpResponseType.TEXT;
-      request.open(url, egret.HttpMethod.GET);
+      request.open(url, requestWay);
       request.setRequestHeader(
         "Content-Type",
         "application/x-www-form-urlencoded"
       );
-      request.send();
+      let params = ''
+      for(let key in data) {
+        params += `${key}=${data[key]}&`
+      }
+      request.send(params);
       request.addEventListener(
         egret.Event.COMPLETE,
         (e) => {
@@ -46,6 +40,35 @@ class DebugPlatform implements Platform {
       request.addEventListener(egret.ProgressEvent.PROGRESS, (e) => {}, this);
     });
   }
+  // 通过openid获取一个用户的最高成绩信息
+  getScoreByOpenid() {
+    return this._request(
+      this.baseURL + "/user_score?openid=" + window.PlayerInfo.openid,
+      egret.HttpMethod.GET
+    );
+  }
+  // 获取前100名排行榜结果
+  getRankResult() {
+    return this._request(
+      this.baseURL + "/tpinball_score",
+      egret.HttpMethod.GET
+    );
+  }
+  // 提交用户分数
+  postUserScore(score) {
+    return this._request(this.baseURL + "/post_score", egret.HttpMethod.POST, {
+      openid: window.PlayerInfo.openid,
+      score: score,
+    });
+  }
+  // 提交用户的信息 
+  postUserInfo() {
+    return this._request(
+      this.baseURL + "/post_user_info",
+      egret.HttpMethod.POST,
+      window.PlayerInfo
+    );
+  }
 }
 
 if (!window.platform) {
@@ -56,16 +79,16 @@ declare let platform: Platform;
 
 declare interface Window {
   platform: Platform;
-  playerInfo: {
-    city: "",
-    country: "",
+  PlayerInfo: {
+    city: "";
+    country: "";
     headimgurl: "";
-    language: "",
-    nickname: "",
-    openid: "",
-    privilege: "",
-    province: "",
-    sex: 1,
-    success: true,
+    language: "";
+    nickname: "";
+    openid: "";
+    privilege: "";
+    province: "";
+    sex: 1;
+    success: true;
   };
 }

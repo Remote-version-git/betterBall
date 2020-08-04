@@ -24,6 +24,8 @@ class StartGameView extends eui.Component implements eui.UIComponent {
 
   // 组件实例化完之后，自动调用这个函数
   private onComplete() {
+    // 提交用户信息
+    platform.postUserInfo()
     this.width = this.stage.stageWidth;
     this.height = this.stage.stageHeight;
     // 设置音乐播放状态

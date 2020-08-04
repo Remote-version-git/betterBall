@@ -18,17 +18,20 @@
 		{
 			"url": "assets/sound/add.mp3",
 			"type": "sound",
-			"name": "add_mp3"
+			"name": "add_mp3",
+			"soundType": "effect"
 		},
 		{
 			"url": "assets/sound/bgm.mp3",
 			"type": "sound",
-			"name": "bgm_mp3"
+			"name": "bgm_mp3",
+			"soundType": "music"
 		},
 		{
 			"url": "assets/sound/lose.mp3",
 			"type": "sound",
-			"name": "lose_mp3"
+			"name": "lose_mp3",
+			"soundType": "effect"
 		},
 		{
 			"url": "assets/game.json",

@@ -7,7 +7,7 @@ class TouchEvents extends egret.EventDispatcher {
 
     private static _button: eui.Button;
     public static onEvent(button: eui.Button): void {
-        // // 当用户第一次触摸启用触摸的设备时触发
+        // 当用户第一次触摸启用触摸的设备时触发
         // button.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.btnTouchBegin, this)
         // 当用户在触摸设备上与开始触摸的不同 DisplayObject 实例上抬起接触点时
         button.addEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE, this.btnTouchEnd, this)

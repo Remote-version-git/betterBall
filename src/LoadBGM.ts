@@ -14,10 +14,10 @@ class LoadBGM {
     this._sound = RES.getRes("bgm_mp3");
   }
 
-  // // 是否播放了音乐, 默认不播放
+  // 是否播放了音乐, 默认不播放
   private _isPlay: boolean = false;
 
-  // // 获取播放状态
+  // 获取播放状态
   public getPlayStatus(): boolean {
     return this._isPlay;
   }
@@ -40,7 +40,7 @@ class LoadBGM {
       this.prePlayStatus = true;
     }
   }
-    // 播放音乐
+  // 播放音乐
   public playBGM() {
     if (!this._isPlay) {
       this._channel = this._sound.play();
@@ -49,7 +49,7 @@ class LoadBGM {
     }
   }
 
-  // // 切换音乐
+  // 切换音乐
   public SwitchPlay(): void {
     if (!this._isPlay) {
       // 播放音乐

@@ -4,17 +4,16 @@ class Player extends egret.Sprite {
   public pig: egret.Bitmap = null;
   public diskShow: boolean = false;
   public bg = null;
-  //   是否移动猪
+  // 是否移动猪
   public moving: boolean = false;
   public body: p2.Body = null;
-  //   batmans
+  // batmans
   private batmans: egret.Bitmap[];
-  //   batmans body
+  // batmans body
   private batmanBodys: p2.Body[];
   // 黑洞们
   public holes: egret.Bitmap[];
   public world: p2.World;
-
   // mask
   private masks: egret.Bitmap[];
   private maskBodys: p2.Body[];

@@ -62,14 +62,14 @@ class ReportCard extends eui.Component implements eui.UIComponent {
     if (window && window.PlayerInfo && window.PlayerInfo.nickname) {
       this.nickname.text = window.PlayerInfo.nickname;
       if (window.PlayerInfo.openid) {
-        platform.getScoreByOpenid().then((res) => {
-          let r = JSON.parse(res);
+        (async () => {
+          let r = JSON.parse(await platform.getScoreByOpenid());
           if (r.data && r.data.score) {
             this.score.text = r.data.score;
           } else {
             this.score.text = "数据异常";
           }
-        });
+        })();
       }
     } else {
       this.nickname.text = "数据异常";

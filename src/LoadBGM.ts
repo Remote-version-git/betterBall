@@ -9,7 +9,7 @@ class LoadBGM {
     return LoadBGM.LoadBGM;
   }
 
-  private _sound: egret.Sound;
+  public _sound: egret.Sound;
   private constructor() {
     this._sound = RES.getRes("bgm_mp3");
   }

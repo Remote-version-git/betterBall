@@ -28,8 +28,11 @@ class StartGameView extends eui.Component implements eui.UIComponent {
     platform.postUserInfo()
     this.width = this.stage.stageWidth;
     this.height = this.stage.stageHeight;
+    // 播放音乐
+    let ms = LoadBGM.getInstance();
+    ms.SwitchPlay();
     // 设置音乐播放状态
-    this.is_trumpet.visible = LoadBGM.getInstance().getPlayStatus();
+    this.is_trumpet.visible = ms.getPlayStatus();
     // 侦听开始按钮的触摸点击事件
     this.start_button.addEventListener(
       egret.TouchEvent.TOUCH_TAP,
@@ -69,6 +72,11 @@ class StartGameView extends eui.Component implements eui.UIComponent {
   }
 
   private startButton() {
+    let s = LoadBGM.getInstance();
+    // 播放音乐
+    if (s.getPlayStatus()) {
+      s._sound.play();
+    }
     // 隐藏开始游戏界面
     this.parent.removeChild(this);
     // 构建一个事件

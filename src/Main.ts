@@ -8,10 +8,18 @@ class Main extends eui.UILayer {
 
     egret.lifecycle.onPause = () => {
       egret.ticker.pause();
+      // 停止音乐
+      LoadBGM.getInstance().stopBGM();
     };
 
     egret.lifecycle.onResume = () => {
       egret.ticker.resume();
+      // 播放音乐
+      let s = LoadBGM.getInstance();
+      if (s.prePlayStatus) {
+        s.playBGM();
+        s.setPlayStatus(true);
+      }
     };
 
     //inject the custom material parser
@@ -36,8 +44,8 @@ class Main extends eui.UILayer {
       this.stage.addChild(loadingView);
       await RES.loadConfig("resource/default.res.json", "resource/");
       await this.loadTheme();
-      await RES.loadGroup("preload_start", 1, loadingView);
-      await RES.loadGroup("preload_mp3", 0, loadingView);
+      await RES.loadGroup("preload_start", 0, loadingView);
+      await RES.loadGroup("preload_mp3", 1, loadingView);
       this.stage.removeChild(loadingView);
     } catch (e) {
       console.error(e);

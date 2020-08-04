@@ -4,8 +4,6 @@ class Player extends egret.Sprite {
   public pig: egret.Bitmap = null;
   public diskShow: boolean = false;
   public bg = null;
-  // 是否移动猪
-  public moving: boolean = false;
   public body: p2.Body = null;
   // batmans
   private batmans: egret.Bitmap[];
@@ -89,7 +87,7 @@ class Player extends egret.Sprite {
     dp.anchorOffsetX = dp.width / 2;
     dp.anchorOffsetY = dp.height / 2;
     dp.visible = false;
-    this.addChild(dp);
+    this.bg.addChild(dp);
     this.disk = dp;
 
     // 猪
@@ -104,73 +102,66 @@ class Player extends egret.Sprite {
     this.pig = pig;
   }
 
-  //   猪的移动
+  //  触摸控制
   private bindTouchEvent() {
-    this.pig.addEventListener(
+
+    // 触摸背景时，控制面板启动
+    this.bg.addEventListener(
       egret.TouchEvent.TOUCH_BEGIN,
       (e) => {
+        this.disk.x = e.stageX
+        this.disk.y = e.stageY;
         this.disk.visible = true;
         this.arrow.visible = true;
-        this.moving = true;
-      },
-      this
-    );
-    this.pig.addEventListener(
-      egret.TouchEvent.TOUCH_END,
-      (e) => {
-        this.disk.visible = false;
-        this.arrow.visible = false;
-        this.moving = false;
       },
       this
     );
 
-    // 游戏背景
     this.bg.addEventListener(
       egret.TouchEvent.TOUCH_MOVE,
       (e) => {
-        if (this.moving) {
-          let handPoint = new egret.Point(e.stageX, e.stageY);
-          let pigPoint = this.localToGlobal(this.pig.x, this.pig.y);
+        let handPoint = new egret.Point(e.stageX, e.stageY);
+        let diskPoint = new egret.Point(this.disk.x, this.disk.y);
 
-          // 获取角度
-          let angle: number = Math.atan2(
-            handPoint.y - pigPoint.y,
-            handPoint.x - pigPoint.x
-          );
+        // 获取角度
+        let angle: number = Math.atan2(
+          -(handPoint.y - diskPoint.y),
+          -(handPoint.x - diskPoint.x)
+        );
 
-          // 箭头旋转
-          this.arrow.rotation = angle * (180 / Math.PI);
+        // 箭头旋转
+        this.arrow.rotation = angle * (180 / Math.PI);
 
-          // 箭头长度
-          let distance = egret.Point.distance(handPoint, pigPoint);
-          if (distance > 75) distance = 75;
-          if (distance < 10) distance = 10;
-          // 对应到比例 0 ~ 1
-          this.arrow.scaleX = distance / 100;
-          this.arrow.scaleY = distance / 100;
-        }
+        // 箭头长度
+        let distance = egret.Point.distance(diskPoint, handPoint);
+        if (distance > 75) distance = 75;
+        if (distance < 10) distance = 10;
+        // 对应到比例 0 ~ 1
+        this.arrow.scaleX = distance / 100;
+        this.arrow.scaleY = distance / 100;
       },
       this
     );
+
     this.bg.addEventListener(
       egret.TouchEvent.TOUCH_END,
       (e) => {
-        if (this.moving) {
-          let handPoint = new egret.Point(e.stageX, e.stageY);
-          let pigPoint = this.localToGlobal(this.pig.x, this.pig.y);
-          let xpower = handPoint.x - pigPoint.x;
-          let ypower = handPoint.y - pigPoint.y;
+        let handPoint = new egret.Point(e.stageX, e.stageY);
+        let diskPoint = new egret.Point(this.disk.x, this.disk.y);
 
-          this.body.applyForce([xpower / 5, ypower / 5], [0, 0]);
+        let xpower = -(handPoint.x - diskPoint.x);
+        let ypower = -(handPoint.y - diskPoint.y);
 
-          this.disk.visible = false;
-          this.arrow.visible = false;
-          this.moving = false;
-        }
+        this.body.applyForce([xpower / 5, ypower / 5], [0, 0]);
+
+
+        // 重置回初始状态
+        this.disk.visible = false;
+        this.arrow.visible = false;
       },
       this
     );
+
   }
   // 积分
   public score: number = 0;

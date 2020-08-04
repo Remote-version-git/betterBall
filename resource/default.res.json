@@ -1,8 +1,12 @@
 {
 	"groups": [
 		{
-			"keys": "game_bg_png,add_mp3,bgm_mp3,lose_mp3,game_json,ui_json",
-			"name": "preload"
+			"keys": "game_bg_png,game_json,ui_json",
+			"name": "preload_start"
+		},
+		{
+			"keys": "add_mp3,bgm_mp3,lose_mp3",
+			"name": "preload_mp3"
 		}
 	],
 	"resources": [

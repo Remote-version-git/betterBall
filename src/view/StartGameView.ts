@@ -72,11 +72,6 @@ class StartGameView extends eui.Component implements eui.UIComponent {
   }
 
   private startButton() {
-    let s = LoadBGM.getInstance();
-    // 播放音乐
-    if (s.getPlayStatus()) {
-      s._sound.play();
-    }
     // 隐藏开始游戏界面
     this.parent.removeChild(this);
     // 构建一个事件

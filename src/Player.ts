@@ -1,3 +1,13 @@
+enum FeedbackType {
+  // 自定义反馈内容
+  none = 0,
+  // 反馈得分
+  score = 1,
+  // 反馈减少成绩
+  descoreScore = 2,
+  // 反馈减少的关卡分
+  descorePassScore = 3,
+}
 class Player extends egret.Sprite {
   public arrow: egret.Bitmap = null;
   public disk: egret.Bitmap = null;
@@ -5,6 +15,8 @@ class Player extends egret.Sprite {
   public diskShow: boolean = false;
   public bg = null;
   public body: p2.Body = null;
+  // 当前关卡的，通关加成分数
+  private passScore: number = 0;
   // batmans
   private batmans: egret.Bitmap[];
   // batmans body
@@ -17,6 +29,8 @@ class Player extends egret.Sprite {
   private maskBodys: p2.Body[];
   // 监听属性实例
   public watchX: eui.Watcher;
+
+  // 节流函数
   throttle(func, delay) {
     var timer = null;
     return function () {
@@ -30,6 +44,9 @@ class Player extends egret.Sprite {
       }
     };
   }
+
+  // 倒计时减分的定时器标识
+  private _countdownTimer: number;
   constructor(
     bg,
     body,
@@ -40,6 +57,35 @@ class Player extends egret.Sprite {
     masks: egret.Bitmap[]
   ) {
     super();
+
+    // batmans
+    this.batmans = batmans;
+    // batmans body
+    this.batmanBodys = batmanBodys;
+    // masks
+    this.masks = masks;
+    // 黑洞们
+    this.holes = holes;
+    // world
+    this.world = world;
+    // 刚体
+    this.body = body;
+    this.bg = bg;
+    // 创建对象
+    this.createObject();
+
+    this.sortableChildren = true;
+
+    this.addEventListener(egret.Event.ADDED, this.initStep, this);
+  }
+  /**
+   * 需要在player初始以后，完成的初始工作在这里写
+   */
+  private initStep() {
+    // 移除侦听
+    this.removeEventListener(egret.Event.ADDED, this.initStep, this);
+    // 执行初始化工作
+    // 初始关卡分
     // 当x发生变化就检测是否吃到东西
     this.watchX = eui.Watcher.watch(
       this,
@@ -49,26 +95,58 @@ class Player extends egret.Sprite {
       }, 20),
       this
     );
-    // batmans
-    this.batmans = batmans;
-    // batmans body
-    this.batmanBodys = batmanBodys;
-
-    // masks
-    this.masks = masks;
-
-    // 黑洞们
-    this.holes = holes;
-    // world
-    this.world = world;
-    // 刚体
-    this.body = body;
-
-    this.bg = bg;
-    // 创建对象
-    this.createObject();
-    // 绑定事件
+    // 绑定触摸移动事件
     this.bindTouchEvent();
+    // 绑定倒计时减分数事件
+    this.bindCountdownEvent();
+    // 打开每秒减少通关分
+    this.openDecrePassScore();
+  }
+  /**
+   * 初始化通关分数
+   */
+  private initPassScore() {
+    // 根据通关数，生成不同的通关成绩
+    switch (this.passCount) {
+      case 1:
+        this.passScore = GameView.randomInteger(10, 20);
+        break;
+      case 2:
+        this.passScore = GameView.randomInteger(20, 40);
+        break;
+      case 3:
+        this.passScore = GameView.randomInteger(40, 50);
+        break;
+      default:
+        // 关卡大的时候，就直接50 - 100 随机
+        this.passScore = GameView.randomInteger(50, 100);
+        break;
+    }
+  }
+
+  /**
+   * 绑定倒计时扣分事件
+   */
+  private bindCountdownEvent() {
+    this._countdownTimer = setInterval(() => {
+      let decrementScore = this.score > 3 ? 3 : 1;
+      // 如果分数大 3 就扣分
+      if (this.score != 0) {
+        // 减掉分数
+        this.decrementScore(decrementScore);
+        // 发出游戏场景更新显示的分数事件
+        this.dispatchEvent(
+          new PostEvent(PostEvent.INCREMNT_SCORE, false, false, this.score)
+        );
+      } else {
+        // 分数不够减的时候 清除掉倒计时
+        clearInterval(this._countdownTimer);
+        // 发出游戏场景更新显示的分数事件
+        this.dispatchEvent(
+          new PostEvent(PostEvent.INCREMNT_SCORE, false, false, this.score)
+        );
+      }
+    }, 3000);
   }
 
   //   猪的装备
@@ -104,12 +182,16 @@ class Player extends egret.Sprite {
 
   //  触摸控制
   private bindTouchEvent() {
-
     // 触摸背景时，控制面板启动
+
+    // 开始移动
     this.bg.addEventListener(
       egret.TouchEvent.TOUCH_BEGIN,
       (e) => {
-        this.disk.x = e.stageX
+        // 每次移动清除掉定下的减分数定时器
+        window.clearInterval(this._countdownTimer);
+
+        this.disk.x = e.stageX;
         this.disk.y = e.stageY;
         this.disk.visible = true;
         this.arrow.visible = true;
@@ -117,6 +199,7 @@ class Player extends egret.Sprite {
       this
     );
 
+    // 移动中
     this.bg.addEventListener(
       egret.TouchEvent.TOUCH_MOVE,
       (e) => {
@@ -125,8 +208,8 @@ class Player extends egret.Sprite {
 
         // 获取角度
         let angle: number = Math.atan2(
-          -(handPoint.y - diskPoint.y),
-          -(handPoint.x - diskPoint.x)
+          handPoint.y - diskPoint.y,
+          handPoint.x - diskPoint.x
         );
 
         // 箭头旋转
@@ -143,17 +226,19 @@ class Player extends egret.Sprite {
       this
     );
 
+    // 移动结束
     this.bg.addEventListener(
       egret.TouchEvent.TOUCH_END,
       (e) => {
+        // 将倒计时开启
+        this.bindCountdownEvent();
         let handPoint = new egret.Point(e.stageX, e.stageY);
         let diskPoint = new egret.Point(this.disk.x, this.disk.y);
 
-        let xpower = -(handPoint.x - diskPoint.x);
-        let ypower = -(handPoint.y - diskPoint.y);
+        let xpower = handPoint.x - diskPoint.x;
+        let ypower = handPoint.y - diskPoint.y;
 
         this.body.applyForce([xpower / 5, ypower / 5], [0, 0]);
-
 
         // 重置回初始状态
         this.disk.visible = false;
@@ -161,10 +246,26 @@ class Player extends egret.Sprite {
       },
       this
     );
-
   }
   // 积分
   public score: number = 0;
+
+  /**
+   * 扣分函数
+   * @param decrementScore 要减掉的分数
+   */
+  public decrementScore(decrementScore: number) {
+    // 减掉分数
+    this.score -= decrementScore;
+    // 在 pig 边上生成提示
+    this.feedbackTips(
+      FeedbackType.descoreScore,
+      decrementScore,
+      -30,
+      -50,
+      this
+    );
+  }
 
   // 被world的endContact事件调用.
   public checkHit() {
@@ -187,7 +288,7 @@ class Player extends egret.Sprite {
           // 得分增加
           this.incrementScore(10);
           // 在batman被吃掉位置生成得分反馈
-          this.feedbackScore(10, b.x, b.y, this.bg);
+          this.feedbackTips(FeedbackType.score, 10, b.x, b.y, this.bg);
           // 播放一次吃掉的音效
           this.playHitSound();
         }
@@ -206,19 +307,69 @@ class Player extends egret.Sprite {
         // 得分增加 20
         this.incrementScore(20);
         // 在 mask 被吃掉位置生成得分反馈
-        this.feedbackScore(20, m.x, m.y, this.bg);
+        this.feedbackTips(FeedbackType.score, 20, m.x, m.y, this.bg);
         // 播放一次吃掉的音效
         this.playHitSound();
       }
     });
-    // 最后看是否吃完了batman，再给制造一些
+    // 最后看是否吃完了batman，再给制造一些, 吃完就通关
     if (this.batmans.length === 0) {
+      // 将本次关卡加成分加到成绩上
+      this.incrementScore(this.passScore);
+      // 提示通关得分加成
+      this.feedbackTips(FeedbackType.score, this.passScore, 0, -60, this);
+      // 打开每秒减少通关分
+      this.openDecrePassScore();
+      // 提示新关卡
+      this.feedbackPassCount(this.bg);
+      // 制造新关卡怪
       this.dispatchEvent(new PostEvent(PostEvent.INCREMENT_MASKS));
       this.dispatchEvent(new PostEvent(PostEvent.INCREMENT_BATMANS));
-      // 提示关卡
-      this.feedbackPassCount(this.bg);
     }
   }
+
+  // 通关分减少，每秒减1分，每次通关被重置
+  private _decrePassScoreTimer: number;
+  private openDecrePassScore() {
+    // 重置关卡分
+    this.passScore = 0;
+    // 清除之前开启的
+    clearInterval(this._decrePassScoreTimer);
+    // 调用生成新的通关分
+    this.initPassScore();
+    // 发出游戏场景更新显示的分数事件
+    this.dispatchEvent(
+      new PostEvent(
+        PostEvent.DECREMENT_PASSSCORE,
+        false,
+        false,
+        0,
+        this.passScore
+      )
+    );
+    this._decrePassScoreTimer = setInterval(() => {
+      if (this.passScore === 0) {
+        // 停止减分
+        clearInterval(this._decrePassScoreTimer);
+      } else {
+        // 自减通关加成分的一分
+        this.passScore--;
+        // 反馈提示
+        this.feedbackTips(FeedbackType.descorePassScore, 1, -30, -80, this);
+        // 更新游戏场景的通关分显示
+        this.dispatchEvent(
+          new PostEvent(
+            PostEvent.DECREMENT_PASSSCORE,
+            false,
+            false,
+            0,
+            this.passScore
+          )
+        );
+      }
+    }, 5000);
+  }
+
   /**
    * 检测猪是否与一个黑洞碰撞
    */
@@ -239,6 +390,7 @@ class Player extends egret.Sprite {
       this.dispatchEvent(new PostEvent(PostEvent.GAME_OVER));
     }
   }
+
   /**
    * 检测口罩 是否被猪吃了
    * @returns true 被吃了 false没被吃
@@ -257,6 +409,7 @@ class Player extends egret.Sprite {
     }
     return false;
   }
+
   /**
    * 增加积分
    * @param score 要增加的分数
@@ -267,31 +420,61 @@ class Player extends egret.Sprite {
       new PostEvent(PostEvent.INCREMNT_SCORE, false, false, this.score)
     );
   }
+
   /**
-   * 反馈得分
-   * @param score 反馈分数
-   * @param x 生成x位置
-   * @param y 生成y位置
-   * @param area 添加到的区域（显示容器）
+   * 在某个显示容器生成反馈提示，包含 加分、减分、自定义提示内容
+   * @param type 反馈类型
+   * @param value 反馈的值
+   * @param x 提示的x位置
+   * @param y 提示的y位置
+   * @param area 要添加提示的显示容器
    */
-  public feedbackScore(
+  public feedbackTips(
+    type: FeedbackType,
     score: number,
     x: number,
     y: number,
     area: egret.DisplayObjectContainer
   ) {
-    let t = new eui.Label("+" + score);
+    let value = "";
+    let t = new eui.Label();
     t.x = x;
     t.y = y;
-    t.textColor = 0xfaed36;
+    t.zIndex = 99;
     t.fontFamily = "Consolas";
-    t.size = 18;
+    t.size = 24;
+    switch (type) {
+      case FeedbackType.score:
+        value = `+${score}分`;
+        // 绿色
+        t.textColor = 0x16a05d;
+        break;
+      case FeedbackType.descoreScore:
+        value = `-${score}分`;
+        // 黄色
+        t.textColor = 0xffce44;
+        break;
+      case FeedbackType.descorePassScore:
+        value = `-${score}关卡分`;
+        // 黄色
+        t.textColor = 0xffce44;
+        break;
+      default:
+        break;
+    }
+    // 赋提示文本
+    t.text = value;
+    // 附加动画
     egret.Tween.get(t)
       .to({ alpha: 0, y: y - 10 }, 1000)
       .call(() => {
+        // 在动画后移除
         area.removeChild(t);
+        // 解除引用
         t = null;
       });
+
+    // 添加到显示容器
     area.addChild(t);
   }
 
@@ -310,6 +493,7 @@ class Player extends egret.Sprite {
     t.textAlign = egret.HorizontalAlign.CENTER;
     t.textColor = 0xffffff;
     t.fontFamily = "Mircrosoft YaHei";
+    t.zIndex = 999;
     t.textFlow = <Array<egret.ITextElement>>[
       {
         text: "第 ",
@@ -336,6 +520,14 @@ class Player extends egret.Sprite {
           size: 50,
           stroke: 1,
           strokeColor: 0xf1f1f1,
+        },
+      },
+      { text: "\n" },
+      {
+        text: "关卡分数:" + this.passScore,
+        style: {
+          textColor: 0xdd5145,
+          size: 24,
         },
       },
     ];

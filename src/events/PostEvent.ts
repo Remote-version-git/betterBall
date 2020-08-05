@@ -14,15 +14,17 @@ class PostEvent extends egret.Event {
   public static READ_EXPLAIN: string = "read explain";
 
   // 排行榜
-  public static Ranking_List: string = 'Ranking List';
+  public static Ranking_List: string = "Ranking List";
 
   // 积分增加
-  public score: number;
+  public score: number = 0;
+  public passScore: number = 0;
   public static INCREMNT_SCORE: string = "incremnt score";
+  public static DECREMENT_PASSSCORE: string = "decrement pass score";
 
   // 增加batman
   public static INCREMENT_BATMANS: string = "incremnt batmanas";
-  
+
   // 增加masks
   public static INCREMENT_MASKS: string = "incremnt masks";
 
@@ -34,10 +36,10 @@ class PostEvent extends egret.Event {
     bubbles: boolean = false,
     cancelable: boolean = false,
     score: number = 0,
+    passScore: number = 0
   ) {
     super(type, bubbles, cancelable);
-    if (score !== 0) {
-      this.score = score;
-    }
+    this.score = score;
+    this.passScore = passScore;
   }
 }

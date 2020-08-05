@@ -84,11 +84,11 @@ data-show-log="false" data-show-fps-style="x:0,y:0,size:12,textColor:0xffffff,bg
           // 有信息不跳转，赋值到全局
           window["PlayerInfo"] = localInfo;
         } else {
-          // 官方服务号跳转地址,不能存在获取信息
+          // 官方服务号跳转地址,不存在获取信息时
           window.location.href = "https://xwfintech.qingke.io/wxapi/connect/oauth2/authorize?redirect_uri=https://xwfintech.qingke.io/5f195b8dc01e13002c2d7341&scope=snsapi_userinfo";
         }
       } else {
-        // 官方服务号跳转地址,不能存在获取信息
+        // 官方服务号跳转地址,不存在获取信息时
         window.location.href = "https://xwfintech.qingke.io/wxapi/connect/oauth2/authorize?redirect_uri=https://xwfintech.qingke.io/5f195b8dc01e13002c2d7341&scope=snsapi_userinfo";
       }
 

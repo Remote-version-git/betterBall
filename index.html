@@ -65,33 +65,33 @@ data-show-log="false" data-show-fps-style="x:0,y:0,size:12,textColor:0xffffff,bg
     }
     // 以下解决分享问题
     // 有参数的地址获取到了信息
-    if (playerInfo && playerInfo.openid) {
-      //  存储到 localstorage
-      window.localStorage.setItem("PlayerInfo", JSON.stringify(playerInfo));
-      // 跳转到没参数的
-      window.location.href = "https://xwfintech.qingke.io/5f195b8dc01e13002c2d7341/";
-    } else {
-      // 没参数的,先判断 localstorage 是否有信息
-      // 从localstorage获取信息
-      var localInfo = window.localStorage.getItem("PlayerInfo");
-      if (localInfo !== null) {
-        // 解析数据
-        localInfo = JSON.parse(localInfo);
-        // 判断是否存在openid,不存在就跳去获取信息
-        if (localInfo.openid) {
-          // 从 localstorage 中获取用户信息
-          // 有信息不跳转，赋值到全局
-          window["PlayerInfo"] = localInfo;
-        } else {
-          // 官方服务号跳转地址,不能存在获取信息
-          window.location.href = "https://xwfintech.qingke.io/wxapi/connect/oauth2/authorize?redirect_uri=https://xwfintech.qingke.io/5f195b8dc01e13002c2d7341&scope=snsapi_userinfo";
-        }
-      } else {
-        // 官方服务号跳转地址,不能存在获取信息
-        window.location.href = "https://xwfintech.qingke.io/wxapi/connect/oauth2/authorize?redirect_uri=https://xwfintech.qingke.io/5f195b8dc01e13002c2d7341&scope=snsapi_userinfo";
-      }
+    // if (playerInfo && playerInfo.openid) {
+    //   //  存储到 localstorage
+    //   window.localStorage.setItem("PlayerInfo", JSON.stringify(playerInfo));
+    //   // 跳转到没参数的
+    //   window.location.href = "https://xwfintech.qingke.io/5f195b8dc01e13002c2d7341/";
+    // } else {
+    //   // 没参数的,先判断 localstorage 是否有信息
+    //   // 从localstorage获取信息
+    //   var localInfo = window.localStorage.getItem("PlayerInfo");
+    //   if (localInfo !== null) {
+    //     // 解析数据
+    //     localInfo = JSON.parse(localInfo);
+    //     // 判断是否存在openid,不存在就跳去获取信息
+    //     if (localInfo.openid) {
+    //       // 从 localstorage 中获取用户信息
+    //       // 有信息不跳转，赋值到全局
+    //       window["PlayerInfo"] = localInfo;
+    //     } else {
+    //       // 官方服务号跳转地址,不存在获取信息时
+    //       window.location.href = "https://xwfintech.qingke.io/wxapi/connect/oauth2/authorize?redirect_uri=https://xwfintech.qingke.io/5f195b8dc01e13002c2d7341&scope=snsapi_userinfo";
+    //     }
+    //   } else {
+    //     // 官方服务号跳转地址,不存在获取信息时
+    //     window.location.href = "https://xwfintech.qingke.io/wxapi/connect/oauth2/authorize?redirect_uri=https://xwfintech.qingke.io/5f195b8dc01e13002c2d7341&scope=snsapi_userinfo";
+    //   }
 
-    }
+    // }
 
   })(window);
   var loadScript = function (list, callback) {

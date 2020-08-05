@@ -6,6 +6,8 @@ class GameView extends eui.Component implements eui.UIComponent {
   private trumpet_check: eui.Button;
   // 喇叭声音图标
   private is_trumpet: eui.Image;
+  // 关卡分
+  private passScore: eui.Label;
   public constructor() {
     super();
     this.addEventListener(eui.UIEvent.COMPLETE, this.onComplete, this);
@@ -208,7 +210,7 @@ class GameView extends eui.Component implements eui.UIComponent {
     return mask;
   }
 
-  public randomInteger(minNum, maxNum) {
+  public static randomInteger(minNum, maxNum) {
     var max = 0,
       min = 0;
     minNum <= maxNum
@@ -242,8 +244,8 @@ class GameView extends eui.Component implements eui.UIComponent {
     let rigidBody = new p2.Body({
       mass: 1,
       position: [
-        this.randomInteger(x, sx - x),
-        this.randomInteger(y + 76 + this.holes[0].height, sy - y),
+        GameView.randomInteger(x, sx - x),
+        GameView.randomInteger(y + 76 + this.holes[0].height, sy - y),
       ],
     });
 
@@ -264,8 +266,8 @@ class GameView extends eui.Component implements eui.UIComponent {
     let sx = this.game_scene.width - x - 20;
     let sy = this.game_scene.height - 76 - this.holes[0].height;
 
-    mask.x = this.randomInteger(x, sx - x);
-    mask.y = this.randomInteger(y + 76 + this.holes[0].height, sy - y);
+    mask.x = GameView.randomInteger(x, sx - x);
+    mask.y = GameView.randomInteger(y + 76 + this.holes[0].height, sy - y);
 
     // 返回 mask显示对象
     return mask;
@@ -292,7 +294,7 @@ class GameView extends eui.Component implements eui.UIComponent {
       this.batmanCount++;
     } else {
       // 大于20个后，数量在 10 到 20 之间随机
-      this.batmanCount = this.randomInteger(10, 20);
+      this.batmanCount = GameView.randomInteger(10, 20);
     }
   }
 
@@ -316,7 +318,7 @@ class GameView extends eui.Component implements eui.UIComponent {
       this.maskCount++;
     } else {
       // 大于 5 个后，数量在 2 到 5 之间随机
-      this.batmanCount = this.randomInteger(2, 5);
+      this.batmanCount = GameView.randomInteger(2, 5);
     }
   }
 
@@ -426,6 +428,7 @@ class GameView extends eui.Component implements eui.UIComponent {
         // 取消监听
         player.removeEventListener(PostEvent.GAME_OVER, () => {}, this);
         player.removeEventListener(PostEvent.INCREMNT_SCORE, () => {}, this);
+        player.removeEventListener(PostEvent.DECREMENT_PASSSCORE, () => {}, this);
         player.removeEventListener(PostEvent.INCREMENT_BATMANS, () => {}, this);
         player.removeEventListener(PostEvent.INCREMENT_MASKS, () => {}, this);
         // 游戏结束
@@ -433,12 +436,21 @@ class GameView extends eui.Component implements eui.UIComponent {
       },
       this
     );
-    // 侦听积分增加
+    // 侦听成绩积分
     player.addEventListener(
       PostEvent.INCREMNT_SCORE,
       (e) => {
-        // 增加积分
+        // 赋积分
         this.score.text = e.score;
+      },
+      this
+    );
+    // 侦听关卡分
+    player.addEventListener(
+      PostEvent.DECREMENT_PASSSCORE,
+      (e) => {
+        // 赋关卡分
+        this.passScore.text = e.passScore;
       },
       this
     );

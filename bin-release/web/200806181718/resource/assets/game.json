@@ -1,0 +1,7 @@
+{"file":"game.png","frames":{
+"batman_png":{"x":347,"y":121,"w":152,"h":90,"offX":0,"offY":0,"sourceW":152,"sourceH":90},
+"disk_png":{"x":0,"y":0,"w":180,"h":180,"offX":0,"offY":0,"sourceW":180,"sourceH":180},
+"hole_png":{"x":182,"y":0,"w":246,"h":119,"offX":0,"offY":0,"sourceW":246,"sourceH":119},
+"arrow_png":{"x":0,"y":244,"w":259,"h":75,"offX":0,"offY":0,"sourceW":259,"sourceH":75},
+"mask_png":{"x":182,"y":121,"w":163,"h":121,"offX":0,"offY":0,"sourceW":163,"sourceH":121},
+"player_png":{"x":261,"y":244,"w":169,"h":102,"offX":0,"offY":0,"sourceW":169,"sourceH":102}}}

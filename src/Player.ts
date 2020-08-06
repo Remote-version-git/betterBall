@@ -48,6 +48,7 @@ class Player extends egret.Sprite {
   // 倒计时减分的定时器标识
   private _countdownTimer: number;
   public tip: eui.Label;
+  public booms: egret.Bitmap[];
   constructor(
     bg,
     body,
@@ -56,9 +57,13 @@ class Player extends egret.Sprite {
     batmanBodys: p2.Body[],
     world: p2.World,
     masks: egret.Bitmap[],
-    tip: eui.Label
+    tip: eui.Label,
+    booms: egret.Bitmap[]
   ) {
     super();
+
+    // 炸弹
+    this.booms = booms;
 
     // 提示文本
     this.tip = tip;
@@ -336,6 +341,7 @@ class Player extends egret.Sprite {
       // 检测猪是否掉进黑洞
       this.checkPig(rectH);
     });
+    // 检测口罩
     this.masks.forEach((m, index) => {
       let rectM = new egret.Rectangle(m.x, m.y, m.width, m.height);
       // 检测口罩是否被猪吃了
@@ -352,6 +358,40 @@ class Player extends egret.Sprite {
         this.playHitSound();
       }
     });
+    // 检测炸弹是否被猪吃了
+    this.booms.forEach((boom, index) => {
+      let rectBoom = new egret.Rectangle(
+        boom.x,
+        boom.y,
+        boom.width,
+        boom.height
+      );
+      // 检测口罩是否被猪吃了
+      if (this.checkBoom(rectBoom)) {
+        // 吃掉 boom
+        egret.Tween.get(boom).to({ alpha: 0 }, 200);
+        //    移除 boom
+        this.booms.splice(index, 1);
+        const luckValue = GameView.randomInteger(1, 2);
+        if (this.score >= 5 && luckValue != 1) {
+          // 得分减 5
+          this.decrementScore(5);
+        } else {
+          // 在 pig 边上生成提示
+          this.feedbackTips(
+            FeedbackType.none,
+            0,
+            -30,
+            -50,
+            this,
+            "辛运, 这是个假炸弹不扣分!"
+          );
+        }
+        // 播放一次吃掉的音效
+        this.playHitSound();
+      }
+    });
+
     // 最后看是否吃完了batman，再给制造一些, 吃完就通关
     if (this.batmans.length === 0) {
       // 将本次关卡加成分加到成绩上
@@ -363,8 +403,12 @@ class Player extends egret.Sprite {
       // 提示新关卡
       this.feedbackPassCount(this.bg);
       // 制造新关卡怪
+      // 新的口罩
       this.dispatchEvent(new PostEvent(PostEvent.INCREMENT_MASKS));
+      // 新的batman
       this.dispatchEvent(new PostEvent(PostEvent.INCREMENT_BATMANS));
+      // 新的炸弹
+      this.dispatchEvent(new PostEvent(PostEvent.INCREMENT_BOOMS));
     }
   }
 
@@ -394,7 +438,7 @@ class Player extends egret.Sprite {
       } else {
         // 减通关加成分的百分之2分
         // 得出要减的分数，并取整
-        const decre = Math.ceil(this.passScore * 0.2);
+        const decre = Math.ceil(this.passScore * 0.02);
         // 减分
         this.passScore -= decre;
         // 反馈提示
@@ -454,6 +498,25 @@ class Player extends egret.Sprite {
   }
 
   /**
+   * 检测炸弹 是否被猪吃了
+   * @returns true 被吃了，false没被吃
+   */
+  public checkBoom(boom: egret.Rectangle): boolean {
+    // 检测 pig
+    const pigRect = new egret.Rectangle(
+      this.body.position[0],
+      this.body.position[1],
+      this.pig.width,
+      this.pig.height
+    );
+
+    if (pigRect.intersects(boom)) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
    * 增加积分
    * @param score 要增加的分数
    */
@@ -477,15 +540,23 @@ class Player extends egret.Sprite {
     score: number,
     x: number,
     y: number,
-    area: egret.DisplayObjectContainer
+    area: egret.DisplayObjectContainer,
+    customVal: string = "击退大反派，加油！"
   ) {
-    let value = "";
+    let value = "",
+      delayTime = 1000;
     let t = new eui.Label();
     t.x = x;
     t.y = y;
     t.fontFamily = "Consolas";
     t.size = 24;
     switch (type) {
+      case FeedbackType.none:
+        value = customVal;
+        // 绿色
+        t.textColor = 0x16a05d;
+        delayTime = 2000;
+        break;
       case FeedbackType.score:
         value = `+${score}分`;
         // 绿色
@@ -508,7 +579,7 @@ class Player extends egret.Sprite {
     t.text = value;
     // 附加动画
     egret.Tween.get(t)
-      .to({ alpha: 0, y: y - 10 }, 1000)
+      .to({ alpha: 0, y: y - 10 }, delayTime)
       .call(() => {
         // 在动画后移除
         area.removeChild(t);

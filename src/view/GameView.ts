@@ -111,8 +111,11 @@ class GameView extends eui.Component implements eui.UIComponent {
     // 制造batman到物理世界并显示在舞台
     this.productBatman();
 
-    // 制造 mask 到物理世界并显示在舞台
+    // 制造 mask 显示在舞台
     this.productMask();
+
+    // 制造 boom 显示在舞台
+    this.productBoom();
 
     // 添加 player
     this.addEventListener(egret.Event.ENTER_FRAME, this.onUpdate, this);
@@ -198,6 +201,19 @@ class GameView extends eui.Component implements eui.UIComponent {
     batman.anchorOffsetY = batman.height / 2;
     return batman;
   }
+
+  /**
+  * 产生炸弹
+  */
+  public makeBoom() {
+    let boom: egret.Bitmap = new egret.Bitmap(RES.getRes("boom_png"));
+    boom.width = boom.width / 2;
+    boom.height = boom.height / 2;
+    boom.anchorOffsetX = boom.width / 2;
+    boom.anchorOffsetY = boom.height / 2;
+    return boom;
+  }
+
   private makeMask() {
     let mask: egret.Bitmap = new egret.Bitmap(RES.getRes("mask_png"));
     mask.width = mask.width / 3;
@@ -269,7 +285,23 @@ class GameView extends eui.Component implements eui.UIComponent {
     // 返回 mask显示对象
     return mask;
   }
+    // 为 boom 附加随机位置
+  private appendToBoom(): egret.Bitmap {
+    // 产生一个新的batman
+    let boom = this.makeBoom();
 
+    // 用于随机产生计算位置
+    let x = boom.width / 2;
+    let y = boom.height / 2;
+    let sx = this.game_scene.width - x - 20;
+    let sy = this.game_scene.height - 76 - this.holes[0].height;
+
+    boom.x = GameView.randomInteger(x, sx - x);
+    boom.y = GameView.randomInteger(y + 76 + this.holes[0].height, sy - y);
+
+    // 返回 mask显示对象
+    return boom;
+  }
   // batman初始生成数量，最小3 最多 20个
   public batmanCount: number = 3;
   // 保存全部batman显示对象
@@ -316,6 +348,25 @@ class GameView extends eui.Component implements eui.UIComponent {
     } else {
       // 大于 5 个后，数量在 2 到 5 之间随机
       this.batmanCount = GameView.randomInteger(2, 5);
+    }
+  }
+  private booms: egret.Bitmap[] = [];
+  private boomCount: number = 1;
+    // 按指定数量产生 boom
+  public productBoom() {
+     var nums: number = this.boomCount;
+    for (let index = 0; index < nums; index++) {
+      const boom = this.appendToBoom();
+      this.booms.push(boom);
+      // 添加 boom 到舞台
+      this.addChild(boom);
+    }
+        // 数量检测
+    if (this.boomCount <= 5) {
+      this.boomCount++;
+    } else {
+      // 大于 5 个后，数量在 2 到 5 之间随机
+      this.boomCount = GameView.randomInteger(2, 5);
     }
   }
 
@@ -378,7 +429,8 @@ class GameView extends eui.Component implements eui.UIComponent {
       this.batmanBodys,
       this.world,
       this.masks,
-      this.tip
+      this.tip,
+      this.booms
     );
     // 侦听 通知游戏结束
     player.addEventListener(
@@ -433,6 +485,7 @@ class GameView extends eui.Component implements eui.UIComponent {
         );
         player.removeEventListener(PostEvent.INCREMENT_BATMANS, () => {}, this);
         player.removeEventListener(PostEvent.INCREMENT_MASKS, () => {}, this);
+        player.removeEventListener(PostEvent.INCREMENT_BOOMS, () => {}, this);
         // 游戏结束
         this.gameOver();
       },
@@ -464,7 +517,7 @@ class GameView extends eui.Component implements eui.UIComponent {
       },
       this
     );
-    // 侦听是否吃完了口罩 而且 batman 也吃完了
+    // 侦听增加新的口罩
     player.addEventListener(
       PostEvent.INCREMENT_MASKS,
       (e) => {
@@ -481,6 +534,23 @@ class GameView extends eui.Component implements eui.UIComponent {
       },
       this
     );
+    // 侦听增加新的炸弹
+    player.addEventListener(
+      PostEvent.INCREMENT_BOOMS,
+      (e) => {
+        // 从显示列表拿下来之前没吃完的
+        if (this.booms.length > 0) {
+          this.booms.forEach((item) => {
+            this.removeChild(item);
+          });
+        }
+        // 清除掉没吃完的
+        this.booms.splice(0);
+        // 生产新的
+        this.productBoom();
+      },
+      this
+    );
     this.player = player;
 
     this.addChild(player);
@@ -493,6 +563,7 @@ class GameView extends eui.Component implements eui.UIComponent {
     body.displays = [player];
     this.world.addBody(body);
   }
+
 
   protected partAdded(partName: string, instance: any): void {
     super.partAdded(partName, instance);

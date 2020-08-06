@@ -441,7 +441,7 @@ class Player extends egret.Sprite {
         // 减分
         this.passScore -= decre;
         // 反馈提示
-        this.feedbackTips(FeedbackType.descorePassScore, 1, 15, -50, this);
+        this.feedbackTips(FeedbackType.descorePassScore, decre, 15, -50, this);
         // 更新游戏场景的通关分显示
         this.dispatchEvent(
           new PostEvent(

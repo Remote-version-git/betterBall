@@ -47,6 +47,7 @@ class Player extends egret.Sprite {
 
   // 倒计时减分的定时器标识
   private _countdownTimer: number;
+  public tip: eui.Label;
   constructor(
     bg,
     body,
@@ -54,9 +55,13 @@ class Player extends egret.Sprite {
     holes: egret.Bitmap[],
     batmanBodys: p2.Body[],
     world: p2.World,
-    masks: egret.Bitmap[]
+    masks: egret.Bitmap[],
+    tip: eui.Label
   ) {
     super();
+
+    // 提示文本
+    this.tip = tip;
 
     // batmans
     this.batmans = batmans;
@@ -73,8 +78,6 @@ class Player extends egret.Sprite {
     this.bg = bg;
     // 创建对象
     this.createObject();
-
-    this.sortableChildren = true;
 
     this.addEventListener(egret.Event.ADDED, this.initStep, this);
   }
@@ -127,26 +130,58 @@ class Player extends egret.Sprite {
   /**
    * 绑定倒计时扣分事件
    */
+  private tipContent: string[] = [
+    "推到黑洞消灭大反派",
+    "不动起来会扣分呢！",
+    "还有4秒就扣分了",
+    "还有3秒就扣分了",
+    "还有2秒就扣分了",
+    "还有1秒就扣分了",
+    "哎呀, 掉了3分！",
+    "哎呀，掉了1分！",
+  ];
+  // 计数
+  private fallScoreCount: number = 0;
   private bindCountdownEvent() {
     this._countdownTimer = setInterval(() => {
-      let decrementScore = this.score > 3 ? 3 : 1;
-      // 如果分数大 3 就扣分
-      if (this.score != 0) {
-        // 减掉分数
-        this.decrementScore(decrementScore);
-        // 发出游戏场景更新显示的分数事件
-        this.dispatchEvent(
-          new PostEvent(PostEvent.INCREMNT_SCORE, false, false, this.score)
-        );
+      this.feedbackCountdonw();
+      // 计数提示
+      if (this.score > 3) {
+        // 掉3分
+        this.fallScoreCount++;
       } else {
-        // 分数不够减的时候 清除掉倒计时
-        clearInterval(this._countdownTimer);
-        // 发出游戏场景更新显示的分数事件
-        this.dispatchEvent(
-          new PostEvent(PostEvent.INCREMNT_SCORE, false, false, this.score)
-        );
+        // 掉一分
+        this.fallScoreCount = this.tipContent.length - 1;
       }
-    }, 3000);
+      if (this.fallScoreCount > 6) {
+        // 重置计数
+        this.fallScoreCount = 0;
+        // 判断是否足够扣3分成绩
+        let decrementScore = this.score > 3 ? 3 : 1;
+        // 如果分数大 3 就扣分
+        if (this.score != 0) {
+          // 减掉分数
+          this.decrementScore(decrementScore);
+          // 发出游戏场景更新显示的分数事件
+          this.dispatchEvent(
+            new PostEvent(PostEvent.INCREMNT_SCORE, false, false, this.score)
+          );
+        } else {
+          // 分数不够减的时候 清除掉倒计时
+          clearInterval(this._countdownTimer);
+          // 发出游戏场景更新显示的分数事件
+          this.dispatchEvent(
+            new PostEvent(PostEvent.INCREMNT_SCORE, false, false, this.score)
+          );
+        }
+      }
+    }, 1000);
+  }
+
+  // 倒计时扣分反馈
+  private feedbackCountdonw() {
+    // 提示
+    this.tip.text = this.tipContent[this.fallScoreCount];
   }
 
   //   猪的装备
@@ -190,6 +225,9 @@ class Player extends egret.Sprite {
       (e) => {
         // 每次移动清除掉定下的减分数定时器
         window.clearInterval(this._countdownTimer);
+        // 倒计时扣分反馈重置
+        this.fallScoreCount = 0;
+        this.feedbackCountdonw();
 
         this.disk.x = e.stageX;
         this.disk.y = e.stageY;
@@ -278,8 +316,8 @@ class Player extends egret.Sprite {
         const rectB = new egret.Rectangle(b.x, b.y, b.width, b.height);
         // 判断是否相交撞击
         if (rectH.intersects(rectB)) {
-          // 吃掉batman
-          egret.Tween.get(b).to({ alpha: 0 }, 200);
+          // 显示列表取下
+          this.bg.removeChild(b);
           //    移除batman
           this.batmans.splice(index, 1);
           //    移除掉刚体
@@ -289,6 +327,8 @@ class Player extends egret.Sprite {
           this.incrementScore(10);
           // 在batman被吃掉位置生成得分反馈
           this.feedbackTips(FeedbackType.score, 10, b.x, b.y, this.bg);
+          // 解除引用
+          b = null;
           // 播放一次吃掉的音效
           this.playHitSound();
         }
@@ -355,7 +395,7 @@ class Player extends egret.Sprite {
         // 自减通关加成分的一分
         this.passScore--;
         // 反馈提示
-        this.feedbackTips(FeedbackType.descorePassScore, 1, -30, -80, this);
+        this.feedbackTips(FeedbackType.descorePassScore, 1, 10, -50, this);
         // 更新游戏场景的通关分显示
         this.dispatchEvent(
           new PostEvent(
@@ -367,7 +407,7 @@ class Player extends egret.Sprite {
           )
         );
       }
-    }, 5000);
+    }, 60000);
   }
 
   /**
@@ -440,7 +480,6 @@ class Player extends egret.Sprite {
     let t = new eui.Label();
     t.x = x;
     t.y = y;
-    t.zIndex = 99;
     t.fontFamily = "Consolas";
     t.size = 24;
     switch (type) {
@@ -493,7 +532,6 @@ class Player extends egret.Sprite {
     t.textAlign = egret.HorizontalAlign.CENTER;
     t.textColor = 0xffffff;
     t.fontFamily = "Mircrosoft YaHei";
-    t.zIndex = 999;
     t.textFlow = <Array<egret.ITextElement>>[
       {
         text: "第 ",
@@ -524,9 +562,9 @@ class Player extends egret.Sprite {
       },
       { text: "\n" },
       {
-        text: "关卡分数:" + this.passScore,
+        text: "关卡分:" + this.passScore,
         style: {
-          textColor: 0xdd5145,
+          textColor: 0x16a05d,
           size: 24,
         },
       },

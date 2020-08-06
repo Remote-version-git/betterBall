@@ -8,6 +8,8 @@ class GameView extends eui.Component implements eui.UIComponent {
   private is_trumpet: eui.Image;
   // 关卡分
   private passScore: eui.Label;
+  // 提示文本
+  public tip: eui.Label;
   public constructor() {
     super();
     this.addEventListener(eui.UIEvent.COMPLETE, this.onComplete, this);
@@ -71,7 +73,6 @@ class GameView extends eui.Component implements eui.UIComponent {
    * Create a game scene
    */
   private createGameScene() {
-    // this.preTime = egret.getTimer();
     // 生成物理世界
     let world: p2.World = new p2.World({
       // 重力
@@ -83,15 +84,11 @@ class GameView extends eui.Component implements eui.UIComponent {
     world.narrowphase.contactEquationPool.resize(1024);
     world.narrowphase.frictionEquationPool.resize(1024);
 
-    // Set stiffness of all contacts and constraints
-    world.setGlobalStiffness(1e8);
-
     // Enables sleeping of bodies
     world.sleepMode = p2.World.BODY_SLEEPING;
 
-    // Turn off friction and set some bounciness
-    world.defaultContactMaterial.friction = 0;
-    world.defaultContactMaterial.restitution = 15 / 16;
+    // 弹性
+    world.defaultContactMaterial.restitution = 1;
 
     world.on(
       "endContact",
@@ -380,7 +377,8 @@ class GameView extends eui.Component implements eui.UIComponent {
       this.holes,
       this.batmanBodys,
       this.world,
-      this.masks
+      this.masks,
+      this.tip
     );
     // 侦听 通知游戏结束
     player.addEventListener(
@@ -428,7 +426,11 @@ class GameView extends eui.Component implements eui.UIComponent {
         // 取消监听
         player.removeEventListener(PostEvent.GAME_OVER, () => {}, this);
         player.removeEventListener(PostEvent.INCREMNT_SCORE, () => {}, this);
-        player.removeEventListener(PostEvent.DECREMENT_PASSSCORE, () => {}, this);
+        player.removeEventListener(
+          PostEvent.DECREMENT_PASSSCORE,
+          () => {},
+          this
+        );
         player.removeEventListener(PostEvent.INCREMENT_BATMANS, () => {}, this);
         player.removeEventListener(PostEvent.INCREMENT_MASKS, () => {}, this);
         // 游戏结束

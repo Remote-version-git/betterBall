@@ -392,10 +392,13 @@ class Player extends egret.Sprite {
         // 停止减分
         clearInterval(this._decrePassScoreTimer);
       } else {
-        // 自减通关加成分的一分
-        this.passScore--;
+        // 减通关加成分的百分之2分
+        // 得出要减的分数，并取整
+        const decre = Math.ceil(this.passScore * 0.2);
+        // 减分
+        this.passScore -= decre;
         // 反馈提示
-        this.feedbackTips(FeedbackType.descorePassScore, 1, 10, -50, this);
+        this.feedbackTips(FeedbackType.descorePassScore, 1, 15, -50, this);
         // 更新游戏场景的通关分显示
         this.dispatchEvent(
           new PostEvent(
@@ -407,7 +410,7 @@ class Player extends egret.Sprite {
           )
         );
       }
-    }, 60000);
+    }, 5000);
   }
 
   /**

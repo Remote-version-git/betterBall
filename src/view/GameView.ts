@@ -362,11 +362,11 @@ class GameView extends eui.Component implements eui.UIComponent {
       this.addChild(boom);
     }
         // 数量检测
-    if (this.boomCount <= 5) {
+    if (this.boomCount <= 2) {
       this.boomCount++;
     } else {
-      // 大于 5 个后，数量在 2 到 5 之间随机
-      this.boomCount = GameView.randomInteger(2, 5);
+      // 大于 2 个后，数量在 1 到 2 之间随机
+      this.boomCount = GameView.randomInteger(1, 2);
     }
   }
 

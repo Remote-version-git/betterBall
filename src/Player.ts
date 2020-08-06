@@ -328,7 +328,6 @@ class Player extends egret.Sprite {
           //    移除掉刚体
           this.world.removeBody(this.batmanBodys[index]);
           this.batmanBodys.splice(index, 1);
-          // 得分增加
           this.incrementScore(10);
           // 在batman被吃掉位置生成得分反馈
           this.feedbackTips(FeedbackType.score, 10, b.x, b.y, this.bg);
@@ -381,10 +380,10 @@ class Player extends egret.Sprite {
           this.feedbackTips(
             FeedbackType.none,
             0,
-            -30,
-            -50,
+            -90,
+            -65,
             this,
-            "辛运, 这是个假炸弹不扣分!"
+            "假炸弹不扣分, 辛运"
           );
         }
         // 播放一次吃掉的音效

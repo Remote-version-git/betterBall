@@ -120,14 +120,26 @@ class Player extends egret.Sprite {
         this.passScore = GameView.randomInteger(10, 20);
         break;
       case 2:
-        this.passScore = GameView.randomInteger(20, 40);
+        this.passScore = GameView.randomInteger(20, 50);
         break;
       case 3:
-        this.passScore = GameView.randomInteger(40, 50);
+        this.passScore = GameView.randomInteger(30, 50);
+        break;
+      case 4:
+        this.passScore = GameView.randomInteger(60, 80);
+        break;
+      case 5:
+        this.passScore = GameView.randomInteger(80, 100);
+        break;
+      case 6:
+        this.passScore = GameView.randomInteger(100, 150);
+        break;
+      case 7:
+        this.passScore = GameView.randomInteger(150, 200);
         break;
       default:
-        // 关卡大的时候，就直接50 - 100 随机
-        this.passScore = GameView.randomInteger(50, 100);
+        // 关卡大的时候，就直接 50 - 500 随机
+        this.passScore = GameView.randomInteger(100, 500);
         break;
     }
   }

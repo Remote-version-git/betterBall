@@ -30,21 +30,6 @@ class Player extends egret.Sprite {
   // 监听属性实例
   public watchX: eui.Watcher;
 
-  // 节流函数
-  throttle(func, delay) {
-    var timer = null;
-    return function () {
-      var context = this;
-      var args = arguments;
-      if (!timer) {
-        timer = setTimeout(function () {
-          func.apply(context, args);
-          timer = null;
-        }, delay);
-      }
-    };
-  }
-
   // 倒计时减分的定时器标识
   private _countdownTimer: number;
   public tip: eui.Label;
@@ -98,9 +83,9 @@ class Player extends egret.Sprite {
     this.watchX = eui.Watcher.watch(
       this,
       ["x"],
-      this.throttle(() => {
+      () => {
         this.checkHit();
-      }, 20),
+      },
       this
     );
     // 绑定触摸移动事件
@@ -358,13 +343,15 @@ class Player extends egret.Sprite {
       // 检测口罩是否被猪吃了
       if (this.checkMask(rectM)) {
         // 吃掉 mask
-        egret.Tween.get(m).to({ alpha: 0 }, 200);
+        this.bg.removeChild(m);
         //    移除 mask
         this.masks.splice(index, 1);
         // 得分增加 20
         this.incrementScore(20);
         // 在 mask 被吃掉位置生成得分反馈
         this.feedbackTips(FeedbackType.score, 20, m.x, m.y, this.bg);
+        // 置空
+        m = null;
         // 播放一次吃掉的音效
         this.playHitSound();
       }
@@ -379,10 +366,10 @@ class Player extends egret.Sprite {
       );
       // 检测口罩是否被猪吃了
       if (this.checkBoom(rectBoom)) {
-        // 吃掉 boom
-        egret.Tween.get(boom).to({ alpha: 0 }, 200);
+        this.bg.removeChild(boom);
         //    移除 boom
         this.booms.splice(index, 1);
+        boom = null;
         const luckValue = GameView.randomInteger(1, 2);
         if (this.score >= 5 && luckValue != 1) {
           // 得分减 5
@@ -481,9 +468,12 @@ class Player extends egret.Sprite {
     );
     if (hole.intersects(pigRect)) {
       // 吃掉pig
-      egret.Tween.get(this.pig).to({ alpha: 0 }, 200);
+      this.bg.removeChild(this);
       // 播放输掉音效
       this.loseSound();
+      // 清除掉定时器
+      clearInterval(this._countdownTimer);
+      clearInterval(this._decrePassScoreTimer);
       // 通知 GameView 游戏结束了
       this.dispatchEvent(new PostEvent(PostEvent.GAME_OVER));
     }
